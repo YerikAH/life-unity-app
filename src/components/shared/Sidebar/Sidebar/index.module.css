@@ -1,0 +1,121 @@
+.items {
+  @apply text-white !important;
+}
+
+.options a {
+  @apply flex flex-col md:flex-row gap-5 pt-[20px] pb-[15px] md:py-[15px] px-[10px] transition-opacity duration-300 ease-linear;
+}
+
+.close {
+  @apply w-full md:h-full md:w-[130px] !important;
+}
+
+.close .options {
+  @apply md:ps-5;
+}
+
+.logout {
+  @apply hover:text-[#999999] !important;
+}
+
+.logout-active {
+  @apply text-[#999999] !important;
+}
+
+.options {
+  @apply md:w-full flex justify-center md:items-center gap-5 overflow-hidden md:ps-10;
+}
+
+.options ul {
+  @apply gap-1 md:w-full px-[5px] md:py-2 md:px-0 flex md:flex-col md:gap-5;
+}
+
+.close .options a {
+  @apply gap-1;
+}
+
+.close .options a span {
+  @apply hidden;
+}
+
+.items:not(.logout) {
+  position: relative;
+}
+
+.items:hover:not(.logout),
+.active {
+  background-color: white;
+  color: #000428 !important;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+}
+
+.items::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: -20px;
+  right: 0;
+  border-radius: 50%;
+}
+
+.items:hover:not(.logout)::before,
+.active::before {
+  box-shadow: 10px 10px 0 0 white;
+}
+
+.items:hover:not(.logout)::after,
+.active::after {
+  box-shadow: 10px -10px 0 0 white;
+}
+
+.items::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: -20px;
+  right: 0;
+  border-radius: 50%;
+}
+
+@media (max-height: 670px) {
+  .sidebar {
+    @apply overflow-y-auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .items:hover:not(.logout),
+  .active {
+    border-radius: 0 0 15px 15px;
+    background-color: white;
+  }
+
+  .items::before {
+    top: 0;
+    right: 43px;
+  }
+
+  .items:hover:not(.logout)::before,
+  .active::before {
+    box-shadow: 10px -10px 0 0 white;
+  }
+
+  .items:hover:not(.logout)::after,
+  .active::after {
+    box-shadow: -10px -10px 0 0 white;
+  }
+
+  .items::after {
+    bottom: 39px;
+    right: -20px;
+    border-radius: 50%;
+  }
+
+  .close .options a span,
+  .options a span {
+    @apply hidden;
+  }
+}
