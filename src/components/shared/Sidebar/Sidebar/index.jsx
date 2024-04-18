@@ -7,7 +7,6 @@ import { IconLayout2, IconLogout, IconPuzzle, IconSalad, IconSettings } from "@t
 export const Sidebar = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true)
 
-
   return (
     <>
       <aside
@@ -17,7 +16,8 @@ export const Sidebar = () => {
           className={`bg-primary h-[70px] flex justify-center rounded-[35px] md:flex-col md:justify-between md:py-16 md:h-full ${s.sidebar}`}>
           <div className="flex gap-5 md:w-full md:flex-col md:gap-10">
             <SidebarLogo
-              open={false}
+              open={sidebarCollapsed}
+              handleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
             <nav className={`w-full ${s.options}`}>
               <ul>

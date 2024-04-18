@@ -1,7 +1,7 @@
-export default function UpdateSettings() {
+export function UpdateSettings(){
     return (
         <>
-          <section class="flex justify-between gap-5 w-full items-center py-5 border-b border-b-gray-300">
+          <section class="flex justify-between gap-5 w-full items-center py-5 border-b border-b-[#838383]">
             <div class="w-full flex-1 lg:flex-[3_3_0%]">
               <h2 class="font-semibold text-base">General Details</h2>
               <p class="text-sm text-[#4E4B4B] md:text-md">

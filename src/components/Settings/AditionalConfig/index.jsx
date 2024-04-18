@@ -1,4 +1,4 @@
-import googleLogo from '../../../assets/google.svg'
+import googleLogo from '../../../assets/googleLogo.svg'
 
 export const AditionalConfig = () => {
   return (
@@ -9,6 +9,7 @@ export const AditionalConfig = () => {
             <div className="w-20">
               <img src={googleLogo} alt="" className="w-full" />
             </div>
+            {/* si ya esta conectado con google cambie a connected */}
             <span className="hidden bg-[#E7F8F0] text-[#75D6A9] p-2 rounded-md font-semibold">
               Connected
             </span>
@@ -23,7 +24,7 @@ export const AditionalConfig = () => {
                 Use Google to sign in to your acount
               </p>
             </div>
-            <button className="text-[14px] rounded-md bg-[#000428] text-white py-3 px-7 font-semibold flex-none">
+            <button className="text-[16px] rounded-md bg-[#000428] text-white py-3 px-5 font-semibold flex-none">
               Connect to Google
             </button>
           </div>

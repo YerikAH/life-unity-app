@@ -1,24 +1,50 @@
-import { Link } from "react-router-dom";
-import google from '../../assets/google.svg'
-import logo from '../../assets/logo.svg'
-import imgSignup from '../../assets/img-signup.svg'
+import { useNavigate, Link } from "react-router-dom";
+import google from "../../assets/google.svg";
+import logo from "../../assets/logo.svg";
+import imgSignup from "../../assets/img-signup.svg";
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import s from './index.module.css'
+import s from "./index.module.css";
 import { useTitle } from "../../hooks";
+import { useForm } from "react-hook-form";
 
 export function Register() {
-  const [showPassword, setShowPassword] = useState(false)
-  const { changeTitle } = useTitle()
+  const [showPassword, setShowPassword] = useState(false);
+  const { changeTitle } = useTitle();
+  const userNavigate = useNavigate();
 
-  const togglePassword = () => setShowPassword(!showPassword)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm();
+
+  const togglePassword = () => setShowPassword(!showPassword);
 
   useEffect(() => {
-    changeTitle("Register - LifeUnity")
-  }, [])
+    changeTitle("Register - LifeUnity");
+  }, []);
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+    reset();
+    userNavigate("/");
+  });
+
+  const errorMessage = (field) => {
+    return (
+      errors[field] && (
+        <span className="text-red-500 text-xs font-semibold mt-1">
+          {errors[field].message}
+        </span>
+      )
+    );
+  };
 
   return (
-    <div className='bg-gray flex justify-center items-center  h-full'>
+    <div className="bg-gray flex justify-center items-center h-full">
       <div>
         <nav className="p-5 flex justify-between items-center md:my-5 md:px-10">
           <div className="logo flex items-center gap-3">
@@ -29,21 +55,22 @@ export function Register() {
           </div>
           <Link
             to="/login"
-            className='font-primary bg-primary text-white px-6 py-2 rounded-md text-xs font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20'
-          >
+            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20">
             LogIn
           </Link>
         </nav>
 
-
-        <main
-          className="py-10 flex flex-col gap-16 justify-center items-center max-w-[375px] m-auto md:flex-row-reverse md:max-w-full md:items-center lg:gap-[200px] md:h-[calc(100%-70px)] px-10">
+        <main className="py-10 flex flex-col gap-16 justify-center items-center max-w-[375px] m-auto md:flex-row-reverse md:max-w-full md:items-center lg:gap-[200px] md:h-[calc(100%-70px)] px-10">
           <section className="w-full header-left md:max-w-[300px] md:flex-none lg:min-w-[400px]">
             <div className="text-center mb-6">
-              <h1 className="text-3xl font-bold font-primary">Create a new account</h1>
-              <p className="text-md mt-1 font-primary">Enter your details to register</p>
+              <h1 className="text-3xl font-bold font-primary">
+                Create a new account
+              </h1>
+              <p className="text-md mt-1 font-primary">
+                Enter your details to register
+              </p>
             </div>
-            <form action="" className="relative z-20" >
+            <form className="relative z-20" onSubmit={onSubmit}>
               <button
                 className="font-primary flex items-center w-full justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
                 name="google-signup">
@@ -51,70 +78,137 @@ export function Register() {
                 Sign up with Google
               </button>
               <div className={`flex items-center gap-3 my-3 ${s.lines}`}>
-                <span className="font-primary font-semibold text-[15px]">OR</span>
+                <span className="font-primary font-semibold text-[15px]">
+                  OR
+                </span>
               </div>
-              <div className="flex gap-2">
-                <input
-                  name="first-name-signup"
-                  type="text"
-                  placeholder="First Name"
-                  className="font-primary w-full text-sm py-2 px-5 mb-3 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black " required
-                />
-                <input
-                  name="last-name-signup"
-                  type="text"
-                  placeholder="Last Name"
-                  className="font-primary w-full text-sm py-2 px-5 mb-3 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black " required
-                />
+              <div className="flex gap-2 mb-3">
+                <div className="flex-1">
+                  <input
+                    name="first-name"
+                    type="text"
+                    placeholder="First Name"
+                    className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black "
+                    {...register("firstName", {
+                      required: {
+                        value: true,
+                        message: "First Name is required",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z\s]+$/,
+                        message: "Must contain only letters",
+                      },
+                    })}
+                  />
+                  {errorMessage("firstName")}
+                </div>
+                <div className="flex-1 ">
+                  <input
+                    name="last-name"
+                    type="text"
+                    placeholder="Last Name"
+                    className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black "
+                    {...register("lastName", {
+                      required: {
+                        value: true,
+                        message: "Last Name is required",
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z\s]+$/,
+                        message: "Must contain only letters",
+                      },
+                    })}
+                  />
+                  {errorMessage("lastName")}
+                </div>
               </div>
-              <input
-                name="email-login"
-                type="text"
-                placeholder="Email"
-                className="font-primary w-full text-sm py-2 px-5 mb-3 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black " required
-              />
-              <div className='relative'>
+              <div className="mb-3">
                 <input
-                  id="password-login"
-                  name="password-login"
-                  type={showPassword ? "password" : "text"}
-                  placeholder="Password"
-                  className="font-primary w-full text-sm py-2 px-5 mb-3 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black"
-                  required
+                  name="email"
+                  type="text"
+                  placeholder="Email"
+                  className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black "
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: "Email is required",
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      message: "Invalid email format",
+                    },
+                  })}
                 />
+                {errorMessage("email")}
+              </div>
+              <div className="relative">
+                <div className="mb-3">
+                  <input
+                    id="password-login"
+                    name="password-login"
+                    type={!showPassword ? "password" : "text"}
+                    placeholder="Password"
+                    className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black"
+                    {...register("password", {
+                      required: {
+                        value: true,
+                        message: "Password is required",
+                      },
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
+                    })}
+                  />
+                  {errorMessage("password")}
+                </div>
                 <button
                   id="show-password-login"
                   name="show-password-login"
                   className="absolute right-2 top-2.5"
                   type="button"
-                  onClick={togglePassword}
-                >
-                  {!showPassword ? <IconEyeClosed size={16} /> : <IconEye size={16} />}
+                  onClick={togglePassword}>
+                  {showPassword ? (
+                    <IconEyeClosed size={16} />
+                  ) : (
+                    <IconEye size={16} />
+                  )}
                 </button>
               </div>
-              <div className="flex justify-between text-sm items-center font-semibold mb-6">
+              <div className="flex justify-between text-sm font-semibold mb-6 flex-col">
                 <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
                     name="agree-terms"
                     id="agree-terms"
                     className="w-4 h-4 text-black bg-gray-100 border-gray-500 rounded focus:ring-black focus:ring-2"
+                    {...register("terms", {
+                      required: {
+                        value: true,
+                        message: "You must agree to the terms and conditions",
+                      },
+                    })}
                   />
-                  <label htmlFor="agree-terms" className='font-primary flex gap-1'>
+                  <label
+                    htmlFor="agree-terms"
+                    className="font-primary flex gap-1">
                     I agree all
-                    <a href="#" className="border-b border-b-black font-primary">
+                    <a
+                      href="#"
+                      className="border-b border-b-black font-primary">
                       Term, Privacy Policy and Fees
                     </a>
                   </label>
                 </div>
+                {errorMessage("terms")}
               </div>
               <button
-                type='submit'
+                type="submit"
                 name="signup-btn"
-                className="font-primary text-sm w-full bg-[#E8AA42] py-2 font-semibold rounded-md hover:bg-[#ECBA67]"
-              >
+                className="font-primary text-sm w-full bg-[#E8AA42] py-2 font-semibold rounded-md hover:bg-[#ECBA67]">
                 Sign Up
               </button>
+              <pre>{JSON.stringify(watch(), null, 2)}</pre>
             </form>
           </section>
           <section className="img-prin relative">
@@ -140,5 +234,5 @@ export function Register() {
         </main>
       </div>
     </div>
-  )
+  );
 }
