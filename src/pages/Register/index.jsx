@@ -3,15 +3,22 @@ import google from '../../assets/google.svg'
 import logo from '../../assets/logo.svg'
 import imgSignup from '../../assets/img-signup.svg'
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import s from './index.module.css'
+import { useTitle } from "../../hooks";
 
 export function Register() {
   const [showPassword, setShowPassword] = useState(false)
+  const { changeTitle } = useTitle()
 
   const togglePassword = () => setShowPassword(!showPassword)
+
+  useEffect(() => {
+    changeTitle("Register - LifeUnity")
+  }, [])
+
   return (
-    <div className='bg-[#eeeff1] flex justify-center items-center  h-full'>
+    <div className='bg-gray flex justify-center items-center  h-full'>
       <div>
         <nav className="p-5 flex justify-between items-center md:my-5 md:px-10">
           <div className="logo flex items-center gap-3">
@@ -22,7 +29,7 @@ export function Register() {
           </div>
           <Link
             to="/login"
-            className='font-primary bg-[#000428] text-white px-6 py-2 rounded-md text-xs font-semibold tracking-wider outline outline-2 outline-[#000428] cursor-pointer transition duration-300  relative z-20'
+            className='font-primary bg-primary text-white px-6 py-2 rounded-md text-xs font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20'
           >
             LogIn
           </Link>
@@ -36,7 +43,7 @@ export function Register() {
               <h1 className="text-3xl font-bold font-primary">Create a new account</h1>
               <p className="text-md mt-1 font-primary">Enter your details to register</p>
             </div>
-            <form action="" >
+            <form action="" className="relative z-20" >
               <button
                 className="font-primary flex items-center w-full justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
                 name="google-signup">

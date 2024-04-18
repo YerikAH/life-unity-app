@@ -4,14 +4,20 @@ import google from '../../assets/google.svg'
 import logo from '../../assets/logo.svg'
 import imgLogin from '../../assets/img-login.svg'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useTitle } from '../../hooks'
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false)
-
+  const { changeTitle } = useTitle()
   const togglePassword = () => setShowPassword(!showPassword)
+
+  useEffect(() => {
+    changeTitle("Login - LifeUnity")
+  }, [])
+
   return (
-    <div className='bg-[#eeeff1] flex justify-center items-center  h-full'>
+    <div className='bg-gray flex justify-center items-center  h-full'>
       <div>
         <nav className="p-5 flex justify-between items-center md:my-5 md:px-10">
           <div className="logo flex items-center gap-3">
@@ -22,7 +28,7 @@ export function Login() {
           </div>
           <Link
             to="/register"
-            className='font-primary bg-[#000428] text-white px-6 py-2 rounded-md text-xs font-semibold tracking-wider  outline outline-2 outline-[#000428] cursor-pointer transition duration-300 relative z-20'
+            className='font-primary bg-primary text-white px-6 py-2 rounded-md text-xs font-semibold tracking-wider  outline outline-2 outline-primary cursor-pointer transition duration-300 relative z-20'
           >
             SignUp
           </Link>
@@ -35,7 +41,7 @@ export function Login() {
               <h1 className="text-4xl font-bold font-primary">Welcome Back!</h1>
               <p className="text-lg mt-2 font-primary">Glad to see you again 🫶</p>
             </div>
-            <form action="">
+            <form action="" className='relative z-20'>
               <button
                 name="google-login"
                 className="font-primary w-full flex items-center justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn">
@@ -50,7 +56,7 @@ export function Login() {
                   name="email-login"
                   type="text"
                   placeholder="Email"
-                  className="font-primary w-full text-sm py-2 px-5 mb-3 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black " required
+                  className="font-primary w-full text-sm py-2 px-5 mb-3 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black bg-white" required
                 />
                 <div className='relative'>
                   <input
