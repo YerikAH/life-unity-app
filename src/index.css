@@ -7,3 +7,10 @@
 #root {
   height: 100vh;
 }
+
+/* Duda de colocar el media query para que en celular se vea toda la pantalla de login y register */
+@media (max-width: 768px) {
+  #root {
+    height: 100%;
+  }
+}

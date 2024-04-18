@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Dashboard, Habits, Layout, Login, Nutrition, Register, Task } from "../pages";
+import { Dashboard, Habits, Layout, Login, Nutrition, Register, Task, Settings } from "../pages";
 
 const router = [
   {
@@ -30,6 +30,10 @@ const router = [
         path: "/nutrition",
         element: <Nutrition />,
       },
+      {
+        path: "/settings",
+        element: <Settings />,
+      }
     ],
   },
 ];
