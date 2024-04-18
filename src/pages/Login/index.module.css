@@ -1,0 +1,225 @@
+.lines::after,
+.lines::before {
+  content: "";
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 20px;
+  background-color: black;
+}
+
+.forgot::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  transform-origin: bottom left;
+  transition: transform 0.25s ease-out;
+}
+
+.forgot:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom right;
+}
+
+.circle1::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 300px;
+  height: 300px;
+  top: -30px;
+  left: -40px;
+  background: url(../../assets/yellow-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle2::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 170px;
+  height: 170px;
+  bottom: -30px;
+  right: -50px;
+  background: url(../../assets/dark-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle3::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 170px;
+  height: 170px;
+  bottom: -70px;
+  left: 0px;
+  background: url(../../assets/cyan-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle4::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 70px;
+  height: 70px;
+  bottom: -50px;
+  left: 180px;
+  background: url(../../assets/yellow-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle5::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 80px;
+  height: 80px;
+  top: 90px;
+  right: 20px;
+  background: url(../../assets/dark-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle6::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 50px;
+  height: 50px;
+  top: 170px;
+  right: -10px;
+  background: url(../../assets/cyan-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle7::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 30px;
+  height: 30px;
+  top: 180px;
+  right: 50px;
+  background: url(../../assets/yellow-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle8::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 40px;
+  height: 40px;
+  top: 240px;
+  left: -20px;
+  background: url(../../assets/cyan-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle9::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 80px;
+  height: 80px;
+  top: 280px;
+  left: -80px;
+  background: url(../../assets/dark-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+
+@media (min-width: 768px) {
+  body {
+    overflow: hidden;
+  }
+  .circle1::after {
+    top: -500px;
+    right: -300px;
+    width: 600px;
+    height: 600px;
+  }
+  .circle2::after {
+    bottom: -100px;
+    right: -40px;
+    width: 300px;
+    height: 300px;
+  }
+  .circle3::after {
+    width: 200px;
+    height: 200px;
+    bottom: 50px;
+    left: -50px;
+  }
+  .circle4::after {
+    width: 90px;
+    height: 90px;
+    bottom: -50px;
+    left: 100px;
+  }
+  .circle5::after {
+    width: 120px;
+    height: 120px;
+    top: 200px;
+    right: -150px;
+  }
+  .circle6::after {
+    width: 90px;
+    height: 90px;
+    top: 330px;
+    right: -150px;
+  }
+  .circle7::after {
+    width: 60px;
+    height: 60px;
+    bottom: 200px;
+    right: -20px;
+  }
+  .circle8::after {
+    width: 70px;
+    height: 70px;
+    top: 180px;
+    left: 50px;
+  }
+  .circle9::after {
+    width: 120px;
+    height: 120px;
+    top: 100px;
+    left: -80px;
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(0.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

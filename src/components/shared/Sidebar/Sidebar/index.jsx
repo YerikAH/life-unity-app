@@ -6,13 +6,15 @@ import { IconLayout2, IconLogout, IconPuzzle, IconSalad, IconSettings } from "@t
 
 export const Sidebar = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true)
+
+
   return (
     <>
       <aside
-        className={`z-10  p-3 md:p-6 h-full md:w-[250px] ${sidebarCollapsed ? "" : s.close
+        className={`z-10 fixed bottom-0 p-3 md:p-6 h-full md:w-[250px] ${sidebarCollapsed ? "" : s.close
           }`}>
         <div
-          className={`bg-[#000428] h-[70px] flex justify-center rounded-[35px] md:flex-col md:justify-between md:py-16 md:h-full ${s.sidebar}`}>
+          className={`bg-primary h-[70px] flex justify-center rounded-[35px] md:flex-col md:justify-between md:py-16 md:h-full ${s.sidebar}`}>
           <div className="flex gap-5 md:w-full md:flex-col md:gap-10">
             <SidebarLogo
               open={false}
@@ -25,8 +27,8 @@ export const Sidebar = () => {
                     href="#"
                     className={s.items}
                   >
-                    <IconLayout2 className="text-white pointer-events-none" />
-                    <span className="pointer-events-none">Home</span>
+                    <IconLayout2 />
+                    <span>Home</span>
                   </a>
                 </li>
                 <li>
@@ -86,6 +88,7 @@ export const Sidebar = () => {
                   </a>
                   <SidebarDrop
                     activeLink={false}
+                    drop={true}
                   />
                 </li>
                 <li>
@@ -107,14 +110,13 @@ export const Sidebar = () => {
                 <a
                   id="settings"
                   href="#"
-                  className="items"
+                  className={s.items}
                 >
-                  <IconSettings className="text-white" />
-                  <span className="text-white">Settings</span>
+                  <IconSettings />
+                  <span >Settings</span>
                 </a>
               </li>
               <li>
-                {/* utilizar Link to para indicar la redireccion y el el side bar seria el loyout que siempre permanecera */}
                 <a
                   id="logout"
                   href="#"

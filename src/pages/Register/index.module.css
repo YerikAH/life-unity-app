@@ -1,0 +1,188 @@
+.lines::after,
+.lines::before {
+  content: "";
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 20px;
+  background-color: black;
+}
+.circle1::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 150px;
+  height: 150px;
+  bottom: -100px;
+  right: 0px;
+  background: url(../../assets/yellow-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle2::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 100px;
+  height: 100px;
+  top: -10px;
+  left: -100px;
+  background: url(../../assets/dark-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle3::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 200px;
+  height: 200px;
+  bottom: -100px;
+  left: -50px;
+  background: url(../../assets/cyan-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle4::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 50px;
+  height: 50px;
+  top: -50px;
+  left: 50px;
+  background: url(../../assets/yellow-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle5::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 40px;
+  height: 40px;
+  top: 170px;
+  right: 150px;
+  background: url(../../assets/dark-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle6::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 100px;
+  height: 100px;
+  top: 20px;
+  right: 10px;
+  background: url(../../assets/cyan-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle7::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 30px;
+  height: 30px;
+  top: -10px;
+  right: 170px;
+  background: url(../../assets/yellow-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle8::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 20px;
+  height: 20px;
+  top: 60px;
+  right: 220px;
+  background: url(../../assets/cyan-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle9::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 50px;
+  height: 50px;
+  top: -50px;
+  right: -10px;
+  background: url(../../assets/dark-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle10::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 30px;
+  height: 30px;
+  top: 100px;
+  right: -50px;
+  background: url(../../assets/yellow-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+.circle11::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  width: 10px;
+  height: 10px;
+  top: 20px;
+  right: 130px;
+  background: url(../../assets/cyan-circle.svg);
+  background-size: cover;
+  animation: scale 3s linear both;
+}
+
+@media (min-width: 768px) {
+  .circle1::after {
+    width: 300px;
+    height: 300px;
+    bottom: -200px;
+    right: 50px;
+  }
+  .circle3::after {
+    width: 500px;
+    height: 500px;
+    bottom: -100px;
+    left: -400px;
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(0.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
