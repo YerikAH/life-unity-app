@@ -33,7 +33,7 @@ export function Login() {
   const errorMessage = (field) => {
     return (
       errors[field] && (
-        <span className="text-red-500 text-xs font-semibold mt-1">
+        <span className="font-primary text-red-500 text-xs font-semibold mt-1">
           {errors[field].message}
         </span>
       )
