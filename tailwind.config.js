@@ -10,6 +10,7 @@ export default {
       colors: {
         primary: "#000428",
         gray: "#eeeff1",
+        yellow: "#E8AA42"
       },
     },
     fontFamily: {

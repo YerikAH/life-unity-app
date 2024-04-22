@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import google from "../../assets/google.svg";
 import logo from "../../assets/logo.svg";
 import imgSignup from "../../assets/img-signup.svg";
@@ -55,7 +55,8 @@ export function Register() {
           </div>
           <Link
             to="/login"
-            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20">
+            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20"
+          >
             LogIn
           </Link>
         </nav>
@@ -73,7 +74,8 @@ export function Register() {
             <form className="relative z-20" onSubmit={onSubmit}>
               <button
                 className="font-primary flex items-center w-full justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
-                name="google-signup">
+                name="google-signup"
+              >
                 <img src={google} alt="" className="size-[25px]" />
                 Sign up with Google
               </button>
@@ -167,7 +169,8 @@ export function Register() {
                   name="show-password-login"
                   className="absolute right-2 top-2.5"
                   type="button"
-                  onClick={togglePassword}>
+                  onClick={togglePassword}
+                >
                   {showPassword ? (
                     <IconEyeClosed size={16} />
                   ) : (
@@ -191,11 +194,13 @@ export function Register() {
                   />
                   <label
                     htmlFor="agree-terms"
-                    className="font-primary flex gap-1">
+                    className="font-primary flex gap-1"
+                  >
                     I agree all
                     <a
                       href="#"
-                      className="border-b border-b-black font-primary">
+                      className="border-b border-b-black font-primary"
+                    >
                       Term, Privacy Policy and Fees
                     </a>
                   </label>
@@ -205,10 +210,10 @@ export function Register() {
               <button
                 type="submit"
                 name="signup-btn"
-                className="font-primary text-sm w-full bg-[#E8AA42] py-2 font-semibold rounded-md hover:bg-[#ECBA67]">
+                className="font-primary text-sm w-full bg-yellow py-2 font-semibold rounded-md"
+              >
                 Sign Up
               </button>
-              <pre>{JSON.stringify(watch(), null, 2)}</pre>
             </form>
           </section>
           <section className="img-prin relative">
