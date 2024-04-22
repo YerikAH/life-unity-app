@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import {
   SettingsHeader,
-  UpdatePhoto,
-  PersonalInfo,
   AditionalConfig,
   UpdateSettings,
 } from "../../components/Settings";
@@ -19,8 +17,6 @@ export function Settings() {
     <>
       <SettingsHeader />
       <UpdateSettings />
-      <UpdatePhoto />
-      <PersonalInfo />
       <AditionalConfig />
     </>
   );
