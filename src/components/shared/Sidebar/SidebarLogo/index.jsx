@@ -4,7 +4,7 @@ export const SidebarLogo = ({ open, handleSidebar }) => {
     <>
       <button
         id="title"
-        className={`md:w-full text-white text-3xl items-center justify-center md:h-[40px] hidden ${open ? "md:flex" : ""
+        className={`md:w-full text-white text-3xl items-center justify-center md:h-[40px] hidden ${open ? "" : "md:flex"
           }`}
         onClick={handleSidebar}>
         <h2>
@@ -12,7 +12,7 @@ export const SidebarLogo = ({ open, handleSidebar }) => {
         </h2>
       </button>
       <button
-        className={`md:w-full items-center justify-center md:h-[40px] hidden ${open ? "" : "md:flex"
+        className={`md:w-full items-center justify-center md:h-[40px] hidden ${open ? "md:flex" : ""
           }`}
         onClick={handleSidebar}>
         <img className="size-[60px]" src={logo} alt="Logo Life Unity" />
