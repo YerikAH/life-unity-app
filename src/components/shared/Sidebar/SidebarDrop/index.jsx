@@ -14,7 +14,7 @@ export const SidebarDrop = ({ drop, setIsDropOpen, sidebarCollapsed }) => {
   return (
     <>
       {drop ? (
-        <div className={sidebarCollapsed?`${s.dropDown} ${s.close}`:`${s.dropDown}`}>
+        <div className={sidebarCollapsed?`${s.close}`:`${s.dropDown}`}>
           <div className="relative ps-3 flex">
             <Link
               to="/kanbanPersonal"

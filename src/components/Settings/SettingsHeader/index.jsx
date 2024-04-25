@@ -1,4 +1,4 @@
-import avatar from '../../../assets/avatar.svg'
+  import avatar from '../../../assets/avatar.svg'
 
 export const SettingsHeader = () => {
   return (
@@ -28,7 +28,7 @@ export const SettingsHeader = () => {
                 className="flex-shrink-0 rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block text-sm border-gray-300 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 min="09:00"
                 max="18:00"
-                value="00:00"
+                defaultValue="00:00"
                 required
               />
               <select
@@ -36,12 +36,12 @@ export const SettingsHeader = () => {
                 name="timezone"
                 className="flex-1 rounded-none rounded-e-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block text-sm border-gray-300 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required>
-                <option value="America/New_York">EST - GMT-5 (New York)</option>
-                <option value="America/Los_Angeles">
+                <option defaultValue="America/New_York">EST - GMT-5 (New York)</option>
+                <option defaultValue="America/Los_Angeles">
                   PST - GMT-8 (Los Angeles)
                 </option>
-                <option value="Europe/London">GMT - GMT+0 (London)</option>
-                <option value="Europe/Paris">CET - GMT+1 (Paris)</option>
+                <option defaultValue="Europe/London">GMT - GMT+0 (London)</option>
+                <option defaultValue="Europe/Paris">CET - GMT+1 (Paris)</option>
               </select>
             </div>
           </div>
