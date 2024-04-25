@@ -3,7 +3,7 @@
 }
 
 .options a {
-  @apply flex flex-col md:flex-row gap-5 pt-[20px] pb-[15px] md:py-[15px] px-[10px] transition-opacity duration-300 ease-linear;
+  @apply flex flex-row md:flex-row gap-5 pt-[20px] pb-[15px] md:py-[15px] px-[10px] transition-opacity duration-300 ease-linear;
 }
 
 .logout {
