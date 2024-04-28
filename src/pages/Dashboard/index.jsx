@@ -1,4 +1,4 @@
-import { Goals, Leader, Profile } from "../../components/Dashboard";
+import { Goals, Leader, Profile, CalendarView } from "../../components/Dashboard";
 import { useEffect } from "react";
 import { useTitle } from "../../hooks";
 
@@ -18,6 +18,7 @@ export function Dashboard() {
       <Leader />
       <Goals />
       <Profile />
+      <CalendarView />
     </div>
   )
 }
