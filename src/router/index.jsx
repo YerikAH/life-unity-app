@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Dashboard, Habits, Layout, Login, Nutrition, Register, Task, Settings } from "../pages";
+import { Dashboard, Habits, Layout, Login, Nutrition, Register, Task, Settings, KanbanTeam, KanbanPersonal} from "../pages";
 
 const router = [
   {
@@ -25,6 +25,14 @@ const router = [
       {
         path: "/habits",
         element: <Habits />,
+      },
+      {
+        path: "/kanbanPersonal",
+        element: <KanbanPersonal />,
+      },
+      {
+        path: "/kanbanTeam",
+        element: <KanbanTeam />,
       },
       {
         path: "/nutrition",

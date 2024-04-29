@@ -3,15 +3,7 @@
 }
 
 .options a {
-  @apply flex flex-col md:flex-row gap-5 pt-[20px] pb-[15px] md:py-[15px] px-[10px] transition-opacity duration-300 ease-linear;
-}
-
-.close {
-  @apply w-full md:h-full md:w-[130px] !important;
-}
-
-.close .options {
-  @apply md:ps-5;
+  @apply flex flex-row md:flex-row gap-5 pt-[20px] pb-[15px] md:py-[15px] px-[10px] transition-opacity duration-300 ease-linear;
 }
 
 .logout {
@@ -28,14 +20,6 @@
 
 .options ul {
   @apply gap-1 md:w-full px-[5px] md:py-2 md:px-0 flex md:flex-col md:gap-5;
-}
-
-.close .options a {
-  @apply gap-1;
-}
-
-.close .options a span {
-  @apply hidden;
 }
 
 .items:not(.logout) {

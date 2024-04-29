@@ -1,9 +1,9 @@
 .link {
-  @apply text-[#000428] p-[10px] static !important;
+  @apply text-[#000428] p-[10px] static flex w-full flex-row ;
 }
 
 .link:hover::before,
-.drop-link-active::before {
+.active::before {
   content: "";
   width: 15px;
   height: 25px;
@@ -15,4 +15,12 @@
   border-bottom-right-radius: 100px; /* Radio de la esquina superior izquierda */
   border-top-right-radius: 100px; /* Radio de la esquina superior derecha */
   box-shadow: none;
+}
+
+.close{
+  @apply absolute z-10 shadow-[0_0_20px_gray] rounded-[15px] w-[170px] -translate-y-[200px] md:-translate-y-14 md:translate-x-20;
+}
+
+.dropDown{
+  @apply absolute z-10 shadow-[0_0_20px_gray] rounded-[15px] w-[170px] -translate-y-[200px] md:relative md:shadow-none md:rounded-none md:translate-y-0 ms-0 text-sm md:text-base flex flex-col bg-white text-[#000428] md:rounded-tl-[15px] md:rounded-bl-[15px];
 }
