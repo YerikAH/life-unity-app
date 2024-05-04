@@ -28,11 +28,11 @@ export async function uploadFile(file) {
     const snapshot = await uploadBytes(storageRef, file);
     //getDownloadURL es para obtener la url del archivo que se subio
     const url = await getDownloadURL(snapshot.ref);
-
     return url;
+
   } catch (error) {
-    console.log(error.code);
-    console.log(error.message);
     return null;
   }
 }
+
+

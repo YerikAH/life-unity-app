@@ -106,17 +106,17 @@ export function HealthDetails() {
           <DonutChart />
         </div>
 
-        <div className="flex  justify-center gap-10">
-          <div className="flex items-center gap-5">
+        <div className="flex justify-center gap-10">
+          <div className="flex items-center gap-5 flex-col xl:flex-row">
             <h3>Heigth</h3>
-            <span className="text-[#F9A826] font-bold text-2xl">
+            <span className="text-[#F9A826] font-bold text-center text-2xl">
               {" "}
               {data.height || "--"} cm{" "}
             </span>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5 flex-col xl:flex-row">
             <h3>Weight</h3>
-            <span className="text-[#F9A826] font-bold text-2xl">
+            <span className="text-[#F9A826] font-bold text-center text-2xl">
               {" "}
               {data.weight || "--"} kg{" "}
             </span>

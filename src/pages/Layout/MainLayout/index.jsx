@@ -8,7 +8,7 @@ export function MainLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [widthSidebarOpen, setWidthSidebarOpen] = useState("w-52");
   const [contentWidth, setContentWidth] = useState("md:w-[calc(100%-300px)]");
-  const [user, setUser] = useState(null);
+  const [showPage, setShowPage] = useState(false);
 
   const handleSidebar = () => {
     if (sidebarCollapsed) {
@@ -24,8 +24,8 @@ export function MainLayout() {
 
   const fetchUser = async () => {
     try {
-      const currentUser = await getCurrentUser();
-      setUser(currentUser);
+        await getCurrentUser();
+      setShowPage(true);
     } catch (error) {
       navigate("/login");
     }
@@ -36,17 +36,23 @@ export function MainLayout() {
   }, []);
 
   return (
-    <div className="flex md:h-screen w-full">
-      <Sidebar
-        sidebarCollapsed={sidebarCollapsed}
-        widthSidebarOpen={widthSidebarOpen}
-        handleSidebar={handleSidebar}
-      />
+    <>
+      {showPage && (
+        <>
+          <div className="flex md:h-screen w-full">
+            <Sidebar
+              sidebarCollapsed={sidebarCollapsed}
+              widthSidebarOpen={widthSidebarOpen}
+              handleSidebar={handleSidebar}
+            />
 
-      <div
-        className={`w-full mx-5 md:ms-auto overflow-y-auto md:pe-10 overflow-x-visible mb-32 md:mb-0 ${contentWidth}`}>
-        <Outlet />
-      </div>
-    </div>
+            <div
+              className={`w-full mx-5 md:ms-auto overflow-y-auto md:pe-10 overflow-x-visible mb-32 md:mb-0 ${contentWidth}`}>
+              <Outlet />
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 }

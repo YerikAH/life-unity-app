@@ -13,9 +13,12 @@ export function AuthLayout() {
 
       if (user) {
         navigate("/");
+      }else{
+        setShowPage(true);
       }
     } catch (error) {
       setShowPage(true);
+      navigate("/login");
     }
   };
 

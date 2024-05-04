@@ -6,8 +6,12 @@ import {
   signOut,
   updateProfile,
   GoogleAuthProvider,
-    signInWithPopup,
+  signInWithRedirect,
+  updateEmail,
+  updatePassword,
 } from "firebase/auth";
+
+import { getStorage, deleteObject, ref } from "firebase/storage";
 
 //function to create a user
 export const createUser = async (email, password) => {
@@ -53,25 +57,6 @@ export function getCurrentUser() {
   });
 }
 
-//function to update the profile of the user
-export async function updateProfileUser(name) {
-  try {
-    const currentUser = auth.currentUser;
-
-    let updateData = {
-      displayName: name,
-    };
-
-    const user = await updateProfile(currentUser, updateData);
-
-    return user;
-  } catch (error) {
-    console.log(error.code);
-    console.log(error.message);
-    return null;
-  }
-}
-
 //function to logout the user
 export async function logoutUser() {
   try {
@@ -83,12 +68,32 @@ export async function logoutUser() {
   }
 }
 
+export async function updateProfileUser(
+  name = null,
+  photoUrl = null,
+  // newEmail = null,
+  // newPassword = null
+) {
+  try {
+    const currentUser = auth.currentUser;
+    const updateData = {};
+    if (name && name.trim() !== "") updateData.displayName = name.trim();
+    updateData.photoURL = photoUrl;
+    await updateProfile(currentUser, updateData);
+    // investigar como hacer un update de email y password
+    // if (newEmail) await updateEmail(currentUser, newEmail);
+    // if (newPassword)  await updatePassword(currentUser, newPassword);
+  } catch (error) {
+    return null;
+  }
+}
 
-// export async function updateProfileAll(name, photoUrl){
-
-// }
-
-export async function loginWithGoogle(){
-    const provider = new GoogleAuthProvider();
-    return await signInWithPopup(auth, provider);
+export async function loginWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithRedirect(auth, provider);
+    return result;
+  } catch (error) {
+    return null;
+  }
 }

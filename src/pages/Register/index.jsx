@@ -52,7 +52,11 @@ export function Register() {
   };
 
   const registerGoogle = async () => {
-    await loginWithGoogle();
+    try{
+      await loginWithGoogle();
+    }catch(error){
+      return null;
+    }
   }
 
   return (
