@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
-import { loginUser } from "../../services/auth";
+import { loginUser, loginWithGoogle } from "../../services/auth";
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +46,10 @@ export function Login() {
     );
   };
 
+  const loginGoogle = async () => {
+    await loginWithGoogle();
+  }
+
   return (
     <div className="bg-gray flex justify-center items-center  h-full">
       <div>
@@ -74,8 +78,10 @@ export function Login() {
             </div>
             <form className="relative z-20" onSubmit={onSubmit}>
               <button
+                type="button"
                 name="google-login"
-                className="font-primary w-full flex items-center justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn">
+                className="font-primary w-full flex items-center justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
+                onClick={loginGoogle}>
                 <img src={google} alt="" className="size-[25px]" />
                 Log in with Google
               </button>
@@ -143,11 +149,11 @@ export function Login() {
                   The email or password is incorrect
                 </p>
               )}
-              <div className="font-primary flex justify-end text-xs items-center font-semibold">
+              {/* <div className="font-primary flex justify-end text-xs items-center font-semibold">
                 <a href="#" className={`text-sm ${s.forgot} pb-1 relative `}>
                   Forgot your password?
                 </a>
-              </div>
+              </div> */}
               <button
                 type="submit"
                 name="login-btn"

@@ -5,6 +5,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
+  GoogleAuthProvider,
+    signInWithPopup,
 } from "firebase/auth";
 
 //function to create a user
@@ -82,6 +84,11 @@ export async function logoutUser() {
 }
 
 
-export async function updateProfileAll(name, photoUrl){
+// export async function updateProfileAll(name, photoUrl){
 
+// }
+
+export async function loginWithGoogle(){
+    const provider = new GoogleAuthProvider();
+    return await signInWithPopup(auth, provider);
 }

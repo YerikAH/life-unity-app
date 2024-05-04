@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import s from "./index.module.css";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
-import { createUser, updateProfileUser } from "../../services/auth";
+import { createUser, updateProfileUser, loginWithGoogle } from "../../services/auth";
 
 export function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -51,6 +51,10 @@ export function Register() {
     );
   };
 
+  const registerGoogle = async () => {
+    await loginWithGoogle();
+  }
+
   return (
     <div className="bg-gray flex justify-center items-center h-full">
       <div>
@@ -82,7 +86,8 @@ export function Register() {
               <button
                 type="button"
                 className="font-primary flex items-center w-full justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
-                name="google-signup">
+                name="google-signup"
+                onClick={registerGoogle}>
                 <img src={google} alt="" className="size-[25px]" />
                 Sign up with Google
               </button>
