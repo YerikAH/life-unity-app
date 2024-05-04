@@ -18,7 +18,8 @@
 }
 
 .close{
-  @apply absolute z-10 shadow-[0_0_20px_gray] rounded-[15px] w-[170px] -translate-y-[200px] md:-translate-y-14 md:translate-x-20;
+  /* agregar main */
+  @apply absolute z-10 shadow-[0_0_20px_gray] rounded-[15px] w-[170px] -translate-y-[200px] md:-translate-y-14 md:translate-x-20 bg-white ;
 }
 
 .dropDown{

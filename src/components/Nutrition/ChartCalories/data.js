@@ -2,7 +2,7 @@ export const data = {
     colors: ["#1A56DB", "#FDBA8C"],
     series: [
       {
-        name: "Organic",
+        name: "Total",
         color: "#1A56DB",
         data: [
           { x: "Mon", y: 231 },
@@ -15,7 +15,7 @@ export const data = {
         ],
       },
       {
-        name: "Social media",
+        name: "Recommended",
         color: "#FDBA8C",
         data: [
           { x: "Mon", y: 232 },

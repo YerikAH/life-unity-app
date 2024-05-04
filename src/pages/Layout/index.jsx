@@ -29,7 +29,7 @@ export function Layout() {
       widthSidebarOpen={widthSidebarOpen} 
       handleSidebar={handleSidebar}/>
       
-      <div className={`w-full mx-5 md:ms-auto overflow-y-auto py-6 md:pe-10 overflow-x-visible mb-32 md:mb-0 ${contentWidth}`}>
+      <div className={`w-full mx-5 md:ms-auto overflow-y-auto md:pe-10 overflow-x-visible mb-32 md:mb-0 ${contentWidth}`}>
         <Outlet />
       </div>
     </div>

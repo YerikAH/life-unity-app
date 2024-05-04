@@ -1,170 +1,52 @@
-import { useState } from "react";
-import {
-  IconCalendarMonth,
-  IconGenderMale,
-  IconGenderFemale,
-  IconRulerMeasure,
-  IconWeight,
-  IconTarget,
-} from "@tabler/icons-react";
 
-export default function Step2({isMeasures, isGender, handleMeasures, handleGender}) {
 
+export default function Step2({handleActivity}) {
   return (
     <div className="max-w-md">
       <div className="flex gap-2 mb-4 justify-center">
         <div className="w-[50px] bg-[#777777] h-[5px] rounded-2xl"></div>
         <div className="w-[50px] bg-[#777777] h-[5px] rounded-2xl"></div>
-        <div className="w-[50px] bg-[#E8AA42] h-[5px] rounded-2xl"></div>
       </div>
-      <h1 className="text-2xl mt-2 font-semibold m-auto text-center mb-5">
-        Enter your data details
+      <h1 className="text-2xl mt-2 font-semibold md:w-[70%] text-center m-auto mb-5">
+        What's your lever of physical activity?
       </h1>
-      <form className="flex flex-col justify-stretch w-[100%] md:w-[80%] gap-7 m-auto">
-        <div className="flex items-center gap-5 font-semibold">
-          <IconCalendarMonth size={35} className="flex-none" />
-          <div id="container-birth" className="flex w-full gap-5">
-            <input
-              name="birth"
-              type="date"
-              className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray"
-            />
-          </div>
-        </div>
-        <div className="flex items-center justify-center gap-5 font-semibold">
-          <div className="flex">
-            <IconGenderMale size={30} className="flex-none" />
-            <IconGenderFemale size={30} className="flex-none" />
-          </div>
-          <div id="container-gender" className="flex w-full">
-            <button
-              name="gender"
-              type="button"
-              id="gender-male"
-              className={`flex-1 px-5 py-2 rounded-tl-xl rounded-bl-xl ${
-                isGender === "male" ? "bg-[#E8AA42] text-white" : "bg-gray"
-              }`}
-              onClick={() => {
-                handleGender("male");
-              }}>
-              Male
-            </button>
-            <button
-              name="gender"
-              type="button"
-              id="gender-female"
-              className={`flex-1 px-5 py-2 rounded-tr-xl rounded-br-xl ${
-                isGender === "female" ? "bg-[#E8AA42] text-white" : "bg-gray"
-              }`}
-              onClick={() => {
-                handleGender("female");
-              }}>
-              Female
-            </button>
-          </div>
-        </div>
-        <div className="flex items-center justify-center gap-5 font-semibold">
-          <IconRulerMeasure size={35} className="flex-none" />
-          <div className="flex w-full justify-between gap-2 md:gap-6">
-            <div className="relative flex items-center w-full">
-              <input type="number" className="flex-1 ps-0 w-full border-0 border-b-2 border-b-gray outline-none focus:ring-0 focus:border-[#E8AA42] text-[14px] " />
-              <div className="absolute right-8">{isMeasures.height}</div>
-            </div>
-            <div className="flex text-[14px]">
-              <button
-                name="cm"
-                type="button"
-                className={`flex-1 px-4 rounded-tl-xl rounded-bl-xl ${
-                  isMeasures.height === "cm"
-                    ? "bg-[#E8AA42] text-white"
-                    : "bg-gray"
-                }`}
-                onClick={() => {
-                  handleMeasures("height", "cm");
-                }}>
-                cm
-              </button>
-              {/* si se presiona alguno cambiar el valor */}
-              <button
-                name="ft"
-                type="button"
-                className={`flex-1 px-4 rounded-tr-xl rounded-br-xl ${isMeasures.height === "ft" ? "bg-[#E8AA42] text-white":"bg-gray"}`}
-                onClick={() => {
-                  handleMeasures("height", "ft");
-                }}>
-                ft
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center justify-center gap-5 font-semibold">
-          <IconWeight size={30} className="flex-none" />
-          <div className="flex w-full justify-between gap-2 md:gap-6">
-            <div className="relative flex items-center w-full">
-              <input type="number" className="flex-1 ps-0 w-full border-0 border-b-2 border-b-gray outline-none focus:ring-0 focus:border-[#E8AA42] text-[14px] " />
-              <div className="absolute right-8">{isMeasures.weight}</div>
-            </div>
-            <div className="flex text-[14px]">
-              <button
-                name="kg"
-                type="button"
-                className={`flex-1 px-4 rounded-tl-xl rounded-bl-xl ${isMeasures.weight === "kg" ? "bg-[#E8AA42] text-white":"bg-gray"}`}
-                onClick={() => {
-                  handleMeasures("weight", "kg");
-                }}>
-                kg
-              </button>
-              <button
-                name="lbs"
-                type="button"
-                className={`flex-1 px-4 rounded-tr-xl rounded-br-xl ${isMeasures.weight === "lbs" ? "bg-[#E8AA42] text-white":"bg-gray"}`}
-                onClick={() => {
-                  handleMeasures("weight", "lbs");
-                }}>
-                lbs
-              </button>
-            </div>
-          </div>
-        </div>
-        {/*Solo se aparece esta parte si se eligio como objetivo perder peso o ganar */}
-        <div>
-          <div className="text-start mb-4">
-            <h1 className="font-semibold mb-1">Introduce your goal:</h1>
-            <p className="text-[13px]">
-              The value entered must be lower or higher than the current one
-              depending on what you want.
+      <form className="flex flex-col gap-4 mx-3 md:mx-10">
+        <button type="button" name="physical-activity" className="font-semibold shadow-xl rounded-lg flex gap-4 items-center justify-center py-3 px-5 text-start focus:ring-2 ring-[#E8AA42] hover:ring-2"
+        onClick={()=>handleActivity("Inactive")}>
+          <div className="text-center">
+            <h3>Sedentary</h3>
+            <p className="text-[15px] font-normal mt-1 leading-5">
+              No exercise a week
             </p>
           </div>
-          <div className="flex items-center justify-center gap-5 font-semibold">
-            <IconTarget size={30} className="flex-none" />
-            <div className="flex w-full justify-between gap-1 md:gap-6">
-              <div className="relative flex items-center w-full">
-                <input type="number" className="flex-1 ps-0 w-full border-0 border-b-2 border-b-gray outline-none focus:ring-0 focus:border-[#E8AA42] text-[14px] " />
-                <div className="absolute right-8">{isMeasures.goal}</div>
-              </div>
-              <div className="flex text-[14px]">
-                <button
-                  name="kg"
-                  type="button"
-                  className={`flex-1 px-4 rounded-tl-xl rounded-bl-xl ${isMeasures.goal === "kg" ? "bg-[#E8AA42] text-white":"bg-gray"}`}
-                  onClick={() => {
-                    handleMeasures("goal", "kg");
-                  }}>
-                  kg
-                </button>
-                <button
-                  name="lbs"
-                  type="button"
-                  className={`flex-1 px-4 rounded-tr-xl rounded-br-xl ${isMeasures.goal === "lbs" ? "bg-[#E8AA42] text-white":"bg-gray"}`}
-                  onClick={() => {
-                    handleMeasures("goal", "lbs");
-                  }}>
-                  lbs
-                </button>
-              </div>
-            </div>
+        </button>
+        <button type="button" name="physical-activity" className="font-semibold shadow-xl rounded-lg flex gap-4 items-center justify-center py-3 px-5 text-start focus:ring-2 ring-[#E8AA42] hover:ring-2"
+        onClick={()=>handleActivity("Low Active")}>
+          <div className="text-center">
+            <h3>Light</h3>
+            <p className="text-[15px] font-normal mt-1 leading-5">
+              Exercises 2 - 3 days a week
+            </p>
           </div>
-        </div>
+        </button>
+        <button type="button" name="physical-activity" className="font-semibold shadow-xl rounded-lg flex gap-4 items-center justify-center py-3 px-5 text-start focus:ring-2 ring-[#E8AA42] hover:ring-2"
+        onClick={()=>handleActivity("Active")}>
+          <div className="text-center">
+            <h3>Moderate</h3>
+            <p className="text-[15px] font-normal mt-1 leading-5">
+              Exercises 4 - 5 days a week
+            </p>
+          </div>
+        </button>
+        <button type="button" name="physical-activity" className="font-semibold shadow-xl rounded-lg flex gap-4 items-center justify-center py-3 px-5 text-start focus:ring-2 ring-[#E8AA42] hover:ring-2"
+        onClick={()=>handleActivity("Very Active")}>
+          <div className="text-center">
+            <h3>High</h3>
+            <p className="text-[15px] font-normal mt-1 leading-5">
+              Exercises 6 - 7 days a week
+            </p>
+          </div>
+        </button>
       </form>
     </div>
   );

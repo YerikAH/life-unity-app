@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconChevronDown, IconFileSpreadsheet } from "@tabler/icons-react";
-import {DonutChart} from "./DonutChart";
-import {HealthForm} from "../HealthForm";
+import { DonutChart } from "./DonutChart";
+import { HealthForm } from "../HealthForm";
+import { analysis } from "../../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { setValuesRecommended } from "../../../redux/slices/nutritionSlice";
 
 export function HealthDetails() {
+  const dispatch = useDispatch();
   const [isDrop, setDrop] = useState(false);
   const [isOpenForm, setOpenForm] = useState(false);
+  const [formResolved, setFormResolved] = useState(localStorage.getItem("userData") ? true : false);
+
+  const data = useSelector((state) => state.nutrition.userData);
 
   const handleSetDrop = () => {
     setDrop(!isDrop);
@@ -13,20 +20,80 @@ export function HealthDetails() {
 
   const handleOpenForm = () => {
     setOpenForm(!isOpenForm);
-  }
+  };
 
+  const fetchData = async () => {
+    if (formResolved) {
+      const result = await analysis(data);
+      const calNumber =
+        Number(
+          result?.BMI_EER["Estimated Daily Caloric Needs"]
+            .replace("kcal/day", "")
+            .replace(",", ".")
+            .trim()
+        ) * 1000;
+      const carbsNumber =
+        result?.macronutrients_table["macronutrients-table"][1][1]
+          .replace("grams", "")
+          .split("-")
+          .map(str => Number(str.trim()))
+          .reduce((a, b) => a + b, 0) / 2;
+      const proteinNumber = Number(
+        result?.macronutrients_table["macronutrients-table"][3][1]
+          .replace("grams", "")
+          .trim()
+      );
+      const fatNumber =
+        result?.macronutrients_table["macronutrients-table"][4][1]
+          .replace("grams", "")
+          .split("-")
+          .map(str => Number(str.trim()))
+          .reduce((a, b) => a + b, 0) / 2;
+      const recommended = {
+        cal: calNumber,
+        carbs: carbsNumber,
+        protein: proteinNumber,
+        fat: fatNumber,
+      };
+      return recommended;
+    }
+  };
+
+  useEffect(() => {
+    const fetchAndSetValues = async () => {
+      const valuesRecommended = localStorage.getItem("valuesRecommended");
+  
+      if (!valuesRecommended && formResolved) {
+        const fetchedData = await fetchData();
+        dispatch(setValuesRecommended(fetchedData));
+        localStorage.setItem("valuesRecommended", JSON.stringify(fetchedData));
+      } else if (valuesRecommended) {
+        dispatch(setValuesRecommended(JSON.parse(valuesRecommended)));
+      }
+    };
+  
+    fetchAndSetValues();
+  }, [data]);
 
   return (
     <>
       <section className="shadow-xl rounded-xl py-10 px-5 flex flex-col h-auto bg-white lg:row-span-2 justify-between">
         <div className="flex items-center gap-4 justify-center relative">
-          <h2 className="text-2xl font-bold">Count Calories</h2>
+          <div className="flex flex-col gap-3 justify-center text-center">
+            <h2 className="text-2xl font-bold">Count Calories</h2>
+            {!formResolved && (
+              <span className="w-[80%] mx-auto text-red-500 font-semibold">
+                Complete the form to calcultate the nutrition values
+              </span>
+            )}
+          </div>
           <button onClick={handleSetDrop}>
             <IconChevronDown stroke={2} />
           </button>
           {isDrop && (
-            <button className="absolute bg-white top-10 right-18 p-5 rounded-2xl shadow-lg font-semibold flex items-center gap-4 cursor-pointer z-10" 
-            onClick={handleOpenForm}>
+            <button
+              className="absolute bg-white top-10 right-18 p-5 rounded-2xl shadow-lg font-semibold flex items-center gap-4 cursor-pointer z-10"
+              onClick={handleOpenForm}>
               <div className="size-8">
                 <IconFileSpreadsheet stroke={2} />
               </div>
@@ -35,28 +102,35 @@ export function HealthDetails() {
           )}
         </div>
 
-        <div className="max-w-sm w-full bg-white rounded-lg dark:bg-gray-800 p-4 md:p-6">
-          {/* <!-- Donut Chart --> */}
+        <div className="max-w-sm w-full bg-white rounded-lg dark:bg-gray-800 p-4 mx-auto">
           <DonutChart />
         </div>
 
         <div className="flex  justify-center gap-10">
           <div className="flex items-center gap-5">
             <h3>Heigth</h3>
-            <span className="text-[#F9A826] font-bold text-2xl"> -- cm </span>
+            <span className="text-[#F9A826] font-bold text-2xl">
+              {" "}
+              {data.height || "--"} cm{" "}
+            </span>
           </div>
           <div className="flex items-center gap-5">
             <h3>Weight</h3>
-            <span className="text-[#F9A826] font-bold text-2xl"> -- kg </span>
+            <span className="text-[#F9A826] font-bold text-2xl">
+              {" "}
+              {data.weight || "--"} kg{" "}
+            </span>
           </div>
         </div>
       </section>
 
-      {
-        isOpenForm && (
-          <HealthForm handleOpenForm={handleOpenForm} handleSetDrop={handleSetDrop}/>
-        )
-      }
+      {isOpenForm && (
+        <HealthForm
+          handleOpenForm={handleOpenForm}
+          handleSetDrop={handleSetDrop}
+          setFormResolved={setFormResolved}
+        />
+      )}
     </>
   );
 }
