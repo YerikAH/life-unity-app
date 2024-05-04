@@ -7,12 +7,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
+import { loginUser } from "../../services/auth";
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { changeTitle } = useTitle();
   const togglePassword = () => setShowPassword(!showPassword);
-  const userNavigate = useNavigate();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -24,10 +25,15 @@ export function Login() {
     changeTitle("Login - LifeUnity");
   }, []);
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
     reset();
-    userNavigate("/");
+    const logeado = await loginUser(data.email, data.password);
+    if (logeado) {
+      //hacia donde quiero que me redireccione cuando me loguee
+      navigate("/");
+    } else {
+      setError("Email or password incorrect");
+    }
   });
 
   const errorMessage = (field) => {
