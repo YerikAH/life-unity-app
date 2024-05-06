@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { IconChevronDown, IconFileSpreadsheet } from "@tabler/icons-react";
 import { DonutChart } from "./DonutChart";
 import { HealthForm } from "../HealthForm";
@@ -8,9 +8,12 @@ import { setValuesRecommended } from "../../../redux/slices/nutritionSlice";
 
 export function HealthDetails() {
   const dispatch = useDispatch();
+  const firstUpdate = useRef(true);
   const [isDrop, setDrop] = useState(false);
   const [isOpenForm, setOpenForm] = useState(false);
-  const [formResolved, setFormResolved] = useState(localStorage.getItem("userData") ? true : false);
+  const [formResolved, setFormResolved] = useState(
+    localStorage.getItem("userData") ? true : false
+  );
 
   const data = useSelector((state) => state.nutrition.userData);
 
@@ -25,18 +28,17 @@ export function HealthDetails() {
   const fetchData = async () => {
     if (formResolved) {
       const result = await analysis(data);
-      const calNumber =
-        Number(
-          result?.BMI_EER["Estimated Daily Caloric Needs"]
-            .replace("kcal/day", "")
-            .replace(",", ".")
-            .trim()
-        ) * 1000;
+      const calNumber = Number(
+        result?.BMI_EER["Estimated Daily Caloric Needs"]
+          .replace("kcal/day", "")
+          .replace(",", "")
+          .trim()
+      );
       const carbsNumber =
         result?.macronutrients_table["macronutrients-table"][1][1]
           .replace("grams", "")
           .split("-")
-          .map(str => Number(str.trim()))
+          .map((str) => Number(str.trim()))
           .reduce((a, b) => a + b, 0) / 2;
       const proteinNumber = Number(
         result?.macronutrients_table["macronutrients-table"][3][1]
@@ -47,31 +49,41 @@ export function HealthDetails() {
         result?.macronutrients_table["macronutrients-table"][4][1]
           .replace("grams", "")
           .split("-")
-          .map(str => Number(str.trim()))
+          .map((str) => Number(str.trim()))
           .reduce((a, b) => a + b, 0) / 2;
+      const regex = /\d+\.\d+|\d+/g;
+      const water =
+        result?.macronutrients_table["macronutrients-table"][10][1].match(
+          regex
+        );
+      const waterLiter = Number(water[0]);
+      const waterCups = Number(water[1]);
       const recommended = {
         cal: calNumber,
         carbs: carbsNumber,
         protein: proteinNumber,
         fat: fatNumber,
+        water: {
+          liter: waterLiter,
+          cups: waterCups,
+        },
       };
       return recommended;
     }
   };
 
   useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+
     const fetchAndSetValues = async () => {
-      const valuesRecommended = localStorage.getItem("valuesRecommended");
-  
-      if (!valuesRecommended && formResolved) {
-        const fetchedData = await fetchData();
-        dispatch(setValuesRecommended(fetchedData));
-        localStorage.setItem("valuesRecommended", JSON.stringify(fetchedData));
-      } else if (valuesRecommended) {
-        dispatch(setValuesRecommended(JSON.parse(valuesRecommended)));
-      }
+      const fetchedData = await fetchData();
+      console.log(fetchedData);
+      dispatch(setValuesRecommended(fetchedData));
     };
-  
+
     fetchAndSetValues();
   }, [data]);
 
@@ -107,14 +119,14 @@ export function HealthDetails() {
         </div>
 
         <div className="flex  justify-center gap-10">
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5 flex-col">
             <h3>Heigth</h3>
-            <span className="text-[#F9A826] font-bold text-2xl">
+            <span className="text-[#F9A826] font-bold text-2xl text-center">
               {" "}
               {data.height || "--"} cm{" "}
             </span>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5 flex-col text-center">
             <h3>Weight</h3>
             <span className="text-[#F9A826] font-bold text-2xl">
               {" "}

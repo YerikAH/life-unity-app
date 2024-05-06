@@ -23,7 +23,7 @@ export function HealthRecipes() {
         data = JSON.stringify(recipesData);
         sessionStorage.setItem('recipes', data);
       }
-  
+      console.log(JSON.parse(data))
       setRecipes(JSON.parse(data));
     };
   
@@ -37,10 +37,10 @@ export function HealthRecipes() {
 
   const handleSetRecipeMade = (recipe) => {
     const recipeRecent = {
-      cal: recipe.calories,
-      protein: recipe.totalNutrients.PROCNT.quantity,
-      fat: recipe.totalNutrients.FAT.quantity,
-      carbs: recipe.totalNutrients.CHOCDF.quantity,
+      cal: recipe.calories/recipe.yield,
+      protein: recipe.totalNutrients.PROCNT.quantity/recipe.yield,
+      fat: recipe.totalNutrients.FAT.quantity/recipe.yield,
+      carbs: recipe.totalNutrients.CHOCDF.quantity/recipe.yield,
     }
     dispatch(setValuesConsumed(recipeRecent));
   };
