@@ -18,7 +18,7 @@ export function ChartCalories() {
   return (
     <>
       <section className="shadow-xl rounded-xl px-5 flex flex-col justify-center font-semibold h-auto bg-white lg:row-start-2 lg:col-start-2">
-        <div className="max-w-sm w-full bg-white rounded-lg dark:bg-gray-800 p-4">
+        <div className="max-w-sm w-full bg-white rounded-lg dark:bg-gray-800 p-4 mx-auto">
           <div className="flex items-center justify-between border-b border-gray dark:border-gray-700 pb-2">
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center ">

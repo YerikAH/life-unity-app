@@ -7,17 +7,18 @@ import { useEffect, useState } from "react";
 import s from "./index.module.css";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
+import { createUser, updateProfileUser, loginWithGoogle } from "../../services/auth";
 
 export function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const { changeTitle } = useTitle();
-  const userNavigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
     reset,
   } = useForm();
 
@@ -27,10 +28,17 @@ export function Register() {
     changeTitle("Register - LifeUnity");
   }, []);
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoading(true);
     console.log(data);
     reset();
-    userNavigate("/");
+    await createUser(data.email, data.password);
+    const name= data.firstName+" "+data.lastName;
+    await updateProfileUser(name);
+    setIsLoading(false);
+    if (isLoading === false) {
+      navigate("/");
+    }
   });
 
   const errorMessage = (field) => {
@@ -42,6 +50,14 @@ export function Register() {
       )
     );
   };
+
+  const registerGoogle = async () => {
+    try{
+      await loginWithGoogle();
+    }catch(error){
+      return null;
+    }
+  }
 
   return (
     <div className="bg-gray flex justify-center items-center h-full">
@@ -55,8 +71,7 @@ export function Register() {
           </div>
           <Link
             to="/login"
-            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20"
-          >
+            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20">
             LogIn
           </Link>
         </nav>
@@ -73,9 +88,10 @@ export function Register() {
             </div>
             <form className="relative z-20" onSubmit={onSubmit}>
               <button
+                type="button"
                 className="font-primary flex items-center w-full justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
                 name="google-signup"
-              >
+                onClick={registerGoogle}>
                 <img src={google} alt="" className="size-[25px]" />
                 Sign up with Google
               </button>
@@ -169,8 +185,7 @@ export function Register() {
                   name="show-password-login"
                   className="absolute right-2 top-2.5"
                   type="button"
-                  onClick={togglePassword}
-                >
+                  onClick={togglePassword}>
                   {showPassword ? (
                     <IconEyeClosed size={16} />
                   ) : (
@@ -194,13 +209,11 @@ export function Register() {
                   />
                   <label
                     htmlFor="agree-terms"
-                    className="font-primary flex gap-1"
-                  >
+                    className="font-primary flex gap-1">
                     I agree all
                     <a
                       href="#"
-                      className="border-b border-b-black font-primary"
-                    >
+                      className="border-b border-b-black font-primary">
                       Term, Privacy Policy and Fees
                     </a>
                   </label>
@@ -210,8 +223,7 @@ export function Register() {
               <button
                 type="submit"
                 name="signup-btn"
-                className="font-primary text-sm w-full bg-yellow py-2 font-semibold rounded-md"
-              >
+                className="font-primary text-sm w-full bg-yellow py-2 font-semibold rounded-md">
                 Sign Up
               </button>
             </form>

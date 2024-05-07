@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import {
-  SettingsHeader,
   AditionalConfig,
   UpdateSettings,
 } from "../../components/Settings";
@@ -15,7 +14,6 @@ export function Settings() {
 
   return (
     <>
-      <SettingsHeader />
       <UpdateSettings />
       <AditionalConfig />
     </>
