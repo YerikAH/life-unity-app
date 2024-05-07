@@ -1,35 +1,22 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ApexCharts from "apexcharts";
 import { useSelector } from "react-redux";
 
 export function DonutChart() {
   const chartRef = useRef(null);
   const totalValues = useSelector((state) => state.nutrition.totalValues);
-
   const caloriesRecommended = useSelector(
     (state) => state.nutrition.valuesRecommended?.cal || 0
   );
-
   const caloriesConsumed = useSelector(state => state.nutrition.totalValues?.totalCal || 0);
 
-  // Asegúrate de que caloriesRecommended y caloriesConsumed sean números válidos
-  const series = [
-    isNaN(caloriesConsumed) ? 0 : caloriesConsumed,
-    isNaN(caloriesRecommended) ? 0 : caloriesRecommended
-  ];
+  // Crear el gráfico al montar el componente y actualizarlo cuando cambien los valores
+useEffect(() => {
+    const chart = new ApexCharts(chartRef.current, dataDonut);
+    chart.render();
 
-  useEffect(() => {
-    if (chartRef.current) {
-      const chart = new ApexCharts(chartRef.current, dataDonut);
-      chart.render();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (chartRef.current) {
-      ApexCharts.exec(chartRef.current.id, 'updateSeries', [series]);
-    }
-  }, [totalValues]);
+    chart.updateSeries([caloriesConsumed, caloriesRecommended]);
+}, [totalValues, caloriesRecommended, caloriesConsumed]);
 
   const dataDonut = {
     series: [caloriesConsumed, caloriesRecommended],
@@ -62,7 +49,7 @@ export function DonutChart() {
                 const res = w.globals.seriesTotals.reduce((a, b) => {
                   return b - a;
                 }, 0);
-                return res.toFixed(2) + " cal";
+                return res.toFixed(2) + " kcal";
               },
             },
             //es para mostrar el valor de la serie
@@ -81,7 +68,7 @@ export function DonutChart() {
     },
     grid: {
       padding: {
-        top: -2,
+        top: -5,
       },
     },
     labels: ["Completed", "Total"],
@@ -96,7 +83,7 @@ export function DonutChart() {
     yaxis: {
       labels: {
         formatter: function (value) {
-          return value + "cal";
+          return value + "kcal";
         },
       },
     },
@@ -104,7 +91,7 @@ export function DonutChart() {
     xaxis: {
       labels: {
         formatter: function (value) {
-          return value + "cal";
+          return value + "kcal";
         },
       },
       axisTicks: {
@@ -116,7 +103,7 @@ export function DonutChart() {
     },
   };
 
-  return <div id="donut-chart" ref={chartRef} className="py-6"></div>;
+  return <div id="donut-chart" ref={chartRef} className="text-sm"></div>;
 }
 
 export default DonutChart;

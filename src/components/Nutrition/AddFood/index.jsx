@@ -12,6 +12,9 @@ export function AddFood() {
   const [error, setError] = useState(false);
 
   const handleSaveOther = async () => {
+    if((extraInput === "" && extraInputValue === "") || (extraInputValue === "0" && extraInput === "")){
+      return;
+    }
     const response = await searchFood(extraInput, extraInputValue);
     if (!response) {
       setError(true);

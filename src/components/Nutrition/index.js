@@ -1,5 +1,5 @@
 export { HealthRecipes } from './HealthRecipes'
 export { ProgressValue } from './ProgressValue'
 export { HealthDetails } from './HealthDetails/index'
-export { ChartCalories } from './ChartCalories'
+export { WaterProgress } from './WaterProgress'
 export { AddFood } from './AddFood'

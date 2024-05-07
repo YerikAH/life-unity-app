@@ -15,13 +15,13 @@ export default function ItemsFood({ food }) {
       const itemFood = food.find((item) => item.id === idNumber);
       const inputValue = Number(inputValues[id]);
       const { name, carbs, protein, fat, cal } = itemFood;
+      //loas vadores de food son por cada 100g
       const calculatedValues = {
         carbs: (carbs * inputValue) / 100,
         protein: (protein * inputValue) / 100,
         fat: (fat * inputValue) / 100,
         cal: (cal * inputValue) / 100,
       };
-
       const newItem = {
         id: idNumber,
         name,
@@ -29,7 +29,6 @@ export default function ItemsFood({ food }) {
         ...calculatedValues,
       };
       dispatch(setValuesConsumed(newItem));
-      
     }
 
     setOpenItems([]);
