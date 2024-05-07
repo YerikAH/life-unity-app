@@ -1,18 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Dashboard, Habits, Layout, Login, Nutrition, Register, Task, Settings, KanbanTeam, KanbanPersonal} from "../pages";
+import { Dashboard, Habits, AuthLayout,MainLayout, Login, Nutrition, Register, Task, Settings, KanbanTeam, KanbanPersonal} from "../pages";
 
-const router = [
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
+const router = [{
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      }
+    ],
   },
   {
     path: "/",
-    element: <Layout />,
+    element: <MainLayout />,
     children: [
       {
         path: "/",

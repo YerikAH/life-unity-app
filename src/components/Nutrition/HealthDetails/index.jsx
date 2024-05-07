@@ -126,9 +126,10 @@ export function HealthDetails() {
               {data.height || "--"} cm{" "}
             </span>
           </div>
+
           <div className="flex items-center gap-5 flex-col text-center">
             <h3>Weight</h3>
-            <span className="text-[#F9A826] font-bold text-2xl">
+            <span className="text-[#F9A826] font-bold text-center text-2xl">
               {" "}
               {data.weight || "--"} kg{" "}
             </span>
