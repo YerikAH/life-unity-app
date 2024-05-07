@@ -20,7 +20,7 @@ export function Nutrition() {
         0, 0, 0 // a las 00:00:00 horas
       );
       const msToMidnight = night.getTime() - now.getTime();
-
+      // esperar hasta la medianoche y borrar los valores
       setTimeout(() => {
         localStorage.removeItem('totalValues');
         setMidnightClear(); // programar la siguiente eliminación
