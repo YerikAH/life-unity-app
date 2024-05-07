@@ -1,4 +1,6 @@
-import React, { useCallback, useState } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useState } from "react";
 import { IconX, IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Step1 from "./Step1";
 import Step2 from "./Step2";

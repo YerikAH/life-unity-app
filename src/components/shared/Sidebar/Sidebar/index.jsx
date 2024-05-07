@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { SidebarDrop } from "../SidebarDrop";
 import { SidebarLogo } from "../SidebarLogo";

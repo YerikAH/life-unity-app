@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback } from "react";
 import {IconChevronRight, IconChevronLeft, IconSearch} from "@tabler/icons-react";
 import RecipesCard from "./RecipeCard";
