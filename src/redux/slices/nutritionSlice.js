@@ -6,8 +6,8 @@ const nutritionSlice = createSlice({
   name: "nutrition",
   initialState: {
     valuesRecommended: 
-    // localStorage.getItem("valuesRecommended")
-    //   ? JSON.parse(localStorage.getItem("valuesRecommended")): 
+    localStorage.getItem("valuesRecommended")
+      ? JSON.parse(localStorage.getItem("valuesRecommended")): 
       {
           carbs: 0,
           protein: 0,

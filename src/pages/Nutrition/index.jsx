@@ -11,23 +11,23 @@ export function Nutrition() {
   const { changeTitle } = useTitle();
 
   useEffect(() => {
-    const now = new Date();
-    const today = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      0,
-      0,
-      0
-    );
+    const setMidnightClear = () => {
+      const now = new Date();
+      const night = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1, // el siguiente día
+        0, 0, 0 // a las 00:00:00 horas
+      );
+      const msToMidnight = night.getTime() - now.getTime();
 
-    // Si la hora actual es después de las 12 de la noche, borra los datos inmediatamente
-    if (now.getTime() > today.getTime()) {
-      localStorage.removeItem("totalValuesConsumed");
-    }
+      setTimeout(() => {
+        localStorage.removeItem('totalValues');
+        setMidnightClear(); // programar la siguiente eliminación
+      }, msToMidnight);
+    };
 
-    localStorage.removeItem("valuesRecommended");
-
+    setMidnightClear();
     changeTitle("Nutrition - LifeUnity");
   }, []);
 
