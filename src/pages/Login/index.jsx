@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
 import s from "./index.module.css";
 import google from "../../assets/google.svg";

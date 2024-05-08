@@ -15,25 +15,26 @@ export function CalendarView() {
 
   const events = [
     {
-      start: dayjs('2024-05-07T10:00:00').toDate(),
-      end: dayjs('2024-05-07T13:00:00').toDate(),
-      title: 'Evento 1'
-    }
+      start: dayjs("2024-05-07T10:00:00").toDate(),
+      end: dayjs("2024-05-07T13:00:00").toDate(),
+      title: "Evento 1",
+    },
   ];
 
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenModalEvent = () => {
     setIsOpen(!isOpen);
-  }
+  };
 
   return (
     <>
-      <section className="col-span-3 py-5 px-5 flex justify-between font-semibold h-auto bg-white lg:row-span-2 md:max-h-full">
+      <section className="py-5 px-5 flex flex-col justify-between font-semibold h-auto bg-white lg:row-span-2 md:max-h-full">
         <div className="overflow-auto mx-5">
-          <button 
+          <button
             onClick={handleOpenModalEvent}
-            className='flex p-2 border-2 border-["#000428"] rounded-xl text-[#000428] font-bold hover:bg-[#000428] hover:text-white'>
+            className='flex p-2 border-2 border-["#000428"] rounded-xl text-[#000428] font-bold hover:bg-[#000428] hover:text-white'
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -58,28 +59,19 @@ export function CalendarView() {
             <DateCalendar />
           </div>
         </div>
+      </section>
+
+      <section className="lg:col-span-2 py-5 px-5 flex justify-between font-semibold h-auto bg-white lg:row-span-2 md:max-h-full">
         <div className="col-span-2 w-full overflow-auto">
           <h3 className="text-xl font-bold pb-4 text-[#000428]">Current Day</h3>
 
           <div className="w-full h-[500px]">
-            <Calendar 
-              localizer={localizer} 
-              view={["day"]} 
-              events={events}
-              />
-
+            <Calendar localizer={localizer} view={["day"]} events={events} />
           </div>
         </div>
       </section>
 
-      { 
-        isOpen && (
-        <EventModal 
-        handleCloseModal={handleOpenModalEvent}
-        />)
-      }
-
-
+      {isOpen && <EventModal handleCloseModal={handleOpenModalEvent} />}
     </>
   );
 }
