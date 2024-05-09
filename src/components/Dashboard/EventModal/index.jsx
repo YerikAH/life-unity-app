@@ -13,93 +13,44 @@ export function EventModal({ handleCloseModal }) {
               <IconX stroke={2} />
             </button>
           </div>
-          <div className="flex justify-between items-center mb-3">
-            <input
-              className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray text-3xl"
-              type="text"
-              placeholder="Agregar Título"
-            />
-            <button className="flex items-center justify-end gap-2 right-0 bg-yellow px-5 py-2 rounded-2xl font-semibold">
-              Save
-            </button>
-          </div>
-          <div className="grid lg:grid-cols-5 md:grid-cols-4 grid-cols-3 gap-2">
-            <div className="w-full">
-              <input
-                type="date"
-                className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray"
-                placeholder="Select date"
-              />
-            </div>
-            <div className="w-full">
-              <input
-                type="time"
-                id="time"
-                className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray"
-                min="09:00"
-                max="18:00"
-                value="00:00"
-                required
-              />
-            </div>
-            <div className="w-full md:w-1/2">
-              <p>a</p>
-            </div>
-            <div className="w-full flex justify-center items-center">
-              <input
-                type="time"
-                id="time"
-                className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray"
-                min="09:00"
-                max="18:00"
-                value="00:00"
-                required
-              />
-            </div>
-            <div className="w-full">
-              <input
-                type="date"
-                className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray"
-                placeholder="Select date"
-              />
-            </div>
-            <div className="col-span-5 w-full">
-              <textarea name="" id=""></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* <div className="inset-0 fixed bg-black/30 z-20">
-        <div className="fixed inset-0 w-[70%] flex items-center justify-center mx-auto">
-          <div className="m-auto flex flex-col items-center gap-3 pb-10 bg-white rounded-2xl p-6">
-            <div className="flex justify-end mb-2">
-              <button onClick={() => handleCloseModal()}>
-                <IconX stroke={2} />
-              </button>
-            </div>
-
-            <div className="relative flex justify-between w-full gap-3 mb-3">
+          <form action="">
+            <div className="flex justify-between items-center mb-3">
               <input
                 className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray text-3xl"
                 type="text"
                 placeholder="Agregar Título"
               />
-              <button className="flex items-center justify-end gap-2 right-0 bg-yellow px-5 py-2 rounded-lg font-semibold">
-                save
+              <button className="flex items-center justify-end gap-2 right-0 bg-yellow px-5 py-2 rounded-2xl font-semibold">
+                Save
               </button>
             </div>
-
-            <div className="flex w-full gap-4">
-              <div className="max-w-sm">
+            <div className="grid lg:grid-cols-5 md:grid-cols-4 grid-cols-3 gap-5">
+              <div className="flex justify-center items-center gap-3 md:col-span-5 col-span-3 w-full">
+                <label htmlFor="" className="font-semibold">
+                  Inicio:{" "}
+                </label>
                 <input
                   type="date"
                   className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray"
                   placeholder="Select date"
                 />
               </div>
+              <div className="flex justify-center items-center gap-3 md:col-span-5 col-span-3 w-full">
+                <label htmlFor="" className="font-semibold">
+                  Tiempo:
+                </label>
+                <input
+                  type="time"
+                  id="time"
+                  className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray"
+                  min="09:00"
+                  max="18:00"
+                  value="00:00"
+                  required
+                />
 
-              <div className="">
+                <label htmlFor="">a</label>
+
                 <input
                   type="time"
                   id="time"
@@ -111,25 +62,28 @@ export function EventModal({ handleCloseModal }) {
                 />
               </div>
 
-              <div className="">
-                <p className="font-semibold">A</p>
-              </div>
-
-              <div className="">
+              <div className="flex justify-center items-center gap-3 md:col-span-5 col-span-3 w-full">
+                <label htmlFor="" className="font-semibold">
+                  Fin:
+                </label>
                 <input
-                  type="time"
-                  id="time"
+                  type="date"
                   className="w-full border-x-0 border-t-0 outline-none focus:border-b-[#E8AA42] focus:ring-0 border-b-2 border-b-gray"
-                  min="09:00"
-                  max="18:00"
-                  value="00:00"
-                  required
+                  placeholder="Select date"
                 />
+              </div>
+              <div className="md:col-span-5 col-span-3 w-full">
+                <textarea
+                  name=""
+                  id=""
+                  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray outline-none focus:border-[#E8AA42] focus:ring-0 focus:border-2 h-20"
+                  placeholder="Descripción del Evento"
+                ></textarea>
               </div>
             </div>
-          </div>
+          </form>
         </div>
-      </div> */}
+      </div>
     </>
   );
 }
