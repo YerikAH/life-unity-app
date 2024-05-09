@@ -10,7 +10,7 @@ import {
   IconSalad,
   IconSettings,
   IconListCheck,
-  IconChevronDown,
+  IconChevronDown, IconUser
 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../../../services/auth";
@@ -89,7 +89,17 @@ export const Sidebar = ({
                   </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
+                    to="/kanbanPersonal"
+                    className={getLinkClass("/kanbanPersonal")}
+                    onClick={() => setIsDropOpen(false)}>
+                    <IconUser className="flex-none" />
+                    <span className={`${sidebarCollapsed && "hidden"}`}>
+                      Kanban Board
+                    </span>
+                  </Link>
+                  {/* Cuando haya Team Work se implentara */}
+                  {/* <a
                     className={`cursor-pointer ${getLinkClass("", [
                       "/kanbanTeam",
                       "/kanbanPersonal",
@@ -112,7 +122,7 @@ export const Sidebar = ({
                     drop={isDropOpen}
                     setIsDropOpen={setIsDropOpen}
                     sidebarCollapsed={sidebarCollapsed}
-                  />
+                  /> */}
                 </li>
                 <li>
                   <Link
