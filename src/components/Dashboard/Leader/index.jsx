@@ -1,7 +1,55 @@
-import profileBillie from "../../../assets/images/profileBillie.png";
-import {IconArrowBadgeUpFilled, IconArrowBadgeDownFilled} from "@tabler/icons-react"
+import {
+  IconArrowBadgeUpFilled,
+  IconArrowBadgeDownFilled,
+} from "@tabler/icons-react";
+import { useState } from "react";
+import { data } from "./data";
+import { useEffect } from "react";
+import { auth } from "../../../services/firebase";
 
 export function Leader() {
+  const [dataScore, setDataScore] = useState([]);
+  const [photo, setPhoto] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [up, setUp] = useState(true);
+
+  const fetchDataScore = () => {
+    // Ordenar DATA por puntaje de mayor a menor
+    const sortedData = [...data, user].sort((a, b) => {
+      const result = b.score - a.score;
+      if (b.score > a.score) {
+        a.range = "down";
+      } else {
+        a.range = "up";
+      }
+      return result;
+    });
+    // Tomar los primeros cuatro elementos del array ordenado
+    setDataScore(sortedData);
+    console.log(dataScore);
+  };
+
+  const fetchUser = async () => {
+    setPhoto(false);
+    setIsLoading(true);
+    const currentUser = auth.currentUser;
+    currentUser.score = 100;
+    setUser(currentUser);
+    if (currentUser?.photoURL) {
+      setPhoto(true);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    fetchDataScore();
+  }, [user]);
+
   return (
     <>
       <section className="shadow-xl rounded-xl py-5 px-5 flex flex-col justify-center font-semibold bg-white">
@@ -11,123 +59,185 @@ export function Leader() {
           </h2>
         </div>
         <div className="rounded-xl">
-          <table className="w-full sm:text-sm xl:text-[14px] text-left  text-[#000428]">
-            <thead className="text-[16px] text-[#000428] bg-white">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Rank
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Score
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="bg-white text-[#000428]">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-bold whitespace-nowrap">
-                  <div className="flex items-center gap-3 h-full">
-                    <img
-                      className="rounded-[50%]"
-                      width="35"
-                      height="35"
-                      src={profileBillie}
-                      alt=""
-                    />
-                    <span className="font-semibold">Howard Grimsley</span>
-                  </div>
-                </th>
-                <td className="px-6 py-4">
-                  <div className="flex-1">
-                    <div className="flex gap-1 items-center">
-                        <IconArrowBadgeUpFilled size={24} stroke={1.5} />
-                      <span>1</span>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4">198</td>
-              </tr>
-              <tr className="bg-white text-[#000428]">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-bold whitespace-nowrap">
-                  <div className="flex items-center gap-3 h-full">
-                    <img
-                      className="rounded-[50%]"
-                      width="35"
-                      height="35"
-                      src={profileBillie}
-                      alt=""
-                    />
-                    <span className="font-semibold">Major Speller</span>
-                  </div>
-                </th>
-                <td className="px-6 py-4">
-                  <div className="flex-1">
-                    <div className="flex gap-1 items-center">
-                    <IconArrowBadgeUpFilled size={24} stroke={1.5} />
-                      <span>2</span>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4">189</td>
-              </tr>
-              <tr className="bg-white border-b text-[#000428]">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-bold whitespace-nowrap">
-                  <div className="flex items-center gap-3 h-full">
-                    <img
-                      className="rounded-[50%]"
-                      width="35"
-                      height="35"
-                      src={profileBillie}
-                      alt=""
-                    />
-                    <span className="font-semibold">Marquis Lowe</span>
-                  </div>
-                </th>
-                <td className="px-6 py-4">
-                  <div className="flex-1">
-                    <div className="flex gap-1 items-center">
-                    <IconArrowBadgeDownFilled size={24} stroke={1.5} />
-                      <span>3</span>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4">187</td>
-              </tr>
-              <tr className="bg-white text-[#000428]">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-bold whitespace-nowrap">
-                  <div className="flex items-center gap-3 h-full">
-                    <img
-                      className="rounded-[50%]"
-                      width="35"
-                      height="35"
-                      src={profileBillie}
-                      alt=""
-                    />
-                    <span className="font-semibold">Chandra Mattis</span>
-                  </div>
-                </th>
-                <td className="px-6 py-4">
-                  <div className="flex-1">
-                    <div className="flex gap-1 items-center">
-                    <IconArrowBadgeUpFilled size={24} stroke={1.5} />
-                      <span>8</span>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4">161</td>
-              </tr>
-            </tbody>
-          </table>
+          <div style={{ height: "300px", overflow: "auto" }}>
+            <table className="w-full xl:text-[14px] text-left text-[#000428]">
+              <thead className="text-md text-[#000428] bg-white">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Rank
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Score
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {dataScore.map((item, index) => (
+                  <tr key={item.id} className="bg-white text-[#000428]">
+                    <th
+                      scope="row"
+                      className="px-6 py-2 font-bold whitespace-nowrap w-full">
+                      <div className="flex items-center gap-3 h-full">
+                        {!item.name ? (
+                          <img
+                            src={user?.photoURL}
+                            className="size-8 rounded-full"
+                          />
+                        ) : (
+                          <svg
+                            viewBox="0 0 36 36"
+                            fill="none"
+                            role="img"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="30"
+                            height="30">
+                            <mask
+                              id=":ri:"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="36"
+                              height="36">
+                              <rect
+                                width="36"
+                                height="36"
+                                rx="72"
+                                fill="#FFFFFF"></rect>
+                            </mask>
+                            <g mask="url(#:ri:)">
+                              <rect
+                                width="36"
+                                height="36"
+                                fill="#cf023b"></rect>
+                              <rect
+                                x="0"
+                                y="0"
+                                width="36"
+                                height="36"
+                                transform="translate(-4 8) rotate(168 18 18) scale(1)"
+                                fill="#f4a854"
+                                rx="36"></rect>
+                              <g transform="translate(0 4) rotate(-8 18 18)">
+                                <path
+                                  d="M13,19 a1,0.75 0 0,0 10,0"
+                                  fill="#000000"></path>
+                                <rect
+                                  x="11"
+                                  y="14"
+                                  width="1.5"
+                                  height="2"
+                                  rx="1"
+                                  stroke="none"
+                                  fill="#000000"></rect>
+                                <rect
+                                  x="23"
+                                  y="14"
+                                  width="1.5"
+                                  height="2"
+                                  rx="1"
+                                  stroke="none"
+                                  fill="#000000"></rect>
+                              </g>
+                            </g>
+                          </svg>
+                        )}
+                        <span className="font-semibold">
+                          {item.name || user?.displayName}
+                        </span>
+                      </div>
+                    </th>
+                    <td className="px-6 py-4">
+                      <div className="flex-1">
+                        <div className="flex gap-1 items-center">
+                          {item.range === "up" ? (
+                            <IconArrowBadgeUpFilled size={20} />
+                          ) : (
+                            <IconArrowBadgeDownFilled size={20} />
+                          )}
+                          <span>{index + 1}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">{item.score}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="border-t-2 border-gray flex justify-between">
+            <div className="px-6 py-2 font-bold flex gap-5 items-center">
+              <div className="flex items-center gap-3 size-12">
+                {isLoading ? null : photo ? (
+                  <img
+                    src={user?.photoURL}
+                    alt="avatar"
+                    className="size-full object-cover rounded-full"
+                  />
+                ) : (
+                  <svg
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="80"
+                    height="80"
+                    className="size-full">
+                    <mask
+                      id=":r80:"
+                      maskUnits="userSpaceOnUse"
+                      x="0"
+                      y="0"
+                      width="36"
+                      height="36">
+                      <rect
+                        width="36"
+                        height="36"
+                        rx="72"
+                        fill="#FFFFFF"></rect>
+                    </mask>
+                    <g mask="url(#:r80:)">
+                      <rect width="36" height="36" fill="#000428"></rect>
+                      <rect
+                        x="0"
+                        y="0"
+                        width="36"
+                        height="36"
+                        transform="translate(-5 9) rotate(189 18 18) scale(1)"
+                        fill="#f9a826"
+                        rx="36"></rect>
+                      <g transform="translate(-5 4.5) rotate(9 18 18)">
+                        <path
+                          d="M13,19 a1,0.75 0 0,0 10,0"
+                          fill="#000000"></path>
+                        <rect
+                          x="10"
+                          y="14"
+                          width="1.5"
+                          height="2"
+                          rx="1"
+                          stroke="none"
+                          fill="#000000"></rect>
+                        <rect
+                          x="24"
+                          y="14"
+                          width="1.5"
+                          height="2"
+                          rx="1"
+                          stroke="none"
+                          fill="#000000"></rect>
+                      </g>
+                    </g>
+                  </svg>
+                )}
+              </div>
+              <span className="font-semibold">{user?.displayName}</span>
+            </div>
+            {/* cambiar el score segun redux de habitos los puntos */}
+            <span className="px-6 py-4 mr-4">{user?.score}</span>
+          </div>
         </div>
       </section>
     </>
