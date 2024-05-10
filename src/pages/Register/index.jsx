@@ -30,7 +30,6 @@ export function Register() {
 
   const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true);
-    console.log(data);
     reset();
     await createUser(data.email, data.password);
     const name= data.firstName+" "+data.lastName;
