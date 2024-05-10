@@ -25,7 +25,6 @@ export function HealthRecipes() {
         data = JSON.stringify(recipesData);
         sessionStorage.setItem('recipes', data);
       }
-      console.log(JSON.parse(data))
       setRecipes(JSON.parse(data));
     };
   

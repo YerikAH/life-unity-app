@@ -1,77 +1,149 @@
-/* eslint-disable react/no-unknown-property */
-import { Calendar, dayjsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import dayjs from "dayjs";
-import "dayjs/locale/es";
-import { Calendar as DateCalendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "./index.css";
 import { useState } from "react";
-import { EventModal } from "../EventModal";
+import Paper from "@mui/material/Paper";
+import {
+  ViewState,
+  EditingState,
+  IntegratedEditing,
+} from "@devexpress/dx-react-scheduler";
+import {
+  Scheduler,
+  Resources,
+  DayView,
+  Appointments,
+  CurrentTimeIndicator,
+  AppointmentForm,
+  AppointmentTooltip,
+  ConfirmationDialog,
+} from "@devexpress/dx-react-scheduler-material-ui";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { resourcesData } from "./resources";
 
 export function CalendarView() {
-  dayjs.locale("es");
-  const localizer = dayjsLocalizer(dayjs);
-
-  const events = [
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [data, setData] = useState(
+    localStorage.getItem("appointments")
+      ? JSON.parse(localStorage.getItem("appointments"))
+      : []
+  );
+  const [openForm, setOpenForm] = useState(false);
+  const [resources, setResources] = useState([
     {
-      start: dayjs("2024-05-07T10:00:00").toDate(),
-      end: dayjs("2024-05-07T13:00:00").toDate(),
-      title: "Evento 1",
+      title: "Color",
+      instances: resourcesData,
     },
-  ];
+  ]);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const handlePrevDay = () => {
+    const prevDay = new Date(selectedDate);
+    prevDay.setDate(prevDay.getDate() - 1);
+    setSelectedDate(prevDay);
+  };
 
-  const handleOpenModalEvent = () => {
-    setIsOpen(!isOpen);
+  const handleNextDay = () => {
+    const nextDay = new Date(selectedDate);
+    nextDay.setDate(nextDay.getDate() + 1);
+    setSelectedDate(nextDay);
+  };
+  const handleToday = () => {
+    const today = new Date();
+    setSelectedDate(today);
+  };
+
+  const commitChanges = ({ added, changed, deleted }) => {
+    setData((prevData) => {
+      let newData = [...prevData];
+      if (added) {
+        const startingAddedId =
+          prevData.length > 0 ? prevData[prevData.length - 1].id + 1 : 0;
+        newData = [...prevData, { id: startingAddedId, ...added }];
+      }
+      if (changed) {
+        newData = newData.map((appointment) =>
+          changed[appointment.id]
+            ? { ...appointment, ...changed[appointment.id] }
+            : appointment
+        );
+      }
+      if (deleted !== undefined) {
+        newData = newData.filter((appointment) => appointment.id !== deleted);
+      }
+
+      localStorage.setItem("appointments", JSON.stringify(newData));
+
+      return newData;
+    });
+  };
+
+  const TimeIndicator = ({ top, ...restProps }) => (
+    <div className="relative" {...restProps}>
+      <div className="absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-primary" />
+      <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-full border-t-2 border-dotted border-primary" />
+    </div>
+  );
+
+  const handleOpenForm = () => {
+    setOpenForm(true);
   };
 
   return (
     <>
-      <section className="py-5 px-5 flex flex-col justify-between font-semibold h-auto bg-white lg:row-span-2 md:max-h-full">
-        <div className="overflow-auto mx-5">
-          <button
-            onClick={handleOpenModalEvent}
-            className='flex p-2 border-2 border-["#000428"] rounded-xl text-[#000428] font-bold hover:bg-[#000428] hover:text-white'
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus me-2"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-              <path d="M9 12h6" />
-              <path d="M12 9v6" />
-            </svg>
-            Crear Evento
-          </button>
-
-          <div className="pt-5 w-full">
-            <DateCalendar />
+      <section className="xl:col-span-3 py-5 px-5 flex flex-col justify-between font-semibold bg-white order-5 shadow-xl rounded-xl overflow-auto">
+        <div className="flex justify-between mb-2">
+          <div className="w-full flex gap-2 items-center">
+            <button
+              className="flex gap-5 border rounded-xl px-3 py-1"
+              onClick={handleOpenForm}>
+              <span className="text-primary">+</span> New Event
+            </button>
+            <span className="text-sm font-semibold">*Remember to change hours*</span>
+          </div>
+          <div className="flex gap-5 w-full justify-end items-center">
+            <button
+              className="border px-3 py-1 rounded-2xl hover:border-white hover:text-white hover:bg-primary transition duration-300"
+              onClick={handleToday}>
+              Today
+            </button>
+            <div className="text-yellow font-semibold text-xl border-b pb-[1px]">
+              <span className=" border-b">{selectedDate.toDateString()}</span>
+            </div>
+            <button
+              onClick={handlePrevDay}
+              className="hover:text-white hover:rounded-xl p-2  hover:bg-primary ">
+              <IconChevronLeft />
+            </button>
+            <button
+              onClick={handleNextDay}
+              className="hover:text-white hover:rounded-xl p-2  hover:bg-primary">
+              <IconChevronRight />
+            </button>
           </div>
         </div>
+        <Paper>
+          <Scheduler data={data}>
+            <ViewState currentDate={selectedDate} />
+            <EditingState onCommitChanges={commitChanges} />
+            <IntegratedEditing />
+            <DayView startDayHour={9} endDayHour={24} />
+
+            <ConfirmationDialog />
+            <Appointments />
+            <AppointmentTooltip showOpenButton showDeleteButton />
+            <AppointmentForm
+              visible={openForm}
+              onVisibilityChange={(visible) => setOpenForm(visible)}
+              resources={resources}
+            />
+            <Resources data={resources} />
+            <CurrentTimeIndicator
+              indicatorComponent={TimeIndicator}
+              shadePreviousCells
+              shadePreviousAppointments
+            />
+          </Scheduler>
+        </Paper>
       </section>
-
-      <section className="lg:col-span-2 py-5 px-5 flex justify-between font-semibold h-auto bg-white lg:row-span-2 md:max-h-full">
-        <div className="col-span-2 w-full overflow-auto">
-          <h3 className="text-xl font-bold pb-4 text-[#000428]">Current Day</h3>
-
-          <div className="w-full h-[500px]">
-            <Calendar localizer={localizer} view={["day"]} events={events} />
-          </div>
-        </div>
-      </section>
-
-      {isOpen && <EventModal handleCloseModal={handleOpenModalEvent} />}
     </>
   );
 }

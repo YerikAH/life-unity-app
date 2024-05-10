@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { loginUser, loginWithGoogle } from "../../services/auth";
 
 export function Login() {
+  const [error, setError] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
   const { changeTitle } = useTitle();
   const togglePassword = () => setShowPassword(!showPassword);
@@ -32,9 +33,10 @@ export function Login() {
     const logeado = await loginUser(data.email, data.password);
     if (logeado) {
       //hacia donde quiero que me redireccione cuando me loguee
+      setError(false);
       navigate("/");
     } else {
-      setError("Email or password incorrect");
+      setError(true);
     }
   });
 
@@ -150,16 +152,11 @@ export function Login() {
                   </button>
                 </div>
               </div>
-              {false && (
+              {error && (
                 <p className="text-red-500 text-xs font-semibold mb-3">
                   The email or password is incorrect
                 </p>
               )}
-              {/* <div className="font-primary flex justify-end text-xs items-center font-semibold">
-                <a href="#" className={`text-sm ${s.forgot} pb-1 relative `}>
-                  Forgot your password?
-                </a>
-              </div> */}
               <button
                 type="submit"
                 name="login-btn"
