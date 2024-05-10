@@ -4,14 +4,14 @@ import {IconArrowBadgeUpFilled, IconArrowBadgeDownFilled} from "@tabler/icons-re
 export function Leader() {
   return (
     <>
-      <section className="shadow-xl rounded-xl py-5 px-5 flex flex-col justify-center font-semibold h-auto bg-white md:max-h-full">
+      <section className="shadow-xl rounded-xl py-5 px-5 flex flex-col justify-center font-semibold bg-white">
         <div className="flex justify-between items-center mb-4">
-          <h2 class="text-2xl font-bold text-center md:text-left w-full">
+          <h2 className="text-2xl font-bold text-center md:text-left w-full">
             Leader Board
           </h2>
         </div>
-        <div className="relative overflow-hidden rounded-xl">
-          <table className="w-full sm:text-sm xl:text-[14px] text-left rtl:text-right text-[#000428]">
+        <div className="rounded-xl">
+          <table className="w-full sm:text-sm xl:text-[14px] text-left  text-[#000428]">
             <thead className="text-[16px] text-[#000428] bg-white">
               <tr>
                 <th scope="col" className="px-6 py-3">

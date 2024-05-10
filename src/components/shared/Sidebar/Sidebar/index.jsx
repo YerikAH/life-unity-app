@@ -53,9 +53,9 @@ export const Sidebar = ({
   return (
     <>
       <aside
-        className={`z-10 fixed bottom-0 p-3 w-full md:p-6 md:h-full md:w-auto`}>
+        className={`z-10 fixed bottom-0 p-3 w-full md:p-6 md:h-full md:w-auto overflow-auto`}>
         <div
-          className={`w-full bg-primary h-[70px] flex justify-center rounded-[35px] md:flex-col md:justify-between md:py-16 md:h-full  ${widthSidebarOpen}`}>
+          className={`w-full bg-primary h-[70px] flex justify-center rounded-[35px] md:flex-col md:justify-between md:py-16 md:h-full overflow-auto ${widthSidebarOpen}`}>
           <div className="flex gap-5 md:w-full md:flex-col md:gap-10">
             <SidebarLogo
               open={sidebarCollapsed}

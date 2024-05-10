@@ -18,7 +18,6 @@
     "@mui/material": "^5.15.16",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@mui/x-charts": "^7.3.2",
-    "@mui/x-date-pickers": "^7.3.2",
     "@reduxjs/toolkit": "^2.2.3",
     "@tabler/icons-react": "^3.2.0",
     "apexcharts": "^3.49.0",

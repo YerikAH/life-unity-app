@@ -23,7 +23,7 @@ export function Profile() {
 
   return (
     <>
-      <section className="shadow-xl rounded-xl py-5 px-5 flex flex-col justify-center items-center font-semibold bg-white md:max-h-full order-first xl:order-2">
+      <section className="shadow-xl rounded-xl py-5 px-5 flex flex-col justify-center items-center font-semibold bg-white order-first xl:order-3">
         {isLoading ? null : photo ? (
           <div className="bg-white p-1 rounded-full shadow-lg size-40 md:size-56 mb-5">
             <img

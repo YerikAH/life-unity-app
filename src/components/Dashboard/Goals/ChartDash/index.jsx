@@ -6,23 +6,35 @@ import { useSelector } from "react-redux";
 export function ChartDash() {
   const chartRef = useRef(null);
   const totalValues = useSelector((state) => state.nutrition.totalValues);
-  const caloriesRecommended = useSelector(
-    (state) => state.nutrition.valuesRecommended?.cal || 0
-  );
-  const caloriesConsumed = useSelector(
-    (state) => state.nutrition.totalValues?.totalCal || 0
+  const valuesRecommended = useSelector(
+    (state) => state.nutrition.valuesRecommended
   );
 
   useEffect(() => {
     const chart = new ApexCharts(chartRef.current, dataRadial);
     chart.render();
 
-    chart.updateSeries([caloriesConsumed, caloriesRecommended]);
-  }, [totalValues, caloriesRecommended, caloriesConsumed]);
+    const carbsPercentage =
+      (totalValues.totalCarbs / valuesRecommended.carbs) * 100;
+    const proteinPercentage =
+      (totalValues.totalProtein / valuesRecommended.protein) * 100;
+    const calPercentage = (totalValues.totalCal / valuesRecommended.cal) * 100;
+    const fatPercentage = (totalValues.totalFat / valuesRecommended.fat) * 100;
+    const waterPercentage =
+      (totalValues.totalWater / valuesRecommended.water.cups) * 100;
+
+    chart.updateSeries([
+      carbsPercentage,
+      proteinPercentage,
+      calPercentage,
+      fatPercentage,
+      waterPercentage,
+    ]);
+  }, [totalValues]);
 
   const dataRadial = {
-    series: [caloriesConsumed, caloriesRecommended],
-    colors: ["#000428", "#FDBA8C"],
+    series: [0, 0, 0, 0, 0],
+    colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#A91D3A", "#240A34"],
     chart: {
       height: "380px",
       width: "100%",
@@ -55,7 +67,7 @@ export function ChartDash() {
         bottom: -20,
       },
     },
-    labels: ["Completed", "Total"],
+    labels: ["Carbs", "Protein", "Calories", "Fat", "Water"],
     legend: {
       show: true,
       position: "bottom",
@@ -71,13 +83,13 @@ export function ChartDash() {
       show: false,
       labels: {
         formatter: function (value) {
-          return value + "%";
+          return value.toFixed(2) + "%";
         },
       },
     },
   };
 
-  return <div id="donut-chart" ref={chartRef} className="text-sm"></div>;
+  return <div id="radial-chart" ref={chartRef} className="text-sm"></div>;
 }
 
 export default ChartDash;

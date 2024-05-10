@@ -1,13 +1,6 @@
-/* eslint-disable react/no-unknown-property */
-import { Calendar, dayjsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import dayjs from "dayjs";
-import "dayjs/locale/es";
-import { Calendar as DateCalendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "./index.css";
 import { useState } from "react";
-import { EventModal } from "../EventModal";
 import Paper from "@mui/material/Paper";
 import {
   ViewState,
@@ -16,39 +9,32 @@ import {
 } from "@devexpress/dx-react-scheduler";
 import {
   Scheduler,
+  Resources,
   DayView,
-  MonthView,
-  Toolbar,
-  DateNavigator,
-  TodayButton,
   Appointments,
+  CurrentTimeIndicator,
   AppointmentForm,
   AppointmentTooltip,
   ConfirmationDialog,
 } from "@devexpress/dx-react-scheduler-material-ui";
-// import { DateCalendar } from "@mui/x-date-pickers";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { resourcesData } from "./resources";
 
 export function CalendarView() {
-  // dayjs.locale("es");
-  // const localizer = dayjsLocalizer(dayjs);
-
-  // const events = [
-  //   {
-  //     start: dayjs("2024-05-07T10:00:00").toDate(),
-  //     end: dayjs("2024-05-07T13:00:00").toDate(),
-  //     title: "Evento 1",
-  //   },
-  // ];
-
-  // const [isOpen, setIsOpen] = useState(false);
-
-  // const handleOpenModalEvent = () => {
-  //   setIsOpen(!isOpen);
-  // };
-
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [events, setEvents] = useState([]);
-  
+  const [data, setData] = useState(
+    localStorage.getItem("appointments")
+      ? JSON.parse(localStorage.getItem("appointments"))
+      : []
+  );
+  const [openForm, setOpenForm] = useState(false);
+  const [resources, setResources] = useState([
+    {
+      title: "Color",
+      instances: resourcesData,
+    },
+  ]);
+
   const handlePrevDay = () => {
     const prevDay = new Date(selectedDate);
     prevDay.setDate(prevDay.getDate() - 1);
@@ -60,60 +46,104 @@ export function CalendarView() {
     nextDay.setDate(nextDay.getDate() + 1);
     setSelectedDate(nextDay);
   };
-
-  const handleAddEvent = () => {
-    const newEvent = {
-      id: events.length + 1,
-      title: 'Nuevo Evento',
-      startDate: new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 10),
-      endDate: new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 11),
-    };
-    console.log(events, newEvent);
-
-    setEvents([...events, newEvent]);
+  const handleToday = () => {
+    const today = new Date();
+    setSelectedDate(today);
   };
 
-  const Appointment = ({ children, style, ...restProps }) => (
-    <Appointments.Appointment
-      {...restProps}
-      style={{
-        ...style,
-        // CAMBIAR COLOR SEGUN SE INDIQUE
-        backgroundColor: "#FFC107",
-        borderRadius: "8px",
-      }}>
-      {children}
-    </Appointments.Appointment>
+  const commitChanges = ({ added, changed, deleted }) => {
+    setData((prevData) => {
+      let newData = [...prevData];
+      if (added) {
+        const startingAddedId =
+          prevData.length > 0 ? prevData[prevData.length - 1].id + 1 : 0;
+        newData = [...prevData, { id: startingAddedId, ...added }];
+      }
+      if (changed) {
+        newData = newData.map((appointment) =>
+          changed[appointment.id]
+            ? { ...appointment, ...changed[appointment.id] }
+            : appointment
+        );
+      }
+      if (deleted !== undefined) {
+        newData = newData.filter((appointment) => appointment.id !== deleted);
+      }
+
+      localStorage.setItem("appointments", JSON.stringify(newData));
+
+      return newData;
+    });
+  };
+
+  const TimeIndicator = ({ top, ...restProps }) => (
+    <div className="relative" {...restProps}>
+      <div className="absolute top-0 left-0 transform -translate-x-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-primary" />
+      <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-full border-t-2 border-dotted border-primary" />
+    </div>
   );
+
+  const handleOpenForm = () => {
+    setOpenForm(true);
+  };
 
   return (
     <>
-      <section className="py-5 px-5 flex flex-col justify-between font-semibold bg-white order-4 overflow-hidden shadow-xl rounded-xl">
-        <DateCalendar showDaysOutsideCurrentMonth fixedWeekNumber={6} />
-      </section>
-
-      <section className="lg:col-span-2 py-5 px-5 flex justify-between font-semibold bg-white order-5 shadow-xl rounded-xl">
-        <div>
-          <button onClick={handlePrevDay}>Anterior</button>
-          <span>{selectedDate.toDateString()}</span>
-          <button onClick={handleNextDay}>Siguiente</button>
-          <button onClick={handleAddEvent}>Agregar Evento</button>
+      <section className="xl:col-span-3 py-5 px-5 flex flex-col justify-between font-semibold bg-white order-5 shadow-xl rounded-xl overflow-auto">
+        <div className="flex justify-between mb-2">
+          <div className="w-full flex gap-2 items-center">
+            <button
+              className="flex gap-5 border rounded-xl px-3 py-1"
+              onClick={handleOpenForm}>
+              <span className="text-primary">+</span> New Event
+            </button>
+            <span className="text-sm font-semibold">*Remember to change hours*</span>
+          </div>
+          <div className="flex gap-5 w-full justify-end items-center">
+            <button
+              className="border px-3 py-1 rounded-2xl hover:border-white hover:text-white hover:bg-primary transition duration-300"
+              onClick={handleToday}>
+              Today
+            </button>
+            <div className="text-yellow font-semibold text-xl border-b pb-[1px]">
+              <span className=" border-b">{selectedDate.toDateString()}</span>
+            </div>
+            <button
+              onClick={handlePrevDay}
+              className="hover:text-white hover:rounded-xl p-2  hover:bg-primary ">
+              <IconChevronLeft />
+            </button>
+            <button
+              onClick={handleNextDay}
+              className="hover:text-white hover:rounded-xl p-2  hover:bg-primary">
+              <IconChevronRight />
+            </button>
+          </div>
         </div>
         <Paper>
-          <Scheduler data={events}>
+          <Scheduler data={data}>
             <ViewState currentDate={selectedDate} />
-            <EditingState onCommitChanges={handleAddEvent} />
+            <EditingState onCommitChanges={commitChanges} />
             <IntegratedEditing />
-            <DayView startDayHour={9} endDayHour={14} />
-            <Appointments />
-            <AppointmentTooltip />
-            <AppointmentForm />
+            <DayView startDayHour={9} endDayHour={24} />
+
             <ConfirmationDialog />
+            <Appointments />
+            <AppointmentTooltip showOpenButton showDeleteButton />
+            <AppointmentForm
+              visible={openForm}
+              onVisibilityChange={(visible) => setOpenForm(visible)}
+              resources={resources}
+            />
+            <Resources data={resources} />
+            <CurrentTimeIndicator
+              indicatorComponent={TimeIndicator}
+              shadePreviousCells
+              shadePreviousAppointments
+            />
           </Scheduler>
         </Paper>
       </section>
-
-      {/* {isOpen && <EventModal handleCloseModal={handleOpenModalEvent} />} */}
     </>
   );
 }
