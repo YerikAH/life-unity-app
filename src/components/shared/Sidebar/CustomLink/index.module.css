@@ -1,0 +1,40 @@
+.items {
+  color: white;
+}
+
+.items:hover,
+.active {
+  background-color: white;
+  color: #000428;
+  transition: 0.3s;
+}
+
+.items::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: -20px;
+  right: 0;
+  border-radius: 50%;
+}
+
+.items::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: -20px;
+  right: 0;
+  border-radius: 50%;
+}
+
+.items:hover::before,
+.active::before {
+  box-shadow: 10px 10px 0 0 white;
+}
+
+.items:hover::after,
+.active::after {
+  box-shadow: 10px -10px 0 0 white;
+}

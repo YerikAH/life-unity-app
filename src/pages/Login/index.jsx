@@ -6,7 +6,7 @@ import google from "../../assets/google.svg";
 import logo from "../../assets/logo.svg";
 import imgLogin from "../../assets/img-login.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
 import { loginUser, loginWithGoogle } from "../../services/auth";
@@ -14,19 +14,15 @@ import { loginUser, loginWithGoogle } from "../../services/auth";
 export function Login() {
   const [error, setError] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
-  const { changeTitle } = useTitle();
   const togglePassword = () => setShowPassword(!showPassword);
   const navigate = useNavigate();
+  useTitle("Login - LifeUnity");
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
-
-  useEffect(() => {
-    changeTitle("Login - LifeUnity");
-  }, []);
 
   const onSubmit = handleSubmit(async (data) => {
     reset();
@@ -51,9 +47,9 @@ export function Login() {
   };
 
   const loginGoogle = async () => {
-    try{
+    try {
       await loginWithGoogle();
-    }catch(error){
+    } catch (error) {
       return null;
     }
   }

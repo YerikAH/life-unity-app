@@ -1,17 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html", 
+    "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/flowbite/**/*.js",
-    "./node_modules/flowbite-react/lib/esm/**/*.js"
+    "./node_modules/flowbite-react/lib/esm/**/*.js",
   ],
   theme: {
     extend: {
       colors: {
-        primary: "#000428",
-        gray: "#eeeff1",
-        yellow: "#E8AA42"
+        primary: "#181D26",
+        grey: "#eeeff1",
+        yellow: "#E8AA42",
       },
     },
     fontFamily: {
@@ -19,9 +19,8 @@ export default {
     },
   },
   plugins: [
-    require('flowbite/plugin')({
+    require("flowbite/plugin")({
       charts: true,
-  }),
-]
-
+    }),
+  ],
 };
