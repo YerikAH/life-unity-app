@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-//slice conjunto de variables y de funciones, las slices usualmente almacenan variables y funciones enfocados en una parte del proyecto
 const nutritionSlice = createSlice({
-  //nombre unico por slice y el estado inicial
   name: "nutrition",
   initialState: {
     valuesRecommended: 
@@ -17,8 +15,8 @@ const nutritionSlice = createSlice({
             liter: 0,
             cups: 0,
           },
-        }, //valor de lo graficos tanto de la barra como de la torta
-    valuesConsumed: [], //valor de lo graficos tanto de la barra como de la torta
+        }, 
+    valuesConsumed: [], 
     userData: localStorage.getItem("userData")
       ? JSON.parse(localStorage.getItem("userData"))
       : {},
@@ -32,7 +30,6 @@ const nutritionSlice = createSlice({
           totalWater: 0,
         },
   },
-  //reducers con s son funciones que se coloca como objeto
   reducers: {
     setUserData: (state, param) => {
       state.userData = param.payload;
@@ -88,10 +85,8 @@ const nutritionSlice = createSlice({
   },
 });
 
-//para poder utilizar esto dentro del store debo exportarlo como un reducer
 export const nutritionSliceReducer = nutritionSlice.reducer;
 
-//para poder exportar las funciones que estan dentro del slice debo usar la propiedar actions
 export const {
   setUserData,
   setValuesRecommended,

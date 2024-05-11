@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useCallback, useState } from "react";
 import { IconX, IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Step1 from "./Step1";
@@ -40,7 +39,6 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved}) {
     const birthDateObj = new Date(birthDate);
     let age = today.getFullYear() - birthDateObj.getFullYear();
     const month = today.getMonth() - birthDateObj.getMonth();
-    //si el mes es menor (mes de nacimiento mayor al actual) o si el mes es igual pero el dia es menor todavia no se cumple años
     return (month < 0 || (month === 0 && today.getDate() < birthDateObj.getDate()))? age - 1 : age;
   };
 

@@ -49,7 +49,6 @@ export function ProgressValue() {
             </span>
           </div>
           <div className="w-full bg-gray rounded-full h-2.5 mb-4 ">
-            {/* dependiendo de estadisticas se va a actualizar el w con porcentajes */}
             <div
               className={`bg-gradient-to-r from-[#E8AA42] h-2.5 rounded-full`}
               style={{ width: `${carbsData.percentage}%`, backgroundColor: carbsData.color }}></div>
