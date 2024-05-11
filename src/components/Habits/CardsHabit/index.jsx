@@ -3,8 +3,9 @@ import {
   Draggable,
   Droppable,
 } from "react-beautiful-dnd";
-import { CardHabit } from "../";
+import { CardHabit, ModalCreate, ModalRemove } from "../";
 import { IconCoffee } from "@tabler/icons-react";
+import { useState } from "react";
 
 
 const habits = [
@@ -172,6 +173,18 @@ const habits = [
 ]
 
 export const CardsHabit = () => {
+  const [openRemove, setOpenRemove] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
+
+  const [id, setId] = useState("");
+
+  const openModalRemove = (id) => {
+    setOpenRemove(true);
+    setId(id);
+  };
+  const openModalCreate = () => {
+    setOpenCreate(true);
+  };
   return (
     <div className="mt-5 shadow-sm rounded-md border">
 
@@ -197,7 +210,7 @@ export const CardsHabit = () => {
                       {...draggableProvided.draggableProps}
                       {...draggableProvided.dragHandleProps}
                     >
-                      <CardHabit duration={habit.duration} name={habit.name} time={habit.time} key={habit.id} color={habit.color} icon={<habit.icon className="w-6 h-6 text-white" />} />
+                      <CardHabit id={habit.id} openModalEdit={openModalCreate} openModalRemove={openModalRemove} duration={habit.duration} name={habit.name} time={habit.time} key={habit.id} color={habit.color} icon={<habit.icon className="w-6 h-6 text-white" />} />
                     </li>
                   )}
                 </Draggable>
@@ -207,7 +220,8 @@ export const CardsHabit = () => {
           )}
         </Droppable>
       </DragDropContext>
-
+      <ModalRemove open={openRemove} setOpen={setOpenRemove} id={id} />
+      <ModalCreate open={openCreate} setOpen={setOpenCreate} />
     </div>
   )
 }

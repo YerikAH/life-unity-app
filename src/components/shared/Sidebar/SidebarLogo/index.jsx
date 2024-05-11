@@ -1,22 +1,21 @@
-import logo from '../../../../assets/logo.svg'
-export const SidebarLogo = ({ open, handleSidebar }) => {
+import logo from "../../../../assets/logo.svg";
+
+export const SidebarLogo = ({ collapsed, handleCollapsed }) => {
   return (
-    <>
-      <button
-        id="title"
-        className={`md:w-full text-white text-3xl items-center justify-center md:h-[40px] hidden ${open ? "" : "md:flex"
-          }`}
-        onClick={handleSidebar}>
-        <h2 className='font-primary'>
-          <span className="font-bold">Life</span>Unity
+    <button
+      className="w-full items-center justify-center flex px-4 active:scale-95"
+      onClick={handleCollapsed}
+    >
+      {collapsed ? (
+        <div className="w-full max-w-16">
+          <img className="w-full object-cover" src={logo} alt="Logo Life Unity" />
+        </div>
+      ) : (
+        <h2 className="font-primary text-3xl text-white">
+          <span className="font-extrabold tracking-tighter">Life</span>
+          <span className="tracking-tighter">Unity</span>
         </h2>
-      </button>
-      <button
-        className={`md:w-full items-center justify-center md:h-[40px] hidden ${open ? "md:flex" : ""
-          }`}
-        onClick={handleSidebar}>
-        <img className="size-[60px]" src={logo} alt="Logo Life Unity" />
-      </button>
-    </>
+      )}
+    </button>
   );
-}
+};

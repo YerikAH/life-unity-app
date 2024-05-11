@@ -15,7 +15,7 @@
   }
 }
 
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
   background-color: #000428;
   border-radius: 5px;
 }
@@ -29,4 +29,4 @@
 ::-webkit-scrollbar-track {
   width: 5px;
   background-color: transparent;
-}
+} */

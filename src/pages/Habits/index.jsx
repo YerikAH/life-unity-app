@@ -22,7 +22,7 @@ export function Habits() {
           <div className="flex items-center justify-start gap-2 rounded-md border shadow py-4 px-4 w-full">
             <IconTargetArrow className="w-8 h-8" />
             <div className="grid">
-              <h2 className="text-[0.7rem] font-bold text-gray-900 font-primary tracking-widest">RACHA ACTUAL</h2>
+              <h2 className="text-[0.7rem] font-bold text-gray-900 font-primary tracking-widest">MEJOR RACHA</h2>
               <p className="text-base text-gray-500 font-primary">14 días</p>
             </div>
           </div>

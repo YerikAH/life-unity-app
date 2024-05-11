@@ -3,9 +3,9 @@ import { Menu, Transition } from "@headlessui/react"
 import { Fragment } from "react"
 import { IconDotsVertical } from "@tabler/icons-react"
 
-export const CardHabit = ({ name, time, duration, color, icon }) => {
+export const CardHabit = ({ id, name, time, duration, color, icon, openModalRemove, openModalEdit }) => {
   return (
-    <li className="relative flex justify-between p-5 bg-white">
+    <li className="relative flex justify-between p-5  backdrop-blur-sm rounded-md z-10 ">
       <div className="flex gap-x-4 pr-6 sm:w-1/2 sm:flex-none">
 
         <div className=" h-12 w-12 grid place-items-center">
@@ -33,7 +33,7 @@ export const CardHabit = ({ name, time, duration, color, icon }) => {
           </p>
         </div>
 
-        <Menu as="div" className="relative flex-none">
+        <Menu as="div" className="relative flex-none z-20">
           <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
             <span className="sr-only">Open options</span>
             <IconDotsVertical className="h-5 w-5" aria-hidden="true" />
@@ -47,9 +47,10 @@ export const CardHabit = ({ name, time, duration, color, icon }) => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+            <Menu.Items className="absolute right-0 z-20 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
               <Menu.Item>
                 <button
+                  onClick={() => openModalEdit(id)}
                   className='hover:bg-gray-50 block px-3 py-1  w-full text-left text-sm leading-6 text-gray-900 font-primary'
                 >
                   Edit
@@ -57,6 +58,7 @@ export const CardHabit = ({ name, time, duration, color, icon }) => {
               </Menu.Item>
               <Menu.Item>
                 <button
+                  onClick={() => openModalRemove(id)}
                   className='hover:bg-gray-50 w-full text-left block px-3 py-1 text-sm leading-6 text-gray-900 font-primary'
                 >
                   Delete

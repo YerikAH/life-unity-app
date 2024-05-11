@@ -51,7 +51,7 @@ export const Calendar = () => {
     <div className='mt-8'>
       <div className="flex items-center">
         <h2 className="flex-auto text-sm font-semibold font-primary
-         text-gray-900">January 2022</h2>
+         text-gray-900">May 2024</h2>
         <button
           type="button"
           className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
