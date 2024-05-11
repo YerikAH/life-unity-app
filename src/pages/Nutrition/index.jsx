@@ -9,7 +9,7 @@ import {
 import { useEffect } from "react";
 import { useTitle } from "../../hooks";
 export function Nutrition() {
-  const { changeTitle } = useTitle();
+  useTitle("Nutrition - LifeUnity");
 
   useEffect(() => {
     const setMidnightClear = () => {
@@ -29,7 +29,6 @@ export function Nutrition() {
     };
 
     setMidnightClear();
-    changeTitle("Nutrition - LifeUnity");
   }, []);
 
   return (

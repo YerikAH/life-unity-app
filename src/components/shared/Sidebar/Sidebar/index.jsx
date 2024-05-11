@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { SidebarDrop } from "../SidebarDrop";
 import { SidebarLogo } from "../SidebarLogo";
 import s from "./index.module.css";
 import {
@@ -9,8 +8,7 @@ import {
   IconPuzzle,
   IconSalad,
   IconSettings,
-  IconListCheck,
-  IconChevronDown, IconUser
+  IconUser
 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../../../services/auth";
@@ -53,7 +51,7 @@ export const Sidebar = ({
   return (
     <>
       <aside
-        className={`z-10 fixed bottom-0 p-3 w-full md:p-6 md:h-full md:w-auto overflow-auto`}>
+        className="z-10 bottom-0 p-3 w-full md:p-6 md:h-full md:w-auto fixed md:static overflow-auto">
         <div
           className={`w-full bg-primary h-[70px] flex justify-center rounded-[35px] md:flex-col md:justify-between md:py-16 md:h-full overflow-auto ${widthSidebarOpen}`}>
           <div className="flex gap-5 md:w-full md:flex-col md:gap-10">
@@ -62,9 +60,8 @@ export const Sidebar = ({
               handleSidebar={handleSidebar}
             />
             <nav
-              className={`w-full ${s.options} ${
-                sidebarCollapsed && "md:ps-5"
-              }`}>
+              className={`w-full ${s.options} ${sidebarCollapsed && "md:ps-5"
+                }`}>
               <ul>
                 <li>
                   <Link
@@ -72,7 +69,7 @@ export const Sidebar = ({
                     className={getLinkClass("/")}
                     onClick={() => setIsDropOpen(false)}>
                     <IconLayout2 className="flex-none" />
-                    <span className={`${sidebarCollapsed && "hidden"}`}>
+                    <span className={`${sidebarCollapsed && "hidden"} font-primary`}>
                       Home
                     </span>
                   </Link>
@@ -83,7 +80,7 @@ export const Sidebar = ({
                     className={getLinkClass("/habits")}
                     onClick={() => setIsDropOpen(false)}>
                     <IconPuzzle className="flex-none" />
-                    <span className={`${sidebarCollapsed && "hidden"}`}>
+                    <span className={`${sidebarCollapsed && "hidden"} font-primary`}>
                       Habits
                     </span>
                   </Link>
@@ -94,7 +91,7 @@ export const Sidebar = ({
                     className={getLinkClass("/kanbanPersonal")}
                     onClick={() => setIsDropOpen(false)}>
                     <IconUser className="flex-none" />
-                    <span className={`${sidebarCollapsed && "hidden"}`}>
+                    <span className={`${sidebarCollapsed && "hidden"} font-primary`}>
                       Kanban Board
                     </span>
                   </Link>
@@ -130,7 +127,7 @@ export const Sidebar = ({
                     className={getLinkClass("/nutrition")}
                     onClick={() => setIsDropOpen(false)}>
                     <IconSalad className="flex-none" />
-                    <span className={`${sidebarCollapsed && "hidden"}`}>
+                    <span className={`${sidebarCollapsed && "hidden"} font-primary`}>
                       Nutrition
                     </span>
                   </Link>
@@ -139,9 +136,8 @@ export const Sidebar = ({
             </nav>
           </div>
           <div
-            className={`${s.options} ${
-              sidebarCollapsed ? "md:ps-5" : ""
-            } flex-none`}>
+            className={`${s.options} ${sidebarCollapsed ? "md:ps-5" : ""
+              } flex-none`}>
             <ul>
               <li>
                 <Link
@@ -149,7 +145,7 @@ export const Sidebar = ({
                   className={getLinkClass("/settings")}
                   onClick={() => setIsDropOpen(false)}>
                   <IconSettings className="flex-none" />
-                  <span className={`${sidebarCollapsed && "hidden"}`}>
+                  <span className={`${sidebarCollapsed && "hidden"} font-primary`}>
                     Settings
                   </span>
                 </Link>
@@ -158,7 +154,7 @@ export const Sidebar = ({
                 {/* Hacer con firebase un logout y redireccionar a /signup */}
                 <a
                   id="logout"
-                  className={`text-white cursor-pointer ${s.logout}`}
+                  className={`text-white cursor-pointer ${s.logout} font-primary`}
                   onClick={() => {
                     setIsDropOpen(false);
                     userLogout();

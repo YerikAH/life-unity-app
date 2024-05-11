@@ -7,7 +7,7 @@ export const SidebarLogo = ({ open, handleSidebar }) => {
         className={`md:w-full text-white text-3xl items-center justify-center md:h-[40px] hidden ${open ? "" : "md:flex"
           }`}
         onClick={handleSidebar}>
-        <h2>
+        <h2 className='font-primary'>
           <span className="font-bold">Life</span>Unity
         </h2>
       </button>

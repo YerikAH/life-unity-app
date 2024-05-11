@@ -3,7 +3,7 @@ import google from "../../assets/google.svg";
 import logo from "../../assets/logo.svg";
 import imgSignup from "../../assets/img-signup.svg";
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import s from "./index.module.css";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
@@ -11,7 +11,7 @@ import { createUser, updateProfileUser, loginWithGoogle } from "../../services/a
 
 export function Register() {
   const [showPassword, setShowPassword] = useState(false);
-  const { changeTitle } = useTitle();
+  useTitle("Register - LifeUnity");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -24,15 +24,11 @@ export function Register() {
 
   const togglePassword = () => setShowPassword(!showPassword);
 
-  useEffect(() => {
-    changeTitle("Register - LifeUnity");
-  }, []);
-
   const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true);
     reset();
     await createUser(data.email, data.password);
-    const name= data.firstName+" "+data.lastName;
+    const name = data.firstName + " " + data.lastName;
     await updateProfileUser(name);
     setIsLoading(false);
     if (isLoading === false) {
@@ -51,9 +47,9 @@ export function Register() {
   };
 
   const registerGoogle = async () => {
-    try{
+    try {
       await loginWithGoogle();
-    }catch(error){
+    } catch (error) {
       return null;
     }
   }
