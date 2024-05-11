@@ -1,6 +1,6 @@
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-calendar/dist/Calendar.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import {
   ViewState,
@@ -86,6 +86,10 @@ export function CalendarView() {
   const handleOpenForm = () => {
     setOpenForm(true);
   };
+
+  useEffect(() => {
+    console.clear();
+  }, []);
 
   return (
     <>

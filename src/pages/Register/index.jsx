@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { createUser, updateProfileUser, loginWithGoogle } from "../../services/auth";
 
 export function Register() {
+  const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   useTitle("Register - LifeUnity");
   const [isLoading, setIsLoading] = useState(false);
@@ -25,9 +26,15 @@ export function Register() {
   const togglePassword = () => setShowPassword(!showPassword);
 
   const onSubmit = handleSubmit(async (data) => {
+    setError(false);
     setIsLoading(true);
     reset();
-    await createUser(data.email, data.password);
+    const userCreated = await createUser(data.email, data.password);
+    if (!userCreated) {
+      setError(true);
+      setIsLoading(false);
+      return;
+    }
     const name = data.firstName + " " + data.lastName;
     await updateProfileUser(name);
     setIsLoading(false);
@@ -188,7 +195,7 @@ export function Register() {
                   )}
                 </button>
               </div>
-              <div className="flex justify-between text-sm font-semibold mb-6 flex-col">
+              <div className="flex justify-between text-sm font-semibold mb-3 flex-col">
                 <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
@@ -215,6 +222,11 @@ export function Register() {
                 </div>
                 {errorMessage("terms")}
               </div>
+              {error && (
+                <p className="text-red-500 text-xs font-semibold mb-3">
+                  The email already exist
+                </p>
+              )}
               <button
                 type="submit"
                 name="signup-btn"
