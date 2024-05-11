@@ -26,5 +26,5 @@ export function AuthLayout() {
     fetchUser();
   }, []);
 
-  return <div className="h-full">{showPage && <Outlet />}</div>;
+  return <div className="h-full min-h-screen overflow-hidden">{showPage && <Outlet />}</div>;
 }
