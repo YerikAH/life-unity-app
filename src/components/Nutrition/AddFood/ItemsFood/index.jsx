@@ -8,14 +8,14 @@ export default function ItemsFood({ food }) {
   const [inputValues, setInputValues] = useState({});
 
   const handleSave = () => {
-    //solo se resetean los input al finalizar el dia
+
     for (const id in inputValues) {
       const idNumber = Number(id);
-      //buscar el item en la lista de alimentos
+
       const itemFood = food.find((item) => item.id === idNumber);
       const inputValue = Number(inputValues[id]);
       const { name, carbs, protein, fat, cal } = itemFood;
-      //loas vadores de food son por cada 100g
+
       const calculatedValues = {
         carbs: (carbs * inputValue) / 100,
         protein: (protein * inputValue) / 100,

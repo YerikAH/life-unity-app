@@ -1,3 +1,4 @@
+import { NUTRITION_ANALYSIS_KEY } from "../constants";
 export const analysis = async (data) => {
   const { age, weight, height, gender, activity } = data;
   const activityUrl = activity.replace(" ", "%20");
@@ -5,7 +6,7 @@ export const analysis = async (data) => {
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "f23d5c008amsh2bfe05f84d42d47p15ed08jsn9bbee8a7e446",
+      "X-RapidAPI-Key": NUTRITION_ANALYSIS_KEY,
       "X-RapidAPI-Host": "nutrition-calculator.p.rapidapi.com",
     },
   };
@@ -13,7 +14,6 @@ export const analysis = async (data) => {
   try {
     const response = await fetch(url, options);
     const result = await response.json();
-    console.log(result);
     return result
   } catch (error) {
     console.error(error);

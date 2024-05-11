@@ -11,7 +11,6 @@ export function DonutChart() {
   );
   const caloriesConsumed = useSelector(state => state.nutrition.totalValues?.totalCal || 0);
 
-  // Crear el gráfico al montar el componente y actualizarlo cuando cambien los valores
 useEffect(() => {
     const chart = new ApexCharts(chartRef.current, dataDonut);
     chart.render();
@@ -53,7 +52,6 @@ useEffect(() => {
                 return res.toFixed(2) + " kcal";
               },
             },
-            //es para mostrar el valor de la serie
             value: {
               show: true,
               fontFamily: "Inter, sans-serif",
@@ -80,7 +78,6 @@ useEffect(() => {
       position: "bottom",
       fontFamily: "Inter, sans-serif",
     },
-    //yaxis cuando pasa por encima el mouse
     yaxis: {
       labels: {
         formatter: function (value) {
@@ -88,7 +85,6 @@ useEffect(() => {
         },
       },
     },
-    //xaxis cuando pasa por encima el mouse
     xaxis: {
       labels: {
         formatter: function (value) {

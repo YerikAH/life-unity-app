@@ -46,7 +46,6 @@ export function AddFood() {
         <div className="md:h-full py-2">
           <section className="mb-4">
             <h3 className="mb-3">You can find food of all categories</h3>
-            {/* propios estados para que se haga la busqueda en la api y se obtengan los valores y agregarlos al selected items y asi luego agregar al estado de redux */}
             <div className="flex flex-col gap-2 px-2 mb-3">
               <div className="shadow-[0_0_10px_0_rgba(0,0,0,0.25)] rounded-2xl px-4 py-2 flex flex-col  gap-2 hover:bg-[#F9A826] focus:bg-[#F9A826]">
                 <div className="flex justify-between items-center">
