@@ -35,7 +35,9 @@ export function Register() {
       setIsLoading(false);
       return;
     }
-    const name = data.firstName + " " + data.lastName;
+
+    const name= data.firstName+" "+data.lastName;
+
     await updateProfileUser(name);
     setIsLoading(false);
     if (isLoading === false) {
