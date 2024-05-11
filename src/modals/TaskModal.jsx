@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ElipsisMenu from "../components/kanban/ElipsisMenu";
 import elipsis from "../assets/images-kanban/icon-vertical-ellipsis.svg";
-import boardsSlice from "../redux/slices/boardsSlice";
+
+import { setTaskStatus, deleteTask } from "../redux/slices/boardsSlice";
 import DeleteModal from "./DeleteModal";
 import Subtask from "../components/kanban/Subtask";
 import AddEditTaskModal from "./AddEditTaskModal";
@@ -46,7 +47,7 @@ export default function TaskModal({ colIndex, taskIndex, setisTaskModalOpen }) {
 
   const onDeleteBtnClick = (e) => {
     if (e.target.textContent === "Delete") {
-      dispatch(boardsSlice.actions.deleteTask({ colIndex, taskIndex }));
+      dispatch(deleteTask({ colIndex, taskIndex }));
       setisTaskModalOpen(false);
       setIsDeleteModalOpen(false);
     } else {
@@ -59,7 +60,7 @@ export default function TaskModal({ colIndex, taskIndex, setisTaskModalOpen }) {
       return;
     }
     dispatch(
-      boardsSlice.actions.setTaskStatus({
+      setTaskStatus({
         colIndex,
         taskIndex,
         status,
@@ -98,7 +99,7 @@ export default function TaskModal({ colIndex, taskIndex, setisTaskModalOpen }) {
         <p className='text-gray-500 font-[600] tracking-wide text-xs pt-6'>
           {task.description}
         </p>
-        <p className=" pt-6 text-gray-500 tracking-widest text-sm">
+        <p className=' pt-6 text-gray-500 tracking-widest text-sm'>
           Subtareas ({completed} de {subtasks.length})
         </p>
         {/* Seccion de subtareas */}
@@ -125,7 +126,9 @@ export default function TaskModal({ colIndex, taskIndex, setisTaskModalOpen }) {
             onChange={onChange}
           >
             {columns.map((column, index) => {
-              <option className='status-option' key={index}>{column.name}</option>;
+              <option className='status-option' key={index}>
+                {column.name}
+              </option>;
             })}
           </select>
         </div>

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import crossIcon from "../assets/images-kanban/icon-cross.svg";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-import boardsSlice from "../redux/slices/boardsSlice";
+
+import { addTask, editTask } from "../redux/slices/boardsSlice";
 
 export default function AddEditTaskModal({
   type,
@@ -79,10 +80,9 @@ export default function AddEditTaskModal({
   };
 
   const onSubmit = (type) => {
-    setBoardModalOpen(false);
     if (type === "add") {
       dispatch(
-        boardsSlice.actions.addTask({
+        addTask({
           title,
           description,
           subtasks,
@@ -92,7 +92,7 @@ export default function AddEditTaskModal({
       );
     } else {
       dispatch(
-        boardsSlice.actions.editTask({
+        editTask({
           title,
           description,
           subtasks,

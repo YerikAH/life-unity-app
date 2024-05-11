@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { shuffle } from "lodash";
-import boardsSlice from "../../../redux/slices/boardsSlice";
+import { dragTask } from "../../../redux/slices/boardsSlice";
+
 import Task from "../Task";
 
 export default function Column({ colIndex }) {
@@ -27,14 +28,12 @@ export default function Column({ colIndex }) {
   }, [dispatch]);
 
   const handleOnDrop = (e) => {
-    const {prevColIndex, taskIndex} = JSON.parse(
-      e.dataTransfer.getData('text')
+    const { prevColIndex, taskIndex } = JSON.parse(
+      e.dataTransfer.getData("text")
     );
 
     if (colIndex !== prevColIndex) {
-      dispatch(
-        boardsSlice.actions.dragTask({ colIndex, prevColIndex, taskIndex })
-      );
+      dispatch(dragTask({ colIndex, prevColIndex, taskIndex }));
     }
   };
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import crossIcon from "../assets/images-kanban/icon-cross.svg";
-import boardsSlice from "../redux/slices/boardsSlice";
+import { addBoard, editBoard } from "../redux/slices/boardsSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,8 +13,9 @@ function AddEditBoardModal({ setBoardModalOpen, type }) {
     { name: "Todo", task: [], id: uuidv4() },
     { name: "Doing", task: [], id: uuidv4() },
   ]);
-  const board = useSelector((state) => state.boards && state.boards.find((board) => board.isActive));
-
+  const board = useSelector(
+    (state) => state.boards && state.boards.find((board) => board.isActive)
+  );
 
   if (type === "edit" && isFirstLoad && board) {
     setNewColumns(
@@ -58,9 +59,9 @@ function AddEditBoardModal({ setBoardModalOpen, type }) {
   const onSubmit = (type) => {
     setBoardModalOpen(false);
     if (type === "add") {
-      dispatch(boardsSlice.actions.addBoard({ name, newColumns }));
+      dispatch(addBoard({ name, newColumns }));
     } else {
-      dispatch(boardsSlice.actions.editBoard({ name, newColumns }));
+      dispatch(editBoard({ name, newColumns }));
     }
   };
 

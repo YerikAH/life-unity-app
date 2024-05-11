@@ -10,7 +10,9 @@ import { useDispatch } from "react-redux";
 import AddEditTaskModal from "../../../modals/AddEditTaskModal";
 import ElipsisMenu from "../ElipsisMenu";
 import DeleteModal from "../../../modals/DeleteModal";
-import boardsSlice from "../../../redux/slices/boardsSlice";
+
+
+import { deleteBoard, setBoardActive } from "../../../redux/slices/boardsSlice";
 
 export function Header({ setBoardModalOpen, boardModalOpen }) {
   const dispatch = useDispatch();
@@ -34,8 +36,8 @@ export function Header({ setBoardModalOpen, boardModalOpen }) {
   };
 
   const onDeleteBtnClick = () => {
-    dispatch(boardsSlice.actions.deleteBoard());
-    dispatch(boardsSlice.actions.setBoardActive({ index: 0 }));
+    dispatch(deleteBoard());
+    dispatch(setBoardActive({ index: 0 }));
     setIsDeleteModalOpen(false);
   };
 

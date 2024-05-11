@@ -100,4 +100,18 @@ const boardsSlice = createSlice({
   },
 });
 
-export default boardsSlice;
+export const boardsSliceReducer = boardsSlice.reducer;
+
+
+export const {
+  addBoard,
+  editBoard,
+  deleteBoard,
+  setBoardActive,
+  addTask,
+  editTask, 
+  dragTask,
+  setSubtaskCompleted,
+  setTaskStatus,
+  deleteTask,
+} = boardsSlice.actions;
