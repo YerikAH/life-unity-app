@@ -17,7 +17,7 @@ export const AditionalConfig = () => {
     }
   }, []);
 
-  // arreglar sale error
+
   const loginGoogle = async () => {
     try {
       await loginWithGoogle();

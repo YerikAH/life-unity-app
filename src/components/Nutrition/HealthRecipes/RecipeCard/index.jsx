@@ -14,7 +14,6 @@ export default function RecipesCard({
 }) {
   return (
     <>
-      {/* template card uno con texto negro y color #E8AA42 otro con texto blanco y color #000428 intercalado */}
       <div
         id="recipe"
         className="rounded-xl w-[275px] md:w-[330px] h-[190px] flex bg-[#E8AA42] text-black gap-1 flex-none">

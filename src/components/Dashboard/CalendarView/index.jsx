@@ -17,7 +17,7 @@ import {
   AppointmentTooltip,
   ConfirmationDialog,
 } from "@devexpress/dx-react-scheduler-material-ui";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { IconChevronLeft, IconChevronRight, IconPlus } from "@tabler/icons-react";
 import { resourcesData } from "./resources";
 
 export function CalendarView() {
@@ -89,25 +89,24 @@ export function CalendarView() {
 
   return (
     <>
-      <section className="xl:col-span-3 py-5 px-5 flex flex-col justify-between font-semibold bg-white order-5 shadow-xl rounded-xl overflow-auto">
-        <div className="flex justify-between mb-2">
+      <section className="xl:col-span-3 py-5 px-5 flex flex-col justify-between font-semibold bg-white order-5 shadow-xl rounded-xl overflow-hidden">
+        <div className="flex justify-between mb-2 flex-col gap-5 md:flex-row">
           <div className="w-full flex gap-2 items-center">
             <button
-              className="flex gap-5 border rounded-xl px-3 py-1"
+              className="border rounded-full p-2"
               onClick={handleOpenForm}>
-              <span className="text-primary">+</span> New Event
+                <IconPlus/>
             </button>
-            <span className="text-sm font-semibold">*Remember to change hours*</span>
+            <div className="text-yellow font-semibold text-xl pb-[1px] text-center">
+              <span>{selectedDate.toDateString()}</span>
+            </div>
           </div>
-          <div className="flex gap-5 w-full justify-end items-center">
+          <div className="flex gap-5 w-full items-center md:justify-end">
             <button
               className="border px-3 py-1 rounded-2xl hover:border-white hover:text-white hover:bg-primary transition duration-300"
               onClick={handleToday}>
               Today
             </button>
-            <div className="text-yellow font-semibold text-xl border-b pb-[1px]">
-              <span className=" border-b">{selectedDate.toDateString()}</span>
-            </div>
             <button
               onClick={handlePrevDay}
               className="hover:text-white hover:rounded-xl p-2  hover:bg-primary ">
@@ -121,19 +120,17 @@ export function CalendarView() {
           </div>
         </div>
         <Paper>
-          <Scheduler data={data}>
+          <Scheduler data={data} height={460}>
             <ViewState currentDate={selectedDate} />
             <EditingState onCommitChanges={commitChanges} />
             <IntegratedEditing />
-            <DayView startDayHour={9} endDayHour={24} />
-
+            <DayView startDayHour={6} endDayHour={24} />
             <ConfirmationDialog />
             <Appointments />
             <AppointmentTooltip showOpenButton showDeleteButton />
             <AppointmentForm
               visible={openForm}
-              onVisibilityChange={(visible) => setOpenForm(visible)}
-              resources={resources}
+              onVisibilityChange={()=>setOpenForm(!openForm)}
             />
             <Resources data={resources} />
             <CurrentTimeIndicator

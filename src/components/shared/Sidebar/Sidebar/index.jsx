@@ -20,7 +20,7 @@ export const Sidebar = ({
   widthSidebarOpen,
   handleSidebar,
 }) => {
-  //obtener la ruta actual
+
   const location = useLocation();
   const navigate = useNavigate();
   const [isDropOpen, setIsDropOpen] = useState(false);
@@ -29,7 +29,7 @@ export const Sidebar = ({
     setIsDropOpen(!isDropOpen);
   };
 
-  //obtener la clase de los links
+
   const getLinkClass = (path, dropdownPaths = []) => {
     if (
       location.pathname === path ||
@@ -155,7 +155,6 @@ export const Sidebar = ({
                 </Link>
               </li>
               <li>
-                {/* Hacer con firebase un logout y redireccionar a /signup */}
                 <a
                   id="logout"
                   className={`text-white cursor-pointer ${s.logout}`}

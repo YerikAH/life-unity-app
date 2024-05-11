@@ -6,7 +6,7 @@ export const SidebarDrop = ({ drop, setIsDropOpen, sidebarCollapsed }) => {
 
   const location = useLocation();
 
-  //obtener la clase de los links
+
   const getLinkClass = (path) => {
     return location.pathname === path ? `${s.link} ${s.active}`: s.link;
   };
