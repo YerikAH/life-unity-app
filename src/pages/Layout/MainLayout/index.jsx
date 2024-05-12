@@ -24,9 +24,9 @@ export function MainLayout() {
     <>
       {showPage && (
         <>
-          <div className="flex md:h-screen w-full">
+          <div className="flex md:h-screen w-full overflow-auto">
             <Sidebar />
-            <div className='w-full'>
+            <div className='w-full mx-auto max-w-7xl px-4 py-8'>
               <Outlet />
             </div>
           </div>

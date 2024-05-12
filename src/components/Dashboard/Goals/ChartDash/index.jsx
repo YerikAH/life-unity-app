@@ -71,7 +71,7 @@ export function ChartDash() {
     legend: {
       show: true,
       position: "bottom",
-      fontFamily: "Inter, sans-serif",
+      fontFamily: "M PLUS Rounded 1c",
     },
     tooltip: {
       enabled: true,

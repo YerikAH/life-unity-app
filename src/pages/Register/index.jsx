@@ -36,7 +36,7 @@ export function Register() {
       return;
     }
 
-    const name= data.firstName+" "+data.lastName;
+    const name = data.firstName + " " + data.lastName;
 
     await updateProfileUser(name);
     setIsLoading(false);
@@ -64,7 +64,7 @@ export function Register() {
   }
 
   return (
-    <div className="bg-gray flex justify-center items-center h-full">
+    <div className="bg-gray-200 flex justify-center items-center h-full">
       <div>
         <nav className="p-5 flex justify-between items-center md:my-5 md:px-10">
           <div className="logo flex items-center gap-3">

@@ -4,7 +4,7 @@ import { useTitle } from '../../hooks'
 export function Habits() {
   useTitle("Habits - LifeUnity")
   return (
-    <div className="max-w-7xl mx-auto grid lg:grid-cols-[auto_400px] gap-10 mt-8">
+    <div className=" grid lg:grid-cols-[auto_400px] gap-10 ">
       <div>
         <FilterHabit />
         <CardsHabit />

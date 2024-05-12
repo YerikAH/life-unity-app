@@ -11,12 +11,12 @@ export function DonutChart() {
   );
   const caloriesConsumed = useSelector(state => state.nutrition.totalValues?.totalCal || 0);
 
-useEffect(() => {
+  useEffect(() => {
     const chart = new ApexCharts(chartRef.current, dataDonut);
     chart.render();
 
     chart.updateSeries([caloriesConsumed, caloriesRecommended]);
-}, [totalValues, caloriesRecommended, caloriesConsumed]);
+  }, [totalValues, caloriesRecommended, caloriesConsumed]);
 
   const dataDonut = {
     series: [caloriesConsumed, caloriesRecommended],
@@ -100,7 +100,7 @@ useEffect(() => {
     },
   };
 
-  return <div id="donut-chart" ref={chartRef} className="text-sm"></div>;
+  return <div id="donut-chart" ref={chartRef} className="text-sm font-primary"></div>;
 }
 
 export default DonutChart;

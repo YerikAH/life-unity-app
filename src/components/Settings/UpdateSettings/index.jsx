@@ -81,14 +81,16 @@ export function UpdateSettings() {
                   xmlns="http://www.w3.org/2000/svg"
                   width="80"
                   height="80"
-                  className="size-full">
+                  className="size-full"
+                >
                   <mask
                     id=":r80:"
                     maskUnits="userSpaceOnUse"
                     x="0"
                     y="0"
                     width="36"
-                    height="36">
+                    height="36"
+                  >
                     <rect width="36" height="36" rx="72" fill="#FFFFFF"></rect>
                   </mask>
                   <g mask="url(#:r80:)">
@@ -100,7 +102,8 @@ export function UpdateSettings() {
                       height="36"
                       transform="translate(-5 9) rotate(189 18 18) scale(1)"
                       fill="#f9a826"
-                      rx="36"></rect>
+                      rx="36"
+                    ></rect>
                     <g transform="translate(-5 4.5) rotate(9 18 18)">
                       <path d="M13,19 a1,0.75 0 0,0 10,0" fill="#000000"></path>
                       <rect
@@ -110,7 +113,8 @@ export function UpdateSettings() {
                         height="2"
                         rx="1"
                         stroke="none"
-                        fill="#000000"></rect>
+                        fill="#000000"
+                      ></rect>
                       <rect
                         x="24"
                         y="14"
@@ -118,15 +122,18 @@ export function UpdateSettings() {
                         height="2"
                         rx="1"
                         stroke="none"
-                        fill="#000000"></rect>
+                        fill="#000000"
+                      ></rect>
                     </g>
                   </g>
                 </svg>
               )}
             </div>
             <div>
-              <h1 className="text-2xl font-semibold">{user?.displayName}</h1>
-              <p className="text-gray-500">{user?.email}</p>
+              <h1 className="text-2xl font-semibold font-primary">
+                {user?.displayName}
+              </h1>
+              <p className="text-gray-500 font-primary">{user?.email}</p>
             </div>
           </div>
         </div>
@@ -134,8 +141,10 @@ export function UpdateSettings() {
       <form onSubmit={onSubmit}>
         <section className="flex justify-between gap-5 w-full items-center py-5 border-b border-b-[#838383]">
           <div className="w-full flex-1 lg:flex-[3_3_0%]">
-            <h2 className="font-semibold text-base">General Details</h2>
-            <p className="text-sm text-[#4E4B4B] md:text-md">
+            <h2 className="font-semibold text-base font-primary">
+              General Details
+            </h2>
+            <p className="text-sm text-[#4E4B4B] md:text-md font-primary">
               Update your photo and personal details here
             </p>
           </div>
@@ -143,20 +152,24 @@ export function UpdateSettings() {
             <button
               type="button"
               onClick={cancelEdit}
-              className="text-[#4E4B4B] bg-[#F0F0F0] flex-1 py-2 rounded-md  hover:bg-[#F0F0F0]/70">
+              className="text-[#4E4B4B] bg-[#F0F0F0] flex-1 py-2 rounded-md  hover:bg-[#F0F0F0]/70 font-primary"
+            >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-[#000428] text-white flex-1 rounded-md py-2 hover:bg-[#000428]/80">
+              className="bg-[#000428] text-white flex-1 rounded-md py-2 hover:bg-[#000428]/80 font-primary"
+            >
               Save
             </button>
           </div>
         </section>
         <section className="flex flex-[2_2_0%] flex-col md:flex-row justify-between lg:gap-12 md:justify-normal py-5 border-b border-b-[#838383]">
           <div className="py-2 md:w-[300px]">
-            <h2 className="font-semibold text-base">Your Profile Photo</h2>
-            <p className="text-sm text-[#4E4B4B] md:text-md">
+            <h2 className="font-semibold text-base font-primary">
+              Your Profile Photo
+            </h2>
+            <p className="text-sm text-[#4E4B4B] md:text-md font-primary">
               Update your public photo here to make it easier for people to
               recognize you
             </p>
@@ -178,19 +191,22 @@ export function UpdateSettings() {
                     xmlns="http://www.w3.org/2000/svg"
                     width="80"
                     height="80"
-                    className="size-full">
+                    className="size-full"
+                  >
                     <mask
                       id=":r80:"
                       maskUnits="userSpaceOnUse"
                       x="0"
                       y="0"
                       width="36"
-                      height="36">
+                      height="36"
+                    >
                       <rect
                         width="36"
                         height="36"
                         rx="72"
-                        fill="#FFFFFF"></rect>
+                        fill="#FFFFFF"
+                      ></rect>
                     </mask>
                     <g mask="url(#:r80:)">
                       <rect width="36" height="36" fill="#000428"></rect>
@@ -201,11 +217,13 @@ export function UpdateSettings() {
                         height="36"
                         transform="translate(-5 9) rotate(189 18 18) scale(1)"
                         fill="#f9a826"
-                        rx="36"></rect>
+                        rx="36"
+                      ></rect>
                       <g transform="translate(-5 4.5) rotate(9 18 18)">
                         <path
                           d="M13,19 a1,0.75 0 0,0 10,0"
-                          fill="#000000"></path>
+                          fill="#000000"
+                        ></path>
                         <rect
                           x="10"
                           y="14"
@@ -213,7 +231,8 @@ export function UpdateSettings() {
                           height="2"
                           rx="1"
                           stroke="none"
-                          fill="#000000"></rect>
+                          fill="#000000"
+                        ></rect>
                         <rect
                           x="24"
                           y="14"
@@ -221,7 +240,8 @@ export function UpdateSettings() {
                           height="2"
                           rx="1"
                           stroke="none"
-                          fill="#000000"></rect>
+                          fill="#000000"
+                        ></rect>
                       </g>
                     </g>
                   </svg>
@@ -231,20 +251,22 @@ export function UpdateSettings() {
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-30 md:h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-500 dark:hover:bg-gray">
+                className="flex flex-col items-center justify-center w-full h-30 md:h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-500 dark:hover:bg-gray"
+              >
                 <button
                   type="button"
-                  className="flex flex-col items-center justify-center pt-5 pb-6 px-5 text-center"
+                  className="flex flex-col items-center justify-center pt-5 pb-6 px-5 text-center font-primary"
                   onClick={() => {
                     // es para que se abra el input de tipo file
                     imageInput.current.click();
-                  }}>
+                  }}
+                >
                   <IconCloudUpload stroke={2} />
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 font-primary">
                     <span className="font-semibold">Click to upload</span> or
                     drag and drop
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 font-primary">
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </button>
@@ -253,7 +275,7 @@ export function UpdateSettings() {
                   name="photoUrl"
                   id="dropzone-file"
                   type="file"
-                  className="hidden"
+                  className="hidden font-primary"
                 />
               </label>
             </div>
@@ -261,12 +283,15 @@ export function UpdateSettings() {
         </section>
         <section className="pt-5 pb-6 flex flex-col md:flex-row lg:gap-10 border-b border-b-[#838383]">
           <div className="py-2 font-semibold md:w-[300px] md:flex-none">
-            <h2 className="text-base">Personal Information</h2>
+            <h2 className="text-base font-primary">Personal Information</h2>
           </div>
           <div action="" className="px-5 flex gap-5 flex-col flex-wrap w-full">
             <div className="flex gap-5 w-full flex-col">
               <div className="flex flex-col gap-2 flex-1">
-                <label htmlFor="full-name" className="font-semibold">
+                <label
+                  htmlFor="full-name"
+                  className="font-primary font-semibold"
+                >
                   Full name
                 </label>
                 <div className="flex items-center gap-5 w-full flex-col lg:flex-row">

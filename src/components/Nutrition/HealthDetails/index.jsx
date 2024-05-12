@@ -89,12 +89,12 @@ export function HealthDetails() {
 
   return (
     <>
-      <section className="shadow-xl rounded-xl py-10 px-5 flex flex-col h-auto bg-white lg:row-span-2 justify-between">
+      <section className="shadow border rounded-xl py-10 px-5 flex flex-col h-auto bg-white lg:row-span-2 justify-between">
         <div className="flex items-center gap-4 justify-center relative">
           <div className="flex flex-col gap-3 justify-center text-center">
-            <h2 className="text-2xl font-bold">Count Calories</h2>
+            <h2 className="text-2xl font-bold font-primary">Count Calories</h2>
             {!formResolved && (
-              <span className="w-[80%] mx-auto text-red-500 font-semibold">
+              <span className="w-[80%] mx-auto text-red-500 font-semibold font-primary">
                 Complete the form to calcultate the nutrition values
               </span>
             )}
@@ -104,7 +104,7 @@ export function HealthDetails() {
           </button>
           {isDrop && (
             <button
-              className="absolute bg-white top-10 right-18 p-5 rounded-2xl shadow-lg font-semibold flex items-center gap-4 cursor-pointer z-10"
+              className="absolute bg-white top-10 right-18 p-5 rounded-2xl shadow-lg font-semibold flex items-center gap-4 cursor-pointer z-10 font-primary"
               onClick={handleOpenForm}>
               <div className="size-8">
                 <IconFileSpreadsheet stroke={2} />
@@ -120,7 +120,7 @@ export function HealthDetails() {
 
         <div className="flex  justify-center gap-10">
           <div className="flex items-center gap-5 flex-col">
-            <h3>Heigth</h3>
+            <h3 className="font-primary">Heigth</h3>
             <span className="text-[#F9A826] font-bold text-2xl text-center">
               {" "}
               {data.height || "--"} cm{" "}
@@ -128,8 +128,8 @@ export function HealthDetails() {
           </div>
 
           <div className="flex items-center gap-5 flex-col text-center">
-            <h3>Weight</h3>
-            <span className="text-[#F9A826] font-bold text-center text-2xl">
+            <h3 className="font-primary">Height</h3>
+            <span className="text-[#F9A826] font-bold text-center text-2xl font-primary">
               {" "}
               {data.weight || "--"} kg{" "}
             </span>

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback } from "react";
-import {IconChevronRight, IconChevronLeft, IconSearch} from "@tabler/icons-react";
+import { IconChevronRight, IconChevronLeft, IconSearch } from "@tabler/icons-react";
 import RecipesCard from "./RecipeCard";
 import OpenRecipe from "./OpenRecipe";
 import { getRecipes, searchRecipe } from "../../../utils";
@@ -19,7 +19,7 @@ export function HealthRecipes() {
   useEffect(() => {
     const fetchRecipes = async () => {
       let data = sessionStorage.getItem('recipes');
-  
+
       if (!data) {
         const recipesData = await getRecipes();
         data = JSON.stringify(recipesData);
@@ -27,7 +27,7 @@ export function HealthRecipes() {
       }
       setRecipes(JSON.parse(data));
     };
-  
+
     fetchRecipes();
   }, []);
 
@@ -38,10 +38,10 @@ export function HealthRecipes() {
 
   const handleSetRecipeMade = (recipe) => {
     const recipeRecent = {
-      cal: recipe.calories/recipe.yield,
-      protein: recipe.totalNutrients.PROCNT.quantity/recipe.yield,
-      fat: recipe.totalNutrients.FAT.quantity/recipe.yield,
-      carbs: recipe.totalNutrients.CHOCDF.quantity/recipe.yield,
+      cal: recipe.calories / recipe.yield,
+      protein: recipe.totalNutrients.PROCNT.quantity / recipe.yield,
+      fat: recipe.totalNutrients.FAT.quantity / recipe.yield,
+      carbs: recipe.totalNutrients.CHOCDF.quantity / recipe.yield,
     }
     dispatch(setValuesConsumed(recipeRecent));
   };
@@ -76,29 +76,37 @@ export function HealthRecipes() {
 
   return (
     <>
-      <section className="shadow-xl rounded-xl p-5 lg:col-span-3 overflow-hidden flex-none">
+      <section className="shadow border rounded-xl p-5 lg:col-span-3 overflow-hidden flex-none">
         <div className="flex justify-between items-center mb-3 flex-col md:flex-row">
           <div className="flex gap-5 flex-col mb-5 md:flex-row md:mb-0">
             <div className="flex gap-5 items-center">
-              <h2 className="text-2xl font-bold text-center md:text-left w-full md:w-[50%]">
+              <h2 className="text-2xl font-bold text-center md:text-left w-full font-primary">
                 Health Recipes
               </h2>
             </div>
-            <div className="flex items-center">
-              <div className="flex relative items-center">
-                <IconSearch className="absolute left-2 size-4" />
+            <div className="flex items-center gap-2">
+              <div className="relative rounded-md shadow-sm h-full">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <IconSearch className="h-4 w-4 text-gray-400" stroke={3} aria-hidden="true" />
+                </div>
                 <input
+                  type="search"
+                  name="search"
+                  id="search"
+                  className="block w-full font-primary rounded-md h-full border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-yellow-400 sm:text-sm sm:leading-6"
+                  placeholder="Search..."
                   value={inputValue}
                   onChange={handleInputValue}
-                  type="text"
-                  className="p-[3px] ps-10 border border-black focus:border-black rounded-tl-xl rounded-bl-xl focus:ring-0 ring-none outline-none w-full"
                 />
               </div>
               <button
-                className="bg-yellow px-2 py-[3px] rounded-tr-xl rounded-br-xl border border-black"
-                onClick={() => handleSearch(inputValue)}>
+                type="button"
+                className="rounded-md font-primary bg-fuel-yellow-400 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
+                onClick={() => handleSearch(inputValue)}
+              >
                 Search
               </button>
+
             </div>
           </div>
           <div className="flex items-center gap-7">
@@ -117,7 +125,7 @@ export function HealthRecipes() {
         </div>
         {/* Aqui iran las recetas renderizar de api*/}
         <div
-          className="flex gap-5 transition-transform duration-300 ease-[cubic-bezier(0,.96,1,.79)]"
+          className="flex gap-5 transition-transform duration-300 ease-[cubic-bezier(0,.96,1,.79)] mt-8"
           style={{ transform: `translateX(${translateX}px)` }}>
           {recipes &&
             recipes.map((recipe, index) => (

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SidebarLogo } from "../SidebarLogo";
 import {
   IconLayout2,
+  IconLogout,
   IconPuzzle,
   IconSalad,
   IconSettings,
@@ -54,12 +55,13 @@ export const Sidebar = () => {
     }
   };
 
+
   return (
-    <div className={`p-6  w-full transition-all delay-100 ${collapsed ? "max-w-36" : "max-w-80"}`}>
-      <div className="w-full bg-primary flex rounded-lg flex-col justify-between h-full py-12">
+    <div className={`p-6  w-full transition-all delay-40 ${collapsed ? "max-w-36" : "max-w-72"}`}>
+      <div className="w-full bg-primary flex rounded-3xl flex-col justify-between h-full py-12">
         <div className="flex w-full flex-col ">
           <SidebarLogo handleCollapsed={handleCollapsed} collapsed={collapsed} />
-          <nav className='w-full pl-6 mt-8'>
+          <nav className='w-full pl-6 mt-4'>
             <ul className="w-full py-4 flex gap-2 flex-col ">
               {linksArray.map((item, idx) => (
                 <CustomLink
@@ -73,14 +75,28 @@ export const Sidebar = () => {
             </ul>
           </nav>
         </div>
-        <div className="pl-6">
-          <ul className="w-full flex flex-col ">
+        <div className="">
+          <ul className="pl-6 w-full flex flex-col ">
             <CustomLink
               collapsed={collapsed}
               icon={<IconSettings />}
               name="Settings"
               route="/settings"
             />
+          </ul>
+          <ul className="px-6">
+            <button
+              onClick={userLogout}
+              className="text-white w-full p-4 flex items-center gap-2 transition-all hover:bg-red-500 rounded-lg">
+              <span>
+                <IconLogout />
+              </span>
+              {!collapsed && (
+                <span className="font-primary font-semibold">
+                  Logout
+                </span>
+              )}
+            </button>
           </ul>
         </div>
       </div>
