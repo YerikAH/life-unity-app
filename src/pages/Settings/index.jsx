@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
 import {
   AditionalConfig,
   UpdateSettings,
@@ -7,11 +5,7 @@ import {
 import { useTitle } from "../../hooks";
 
 export function Settings() {
-  const { changeTitle } = useTitle()
-
-  useEffect(() => {
-    changeTitle("Settings - LifeUnity")
-  }, [])
+  useTitle("Settings - LifeUnity")
 
   return (
     <>

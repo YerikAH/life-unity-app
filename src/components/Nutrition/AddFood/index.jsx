@@ -12,7 +12,7 @@ export function AddFood() {
   const [error, setError] = useState(false);
 
   const handleSaveOther = async () => {
-    if((extraInput === "" && extraInputValue === "") || (extraInputValue === "0" && extraInput === "")){
+    if ((extraInput === "" && extraInputValue === "") || (extraInputValue === "0" && extraInput === "")) {
       return;
     }
     const response = await searchFood(extraInput, extraInputValue);
@@ -23,7 +23,7 @@ export function AddFood() {
     setError(false);
     const calculatedValues = {
       carbs: response.totalNutrients.CHOCDF.quantity,
-      protein: response.totalNutrients.PROCNT.quantity ,
+      protein: response.totalNutrients.PROCNT.quantity,
       fat: response.totalNutrients.FAT.quantity,
       cal: response.calories,
     };
@@ -39,7 +39,7 @@ export function AddFood() {
 
   return (
     <>
-      <section className="shadow-xl rounded-xl py-5 px-5 flex flex-col justify-between font-semibold h-auto bg-white lg:row-span-2 md:max-h-full ">
+      <section className="shadow border rounded-xl py-5 px-5 flex flex-col justify-between font-semibold h-auto bg-white lg:row-span-2 md:max-h-full ">
         <h2 className="text-2xl font-bold text-center">
           What foods are you eating today?
         </h2>

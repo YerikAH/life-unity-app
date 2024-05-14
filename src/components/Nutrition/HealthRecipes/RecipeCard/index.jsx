@@ -13,43 +13,41 @@ export default function RecipesCard({
   image,
 }) {
   return (
-    <>
-      <div
-        id="recipe"
-        className="rounded-xl w-[275px] md:w-[330px] h-[190px] flex bg-[#E8AA42] text-black gap-1 flex-none">
-        <div className="w-[40%] md:w-[150px] flex-none h-full">
-          <img
-            src={image}
-            alt=""
-            className="size-full object-cover rounded-tl-xl rounded-bl-xl"
-          />
-        </div>
-        <div className="p-2 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-2 gap-2">
-              <h3 className="leading-5 font-semibold text-[16px]">{title.split(" ").slice(0, 5).join(" ")}</h3>
-              <a href={url} onClick={()=>handleSetOpenRecipe(recipe)} target="blank">
-                <IconArrowUpRight stroke={2} />
-              </a>
-            </div>
-            <div>
-              <p className="text-[11px] font-ligth leading-[1rem]">
-                The type of meal to eat this is {mealType} and the dish type is {dishType}.
-              </p>
-            </div>
+    <div
+      id="recipe"
+      className="rounded-xl max-w-md  w-full  flex bg-fuel-yellow-300 border-fuel-yellow-400 gap-1 flex-none overflow-hidden">
+      <div className="w-[40%] md:w-[150px] flex-none h-full">
+        <img
+          src={image}
+          alt="recipe"
+          className="size-full object-cover"
+        />
+      </div>
+      <div className="py-6 px-4 flex flex-col justify-between">
+        <div>
+          <div className="flex items-center justify-between  gap-2">
+            <h3 className="leading-5 font-semibold text-base font-primary text-yellow-950">{title.split(" ").slice(0, 5).join(" ")}</h3>
+            <a href={url} onClick={() => handleSetOpenRecipe(recipe)} target="blank">
+              <IconArrowUpRight stroke={2} size={14} />
+            </a>
           </div>
           <div>
-            <div className="flex text-[12px] justify-between font-semibold">
-              <span>{calories.toFixed(2)} kcal</span>
-              <span>{protein.toFixed(2)}g protein</span>
-            </div>
-            <div className="flex text-[12px] justify-between font-semibold">
-              <span>{fat.toFixed(2)}g fat</span>
-              <span>{carbs.toFixed(2)}g carbs</span>
-            </div>
+            <p className="text-sm font-normal leading-[1rem] font-primary text-yellow-800 mt-2 ">
+              The type of meal to eat this is {mealType} and the dish type is {dishType}.
+            </p>
+          </div>
+        </div>
+        <div>
+          <div className="flex text-[12px] justify-between font-semibold font-primary">
+            <span>{calories.toFixed(2)} kcal</span>
+            <span>{protein.toFixed(2)}g protein</span>
+          </div>
+          <div className="flex text-[12px] justify-between font-semibold font-primary">
+            <span>{fat.toFixed(2)}g fat</span>
+            <span>{carbs.toFixed(2)}g carbs</span>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

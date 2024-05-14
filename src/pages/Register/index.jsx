@@ -3,7 +3,7 @@ import google from "../../assets/google.svg";
 import logo from "../../assets/logo.svg";
 import imgSignup from "../../assets/img-signup.svg";
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import s from "./index.module.css";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,7 @@ import { createUser, updateProfileUser, loginWithGoogle } from "../../services/a
 export function Register() {
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { changeTitle } = useTitle();
+  useTitle("Register - LifeUnity");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -25,11 +25,8 @@ export function Register() {
 
   const togglePassword = () => setShowPassword(!showPassword);
 
-  useEffect(() => {
-    changeTitle("Register - LifeUnity");
-  }, []);
-
   const onSubmit = handleSubmit(async (data) => {
+    setError(false);
     setIsLoading(true);
     reset();
     const userCreated = await createUser(data.email, data.password);
@@ -38,7 +35,9 @@ export function Register() {
       setIsLoading(false);
       return;
     }
-    const name= data.firstName+" "+data.lastName;
+
+    const name = data.firstName + " " + data.lastName;
+
     await updateProfileUser(name);
     setIsLoading(false);
     if (isLoading === false) {
@@ -57,15 +56,15 @@ export function Register() {
   };
 
   const registerGoogle = async () => {
-    try{
+    try {
       await loginWithGoogle();
-    }catch(error){
+    } catch (error) {
       return null;
     }
   }
 
   return (
-    <div className="bg-gray flex justify-center items-center h-full">
+    <div className="bg-gray-200 flex justify-center items-center h-full">
       <div>
         <nav className="p-5 flex justify-between items-center md:my-5 md:px-10">
           <div className="logo flex items-center gap-3">

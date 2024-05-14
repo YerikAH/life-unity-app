@@ -25,40 +25,40 @@ export function WaterProgress() {
     } else {
       setCongrats(false);
     }
-    const percentage="-"+ totalValues.totalWater * 100/ valuesRecommended.water.cups + "%";
+    const percentage = "-" + totalValues.totalWater * 100 / valuesRecommended.water.cups + "%";
     setPercentageAnimation(percentage);
   }, [totalValues]);
 
   return (
     <>
-      <section className="shadow-xl rounded-xl p-5 lg:px-5 lg:py-3 flex flex-col justify-center font-semibold h-auto bg-white lg:row-start-2 lg:col-start-2">
+      <section className="shadow border rounded-xl p-5 lg:px-5 lg:py-3 flex flex-col justify-center font-semibold h-auto bg-white lg:row-start-2 lg:col-start-2">
         <div className="max-w-sm w-full bg-white rounded-lg dark:bg-gray-800 mx-auto">
-          <div className="flex items-center justify-between pb-4 flex-row">
+          <div className="flex items-center justify-between mb-2 flex-row">
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center ">
                 <IconUsersGroup stroke={2} />
               </div>
               <div>
-                <h5 className="leading-none text-xl font-bold text-gray-900 dark:text-white">
+                <h5 className="font-primary leading-none text-xl font-bold text-gray-900 dark:text-white">
                   Progress Water
                 </h5>
               </div>
             </div>
-            <div className="flex justify-between items-center gap-2">
-              <button onClick={() => dispatch(decreaseWater())}>
-                <IconMinus stroke={2} />
+            <div className="flex justify-between items-center ">
+              <button onClick={() => dispatch(decreaseWater())} className="active:scale-95 hover:bg-gray-200 rounded-lg p-2">
+                <IconMinus stroke={2} size={18} />
               </button>
-              <button onClick={() => dispatch(increaseWater())}>
-                <IconPlus stroke={2} />
+              <button onClick={() => dispatch(increaseWater())} className="active:scale-95 hover:bg-gray-200 rounded-lg p-2">
+                <IconPlus stroke={2} size={18} />
               </button>
             </div>
           </div>
-          <div className="mb-2">
+          <div className="mb-6">
             <div className="flex items-center justify-between gap-5 text-center">
-              <span className="text-yellow font-bold text-xl">
+              <span className="text-yellow font-semibold text-sm font-primary text-gray-500">
                 {valuesRecommended?.water?.liter || "--"} liters
               </span>
-              <span className="text-yellow font-bold text-xl">
+              <span className="text-yellow font-semibold text-sm font-primary text-gray-500">
                 {totalValues?.totalWater}/
                 {valuesRecommended?.water?.cups || "--"} cups
               </span>
@@ -66,15 +66,15 @@ export function WaterProgress() {
           </div>
 
           <div className="w-full flex justify-center items-center">
-            <div className={s.water} style={{'--percentage':percentageAnimation}}></div>
+            <div className={s.water} style={{ '--percentage': percentageAnimation }}></div>
           </div>
 
           {congrats && (
             <div className="flex items-center justify-center gap-1 text-center pt-5 flex-col 2xl:flex-row 2xl:gap-2">
-              <span className="text-green-500 font-semibold">
+              <span className="text-green-500 font-semibold font-primary">
                 Congratulations!
               </span>
-              <span className="text-green-500 font-semibold">
+              <span className="text-green-500 font-semibold font-primary">
                 You have reached your goal
               </span>
             </div>

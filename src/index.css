@@ -15,8 +15,7 @@
   }
 }
 
-
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
   background-color: #000428;
   border-radius: 5px;
 }
@@ -27,7 +26,7 @@
   background-color: transparent;
 }
 
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
   width: 5px;
   background-color: transparent;
-}
+} */

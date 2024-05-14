@@ -1,6 +1,7 @@
 import {
   IconArrowBadgeUpFilled,
   IconArrowBadgeDownFilled,
+  IconGraph,
 } from "@tabler/icons-react";
 import { useState } from "react";
 import { data } from "./data";
@@ -50,195 +51,115 @@ export function Leader() {
   }, [user]);
 
   return (
-    <>
-      <section className="shadow-xl rounded-xl py-5 px-5 flex flex-col justify-center font-semibold bg-white">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-center md:text-left w-full">
-            Leader Board
-          </h2>
-        </div>
-        <div className="rounded-xl">
-          <div style={{ height: "300px", overflow: "auto" }}>
-            <table className="w-full xl:text-[14px] text-left text-[#000428]">
-              <thead className="text-md text-[#000428] bg-white">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Name
-                  </th>
-                  <th scope="col" className="px-6 py-3 hidden md:block">
-                    Rank
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Score
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {dataScore.map((item, index) => (
-                  <tr key={index} className="bg-white text-[#000428]">
-                    <th
-                      scope="row"
-                      className="px-6 py-2 font-bold whitespace-nowrap w-full">
-                      <div className="flex items-center gap-3 h-full">
-                        {!item.name ? (
-                          <img
-                            src={user?.photoURL}
-                            className="size-8 rounded-full"
-                          />
-                        ) : (
-                          <svg
-                            viewBox="0 0 36 36"
-                            fill="none"
-                            role="img"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="30"
-                            height="30">
-                            <mask
-                              id=":ri:"
-                              maskUnits="userSpaceOnUse"
-                              x="0"
-                              y="0"
-                              width="36"
-                              height="36">
-                              <rect
-                                width="36"
-                                height="36"
-                                rx="72"
-                                fill="#FFFFFF"></rect>
-                            </mask>
-                            <g mask="url(#:ri:)">
-                              <rect
-                                width="36"
-                                height="36"
-                                fill="#cf023b"></rect>
-                              <rect
-                                x="0"
-                                y="0"
-                                width="36"
-                                height="36"
-                                transform="translate(-4 8) rotate(168 18 18) scale(1)"
-                                fill="#f4a854"
-                                rx="36"></rect>
-                              <g transform="translate(0 4) rotate(-8 18 18)">
-                                <path
-                                  d="M13,19 a1,0.75 0 0,0 10,0"
-                                  fill="#000000"></path>
-                                <rect
-                                  x="11"
-                                  y="14"
-                                  width="1.5"
-                                  height="2"
-                                  rx="1"
-                                  stroke="none"
-                                  fill="#000000"></rect>
-                                <rect
-                                  x="23"
-                                  y="14"
-                                  width="1.5"
-                                  height="2"
-                                  rx="1"
-                                  stroke="none"
-                                  fill="#000000"></rect>
-                              </g>
-                            </g>
-                          </svg>
-                        )}
-                        <span className="font-semibold">
-                          {item.name || user?.displayName}
-                        </span>
-                      </div>
-                    </th>
-                    <td className="px-6 py-4 hidden md:block">
-                      <div className="flex-1">
-                        <div className="flex gap-1 items-center">
-                          {item.range === "up" ? (
-                            <IconArrowBadgeUpFilled size={20} />
-                          ) : (
-                            <IconArrowBadgeDownFilled size={20} />
-                          )}
-                          <span>{index + 1}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">{item.score}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+    <section className="shadow rounded-xl py-5  flex flex-col justify-center font-semibold bg-white border">
+      <div className="flex justify-between items-center mb-4 px-5">
+        <h2 className="text-xl font-bold text-center md:text-left w-full font-primary">
+          Leader Board
+        </h2>
+        <IconGraph className="text-gray-900" />
+      </div>
+      <div >
+        <div>
+          <div className="grid justify-between grid-cols-3 w-full border-b border-gray-200 px-5 py-2">
+            <h2 className="font-primary font-bold text-left">Name</h2>
+            <h2 className="font-primary font-bold text-right">Rank</h2>
+            <h2 className="font-primary font-bold text-right">Score</h2>
           </div>
-          <div className="border-t-2 border-gray flex justify-between">
-            <div className="px-6 py-2 font-bold flex gap-5 items-center">
-              <div className="flex items-center gap-3 size-12">
-                {isLoading ? null : photo ? (
+          <div className="grid gap-2 h-[300px] overflow-auto py-4">
+            {dataScore.map((item, idx) => (
+              <div key={item.name} className="grid grid-cols-3 gap-2 justify-between px-5">
+                <div className="flex gap-2 items-center">
                   <img
                     src={user?.photoURL}
-                    alt="avatar"
-                    className="size-full object-cover rounded-full"
+                    className="size-8 rounded-full"
                   />
-                ) : (
-                  <svg
-                    viewBox="0 0 36 36"
-                    fill="none"
-                    role="img"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="80"
-                    height="80"
-                    className="size-full">
-                    <mask
-                      id=":r80:"
-                      maskUnits="userSpaceOnUse"
+                  <p className="font-primary text-sm truncate text-gray-500"> {item.name || user?.displayName}</p>
+                </div>
+                <div className="flex justify-end items-center">
+                  {item.range === "up" ? (
+                    <IconArrowBadgeUpFilled size={16} className="text-gray-500" />
+                  ) : (
+                    <IconArrowBadgeDownFilled size={16} className="text-gray-500" />
+                  )}
+                  <p className="font-primary text-sm truncate text-gray-500 text-right">{idx + 1}</p>
+                </div>
+                <p className="font-primary text-sm truncate text-gray-500 text-right">{item.score}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="border-t border-gray flex justify-between items-center pt-4">
+          <div className="px-5 font-bold flex gap-5 items-center">
+            <div className="flex items-center gap-3 size-10">
+              {isLoading ? null : photo ? (
+                <img
+                  src={user?.photoURL}
+                  alt="avatar"
+                  className="size-full object-cover rounded-full"
+                />
+              ) : (
+                <svg
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="80"
+                  height="80"
+                  className="size-full">
+                  <mask
+                    id=":r80:"
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="36"
+                    height="36">
+                    <rect
+                      width="36"
+                      height="36"
+                      rx="72"
+                      fill="#FFFFFF"></rect>
+                  </mask>
+                  <g mask="url(#:r80:)">
+                    <rect width="36" height="36" fill="#000428"></rect>
+                    <rect
                       x="0"
                       y="0"
                       width="36"
-                      height="36">
+                      height="36"
+                      transform="translate(-5 9) rotate(189 18 18) scale(1)"
+                      fill="#f9a826"
+                      rx="36"></rect>
+                    <g transform="translate(-5 4.5) rotate(9 18 18)">
+                      <path
+                        d="M13,19 a1,0.75 0 0,0 10,0"
+                        fill="#000000"></path>
                       <rect
-                        width="36"
-                        height="36"
-                        rx="72"
-                        fill="#FFFFFF"></rect>
-                    </mask>
-                    <g mask="url(#:r80:)">
-                      <rect width="36" height="36" fill="#000428"></rect>
+                        x="10"
+                        y="14"
+                        width="1.5"
+                        height="2"
+                        rx="1"
+                        stroke="none"
+                        fill="#000000"></rect>
                       <rect
-                        x="0"
-                        y="0"
-                        width="36"
-                        height="36"
-                        transform="translate(-5 9) rotate(189 18 18) scale(1)"
-                        fill="#f9a826"
-                        rx="36"></rect>
-                      <g transform="translate(-5 4.5) rotate(9 18 18)">
-                        <path
-                          d="M13,19 a1,0.75 0 0,0 10,0"
-                          fill="#000000"></path>
-                        <rect
-                          x="10"
-                          y="14"
-                          width="1.5"
-                          height="2"
-                          rx="1"
-                          stroke="none"
-                          fill="#000000"></rect>
-                        <rect
-                          x="24"
-                          y="14"
-                          width="1.5"
-                          height="2"
-                          rx="1"
-                          stroke="none"
-                          fill="#000000"></rect>
-                      </g>
+                        x="24"
+                        y="14"
+                        width="1.5"
+                        height="2"
+                        rx="1"
+                        stroke="none"
+                        fill="#000000"></rect>
                     </g>
-                  </svg>
-                )}
-              </div>
-              <span className="font-semibold">{user?.displayName}</span>
+                  </g>
+                </svg>
+              )}
             </div>
-            {/* cambiar el score segun redux de habitos los puntos */}
-            <span className="px-6 py-4 mr-4">{user?.score}</span>
+            <span className="font-semibold font-primary text-sm">{user?.displayName}</span>
           </div>
+          {/* cambiar el score segun redux de habitos los puntos */}
+          <span className="px-6 font-primary text-sm">{user?.score}</span>
         </div>
-      </section>
-    </>
-  );
+      </div>
+    </section>
+  );
 }
