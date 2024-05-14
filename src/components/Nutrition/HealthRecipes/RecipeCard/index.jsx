@@ -15,7 +15,7 @@ export default function RecipesCard({
   return (
     <div
       id="recipe"
-      className="rounded-xl max-w-md  w-full  flex bg-fuel-yellow-300 border-fuel-yellow-400 gap-1 flex-none overflow-hidden">
+      className="rounded-xl max-w-sm w-full flex bg-fuel-yellow-300 border-fuel-yellow-400 gap-1 flex-none overflow-hidden">
       <div className="w-[40%] md:w-[150px] flex-none h-full">
         <img
           src={image}
