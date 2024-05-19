@@ -55,7 +55,7 @@ export default function Sidebar({ isSideBarOpen, setIsSideBarOpen }) {
                     <div
                       className={` flex items-baseline space-x-2 px-5 mr-8 rounded-r-xl duration-500 ease-in-out py-4 cursor-pointer hover:bg-[#000428bd] hover:text-white dark:hover:bg-white dark:hover:text-black dark:text-white  ${
                         board.isActive &&
-                        " bg-[#000428] rounded-r-xl text-white mr-8 "
+                        " bg-[#000428] rounded-r-xl text-white mr-8 dark:bg-white dark:text-black "
                       } `}
                       key={index}
                       onClick={() => {
@@ -68,13 +68,13 @@ export default function Sidebar({ isSideBarOpen, setIsSideBarOpen }) {
                   ))}
 
                   <div
-                    className=" flex  items-baseline space-x-2  mr-8 rounded-r-xl duration-500 ease-in-out cursor-pointer text-[#635fc7] px-5 py-4 hover:bg-white hover:text-[#635fc7] dark:hover:bg-white  "
+                    className=" flex  items-baseline space-x-2  mr-8 rounded-r-xl duration-500 ease-in-out cursor-pointer text-[#534df5] px-5 py-4 hover:bg-[#000428] hover:text-[#534df5] dark:hover:bg-white  "
                     onClick={() => {
                       setIsBoardModalOpen(true);
                     }}
                   >
                     <img src={boardIcon} className="   filter-white  h-4 " />
-                    <p className=" text-lg font-bold  ">Create New Board </p>
+                    <p className=" text-lg font-bold  ">Crear nuevo board</p>
                   </div>
                 </div>
 

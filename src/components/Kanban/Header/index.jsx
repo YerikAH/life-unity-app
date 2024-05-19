@@ -45,7 +45,7 @@ export function Header({ setIsBoardModalOpen, boardModalOpen }) {
   };
 
   return (
-    <div className="mt-6 py-3 px-4 fixed top-0 md:left-28 md:right-10 left-4 right-4 bg-[#000428]  dark:bg-[#000428] shadow-lg z-50 rounded-full md:rounded-3xl">
+    <div className="mt-6 py-3 px-4 fixed top-0 md:left-72 md:right-14 left-4 right-4 bg-[#000428]  dark:bg-[#000428] shadow-lg z-50 rounded-full md:rounded-3xl">
       <header className="flex justify-between dark:text-white items-center">
 
         {/* Lado izquierdo */}

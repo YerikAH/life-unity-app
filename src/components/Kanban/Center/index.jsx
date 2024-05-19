@@ -38,7 +38,7 @@ export default function Center() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
 
   return (
-    <div className="flex h-screen bg-white dark:bg-gray-200">
+    <div className="flex h-screen bg-white dark:bg-white">
       {/* Mostrar la barra lateral solo en pantallas medianas y más grandes */}
       {windowSize[0] >= 768 && (
         <SideBar
@@ -54,7 +54,7 @@ export default function Center() {
           isSideBarOpen && windowSize[0] >= 768 ? "ml-[240px]" : "ml-0"
         }`}
       >
-        <div className="h-screen flex overflow-x-scroll overflow-y-scroll gap-6 mt-7">
+        <div className="h-screen flex overflow-x-scroll overflow-y-scroll gap-6 mt-1">
           {/* Mostrar columnas si existen, de lo contrario mostrar un mensaje de tablero vacío */}
           {columns.length > 0 ? (
             <>

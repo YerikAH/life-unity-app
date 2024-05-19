@@ -57,7 +57,7 @@ export default function Column({ colIndex }) {
       {/* Título de la columna con un punto de color aleatorio */}
       <div className="flex items-center justify-center gap-2">
         <div className={`rounded-full w-4 h-4 ${color}`} />
-        <p className="font-medium tracking-widest text-[#000428] text-lg">
+        <p className="font-normal  text-[#000428] text-lg">
           {col.name} ({col.tasks.length})
         </p>
       </div>
