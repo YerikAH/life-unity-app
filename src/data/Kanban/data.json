@@ -1,0 +1,433 @@
+{
+  "boards": [
+    {
+      "name": "Tablero de Elena",
+      "isActive": true,
+      "columns": [
+        {
+          "name": "En proceso",
+          "tasks": [
+            {
+              "title": "Construir UI para el flujo de incorporación",
+              "description": "",
+              "status": "Pendiente",
+              "subtasks": [
+                {
+                  "title": "Página de registro",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Página de inicio de sesión",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Página de bienvenida",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Construir UI para búsqueda",
+              "description": "",
+              "status": "Pendiente",
+              "subtasks": [
+                {
+                  "title": "Página de búsqueda",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Construir UI de configuración",
+              "description": "",
+              "status": "Pendiente",
+              "subtasks": [
+                {
+                  "title": "Página de cuenta",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Página de facturación",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "QA y probar todos los recorridos principales de usuario",
+              "description": "Una vez que sintamos que la versión uno está lista, necesitamos probarla rigurosamente tanto interna como externamente para identificar cualquier brecha importante.",
+              "status": "Pendiente",
+              "subtasks": [
+                {
+                  "title": "Pruebas internas",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Pruebas externas",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "En revisión",
+          "tasks": [
+            {
+              "title": "Diseñar páginas de configuración y búsqueda",
+              "description": "",
+              "status": "En progreso",
+              "subtasks": [
+                {
+                  "title": "Configuración - Página de cuenta",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Configuración - Página de facturación",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Página de búsqueda",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Agregar puntos finales de gestión de cuenta",
+              "description": "",
+              "status": "En progreso",
+              "subtasks": [
+                {
+                  "title": "Actualizar plan",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Cancelar plan",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Actualizar método de pago",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Diseñar flujo de incorporación",
+              "description": "",
+              "status": "En progreso",
+              "subtasks": [
+                {
+                  "title": "Página de registro",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Página de inicio de sesión",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Página de bienvenida",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Agregar puntos finales de búsqueda",
+              "description": "",
+              "status": "En progreso",
+              "subtasks": [
+                {
+                  "title": "Agregar punto final de búsqueda",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Definir filtros de búsqueda",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Agregar puntos finales de autenticación",
+              "description": "",
+              "status": "En progreso",
+              "subtasks": [
+                {
+                  "title": "Definir modelo de usuario",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Agregar puntos finales de autenticación",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Investigar puntos de precio de varios competidores y probar diferentes modelos de negocio",
+              "description": "Sabemos lo que planeamos construir para la versión uno. Ahora necesitamos finalizar el primer modelo de precios que usaremos. Sigue iterando las subtareas hasta que tengamos una propuesta coherente.",
+              "status": "En progreso",
+              "subtasks": [
+                {
+                  "title": "Investigar precios y modelos de negocio de competidores",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Esbozar un modelo de negocio que funcione para nuestra solución",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Hablar con posibles clientes sobre nuestra solución propuesta y preguntar por expectativas de precio justo",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Terminado",
+          "tasks": [
+            {
+              "title": "Realizar 5 pruebas de wireframes",
+              "description": "Asegúrate de que el diseño siga teniendo sentido y que tengamos una fuerte aceptación por parte de los usuarios potenciales.",
+              "status": "Hecho",
+              "subtasks": [
+                {
+                  "title": "Completar 5 pruebas de prototipo de wireframe",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Crear prototipo de wireframe",
+              "description": "Crear un prototipo de wireframe clicable en escala de grises para probar nuestras suposiciones hasta ahora.",
+              "status": "Hecho",
+              "subtasks": [
+                {
+                  "title": "Crear prototipo de wireframe clicable en Balsamiq",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Revisar resultados de pruebas de usabilidad e iterar",
+              "description": "Sigue iterando a través de las subtareas hasta que tengamos claros los conceptos básicos de la aplicación.",
+              "status": "Hecho",
+              "subtasks": [
+                {
+                  "title": "Reunirse para revisar notas de pruebas anteriores y planificar cambios",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Realizar cambios en los prototipos de papel",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Realizar 5 pruebas de usabilidad",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Crear prototipos de papel y realizar 10 pruebas de usabilidad con clientes potenciales",
+              "description": "",
+              "status": "Hecho",
+              "subtasks": [
+                {
+                  "title": "Crear prototipos de papel para la versión uno",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Completar 10 pruebas de usabilidad",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Descubrimiento del mercado",
+              "description": "Necesitamos definir y refinar nuestro producto principal. Las entrevistas nos ayudarán a aprender los puntos de dolor comunes y definir el MVP más fuerte.",
+              "status": "Hecho",
+              "subtasks": [
+                {
+                  "title": "Entrevistar a 10 clientes potenciales",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Análisis de competidores",
+              "description": "",
+              "status": "Hecho",
+              "subtasks": [
+                {
+                  "title": "Encontrar competidores directos e indirectos",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Análisis FODA para cada competidor",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Investigar el mercado",
+              "description": "Necesitamos obtener una visión general sólida del mercado para asegurarnos de tener estimaciones actualizadas del tamaño y la demanda del mercado.",
+              "status": "Hecho",
+              "subtasks": [
+                {
+                  "title": "Redactar análisis de investigación",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Calcular TAM",
+                  "isCompleted": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tablero de Harvey",
+      "isActive": false,
+      "columns": [
+        {
+          "name": "En progreso",
+          "tasks": [
+            {
+              "title": "Planificar lanzamiento en Product Hunt",
+              "description": "",
+              "status": "Pendiente",
+              "subtasks": [
+                {
+                  "title": "Encontrar cazador",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Reunir recursos",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Redactar página de producto",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Notificar a los clientes",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Notificar a la red",
+                  "isCompleted": false
+                },
+                {
+                  "title": "¡Lanzar!",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Share on Show HN",
+              "description": "",
+              "status": "",
+              "subtasks": [
+                {
+                  "title": "Draft out HN post",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Get feedback and refine",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Publish post",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Write launch article to publish on multiple channels",
+              "description": "",
+              "status": "",
+              "subtasks": [
+                {
+                  "title": "Write article",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Publish on LinkedIn",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Publish on Inndie Hackers",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Publish on Medium",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Doing",
+          "tasks": []
+        },
+        {
+          "name": "Done",
+          "tasks": []
+        }
+      ]
+    },
+    {
+      "name": "Julio's Board",
+      "isActive" : false,
+      "columns": [
+        {
+          "name": "Now",
+          "tasks": [
+            {
+              "title": "Launch version one",
+              "description": "",
+              "status": "",
+              "subtasks": [
+                {
+                  "title": "Launch privately to our waitlist",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Launch publicly on PH, HN, etc.",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Review early feedback and plan next steps for roadmap",
+              "description": "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
+              "status": "",
+              "subtasks": [
+                {
+                  "title": "Interview 10 customers",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Review common customer pain points and suggestions",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Outline next steps for our roadmap",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Next",
+          "tasks": []
+        },
+        {
+          "name": "Later",
+          "tasks": []
+        }
+      ]
+    }
+  ]
+}

@@ -30,3 +30,17 @@
   width: 5px;
   background-color: transparent;
 } */
+
+
+@layer components {
+  .buttones {
+    @apply bg-white py-2 px-4  rounded-xl text-[#000428] text-lg  hover:opacity-80 duration-200 font-semibold
+  }  
+} 
+
+.select-status{
+  background-image: url(./assets/icon-chevron-down.svg);
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 16px top 50%;}
+

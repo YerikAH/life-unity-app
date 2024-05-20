@@ -29,7 +29,7 @@ const linksArray = [
     collapsed: false,
     icon: <IconTable />,
     name: "Board",
-    route: "/board",
+    route: "/kanbanPersonal",
   },
   {
     collapsed: false,
