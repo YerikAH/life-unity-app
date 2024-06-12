@@ -44,12 +44,12 @@ export default {
       primary: ['"M PLUS Rounded 1c"', "sans-serif"],
     },
   },
-  darkMode : "class" ,
+  darkMode: "class",
 
   plugins: [
-    require('tailwind-scrollbar'),
+    require("tailwind-scrollbar"),
     require("flowbite/plugin")({
       charts: true,
     }),
-  ],  
+  ],
 };

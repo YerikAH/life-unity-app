@@ -7,7 +7,11 @@ import { useState } from "react";
 import s from "./index.module.css";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
-import { createUser, updateProfileUser, loginWithGoogle } from "../../services/auth";
+import {
+  createUser,
+  updateProfileUser,
+  loginWithGoogle,
+} from "../../services/auth";
 
 export function Register() {
   const [error, setError] = useState(false);
@@ -61,10 +65,10 @@ export function Register() {
     } catch (error) {
       return null;
     }
-  }
+  };
 
   return (
-    <div className="bg-gray-200 flex justify-center items-center h-full">
+    <div className="bg-[#EEEFF1] flex justify-center items-center h-full">
       <div>
         <nav className="p-5 flex justify-between items-center md:my-5 md:px-10">
           <div className="logo flex items-center gap-3">
@@ -75,7 +79,8 @@ export function Register() {
           </div>
           <Link
             to="/login"
-            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20">
+            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20"
+          >
             LogIn
           </Link>
         </nav>
@@ -95,7 +100,8 @@ export function Register() {
                 type="button"
                 className="font-primary flex items-center w-full justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
                 name="google-signup"
-                onClick={registerGoogle}>
+                onClick={registerGoogle}
+              >
                 <img src={google} alt="" className="size-[25px]" />
                 Sign up with Google
               </button>
@@ -189,7 +195,8 @@ export function Register() {
                   name="show-password-login"
                   className="absolute right-2 top-2.5"
                   type="button"
-                  onClick={togglePassword}>
+                  onClick={togglePassword}
+                >
                   {showPassword ? (
                     <IconEyeClosed size={16} />
                   ) : (
@@ -213,11 +220,13 @@ export function Register() {
                   />
                   <label
                     htmlFor="agree-terms"
-                    className="font-primary flex gap-1">
+                    className="font-primary flex gap-1"
+                  >
                     I agree all
                     <a
                       href="#"
-                      className="border-b border-b-black font-primary">
+                      className="border-b border-b-black font-primary"
+                    >
                       Term, Privacy Policy and Fees
                     </a>
                   </label>
@@ -225,14 +234,15 @@ export function Register() {
                 {errorMessage("terms")}
               </div>
               {error && (
-                <p className="text-red-500 text-xs font-semibold mb-3">
+                <p className="text-red-500 text-xs font-semibold mb-3 font-primary">
                   The email already exist
                 </p>
               )}
               <button
                 type="submit"
                 name="signup-btn"
-                className="font-primary text-sm w-full bg-yellow py-2 font-semibold rounded-md">
+                className="font-primary text-sm w-full bg-fuel-yellow-400 py-2 font-semibold rounded-md hover:bg-fuel-yellow-500 transition-all"
+              >
                 Sign Up
               </button>
             </form>
