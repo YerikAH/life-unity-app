@@ -1,42 +1,42 @@
-import { Header } from "../../components/Kanban/Header";
+import { Header, Center, EmptyBoard } from "../../components/Kanban";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setBoardActive } from "../../redux/slices/boardsSlice";
-
-import EmptyBoard from "../../components/Kanban/EmptyBoard";
-import Center from "../../components/Kanban/Center";
+import { useTitle } from "../../hooks";
 
 export function KanbanPersonal() {
-  const [boardModalOpen, setBoardModalOpen] = useState(false);
+  useTitle("Kanban - LifeUnity");
   const dispatch = useDispatch();
+  const [boardModalOpen, setBoardModalOpen] = useState(false);
+  const [seeBoards, setSeeBoards] = useState(false);
   const boards = useSelector((state) => state.boards);
-  console.log("Contenido de boards:", boards);
   const activeBoard = boards.find((board) => board.isActive);
   if (!activeBoard && boards.length > 0) dispatch(setBoardActive({ index: 0 }));
 
   return (
-    <div className='font-M PLUS Rounded 1c overflow-hidden overflow-x-scroll'>
-      <>
-        {boards.length > 0 ? (
-          <>
-            {/* El embabezado */}
+    <div className="w-full h-full overflow-auto">
+      {boards.length > 0 ? (
+        <>
+          {/* El embabezado */}
             <Header
+              seeBoards={seeBoards}
+              setSeeBoards={setSeeBoards}
               boardModalOpen={boardModalOpen}
               setIsBoardModalOpen={setBoardModalOpen}
             />
-            {/* Seccion central */}
+          {/* Seccion central */}
+          <div className="overflow-auto md:h-[85vh]">
             <Center
               boardModalOpen={boardModalOpen}
               setBoardModalOpen={setBoardModalOpen}
-              
             />
-          </>
-        ) : (
-          <>
-            <EmptyBoard type='add' />
-          </>
-        )}
-      </>
+          </div>
+        </>
+      ) : (
+        <>
+          <EmptyBoard type="add" />
+        </>
+      )}
     </div>
   );
 }

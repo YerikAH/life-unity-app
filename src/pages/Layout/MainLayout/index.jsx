@@ -18,15 +18,15 @@ export function MainLayout() {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, );
 
   return (
     <>
       {showPage && (
         <>
           <div className="flex md:h-screen w-full overflow-auto">
-            <Sidebar />
-            <div className='w-full mx-auto max-w-7xl px-4 py-8'>
+            {/* <Sidebar /> */}
+            <div className='w-full mx-auto max-w-8xl p-4 min-h-screen md:h-full'>
               <Outlet />
             </div>
           </div>

@@ -63,7 +63,7 @@ export function Leader() {
           </div>
           <div className="grid gap-2 h-[300px] overflow-auto py-4">
             {dataScore.map((item, idx) => (
-              <div key={item.name} className="grid grid-cols-3 gap-2 justify-between px-5">
+              <div key={idx} className="grid grid-cols-3 gap-2 justify-between px-5">
                 <div className="flex gap-2 items-center">
                   <img
                     src={user?.photoURL}

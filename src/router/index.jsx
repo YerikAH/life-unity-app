@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Dashboard, Habits, AuthLayout,MainLayout, Login, Nutrition, Register, Task, Settings, KanbanTeam, KanbanPersonal} from "../pages";
+import { Dashboard, Habits, AuthLayout,MainLayout, Login, Nutrition, Register, Task, Settings, KanbanTeam, KanbanPersonal, Finances} from "../pages";
 
 const router = [{
     element: <AuthLayout />,
@@ -42,12 +42,16 @@ const router = [{
         path: "/nutrition",
         element: <Nutrition />,
       },
+      // {
+      //   path: "/finances",
+      //   element: <Finances />,
+      // },
       {
         path: "/settings",
         element: <Settings />,
       }
     ],
-  },
+  }
 ];
 
 const createRouter = createBrowserRouter(router);

@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { IconExclamationCircle, IconX } from "@tabler/icons-react";
 
-export const ModalRemove = ({ open, setOpen, id }) => {
+// { open = true, setOpen, id }
+export const AddCategory = () => {
+  const [open, setOpen] = useState(true);
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog className="relative z-10" onClose={setOpen}>
@@ -14,8 +17,7 @@ export const ModalRemove = ({ open, setOpen, id }) => {
           enterTo="opacity-100"
           leave="ease-in duration-200"
           leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
+          leaveTo="opacity-0">
           <div className="fixed inset-0 bg-gray-900 bg-opacity-35 transition-opacity backdrop-blur-sm" />
         </Transition.Child>
 
@@ -39,29 +41,42 @@ export const ModalRemove = ({ open, setOpen, id }) => {
                     <IconX className="h-5 w-5" aria-hidden="true" />
                   </button>
                 </div>
-                <div className=" flex justify-center items-center flex-col mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-red-500 sm:mx-0 sm:h-10 sm:w-10">
-                    <IconExclamationCircle
-                      className="h-6 w-6 text-white"
-                      aria-hidden="true"
-                    />
-                  </div>
+                <div className=" flex flex-col mt-3 sm:ml-4 sm:mt-0 ">
                   <Dialog.Title
                     as="h3"
-                    className="mt-2 text-base font-semibold leading-6 text-gray-900 font-primary">
-                    ¿Quieres eliminar el hábito?
+                    className="my-2 text-base font-semibold leading-6 text-gray-900 font-primary">
+                    ADD NEW CATEGORY
                   </Dialog.Title>
-                  <p className="text-sm text-gray-500 text-center font-primary">
-                    Are you sure you want to deactivate your account? All of
-                    your data will be permanently removed.
+                  <p className="text-sm text-gray-500  font-primary">
+                    Here you can add new category to your list
                   </p>
+                  <form className="flex gap-5 my-4 flex-col md:flex-row ">
+                    <div class="md:w-32">
+                      <label htmlFor="icon">Icon <span class="text-xs">(use <kbd>win + .</kbd>)</span></label>
+                      <input
+                        id="icon"
+                        type="text"
+                        className="w-full border border-gray-200 rounded-xl p-2 mt-2"
+                        placeholder="Icon Image"
+                      />
+                    </div>
+                    <div class="md:flex-1">
+                      <label htmlFor="title">Title</label>
+                      <input
+                        id="title"
+                        type="text"
+                        className="w-full border border-gray-200 rounded-xl p-2 mt-2"
+                        placeholder="Category Title"
+                      />
+                    </div>
+                  </form>
                 </div>
-                <div className="mt-5 flex justify-center items-center">
+                <div className="mt-5 flex justify-end items-center">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-xl transition-all bg-red-50 px-5 py-2 text-sm font-semibold text-red-600 shadow-sm hover:bg-red-100 sm:ml-3 sm:w-auto font-primary active:scale-95"
+                    className="inline-flex w-full justify-center rounded-xl transition-all bg-primary px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary/70 sm:ml-3 sm:w-auto font-primary active:scale-95"
                     onClick={() => setOpen(false)}>
-                    Eliminar
+                    Save Category
                   </button>
                 </div>
               </Dialog.Panel>

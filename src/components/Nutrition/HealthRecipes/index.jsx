@@ -35,7 +35,7 @@ export function HealthRecipes() {
       setLoading(false);
     };
 
-    fetchRecipes();
+  fetchRecipes();
   }, []);
 
   const handleSetOpenRecipe = (recipe = null) => {

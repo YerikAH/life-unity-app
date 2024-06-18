@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSubtaskCompleted } from "../../../redux/slices/boardsSlice";
 
-export default function Subtask({ index, taskIndex, colIndex }) {
+export function Subtask({ index, taskIndex, colIndex }) {
   const dispatch = useDispatch();
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive === true);

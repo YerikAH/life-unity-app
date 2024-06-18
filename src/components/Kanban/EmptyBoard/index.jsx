@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import AddEditBoardModal from "../../../modals/AddEditBoardModal";
+import { useState } from "react";
+import {AddEditBoardModal} from "../../Kanban";
 
-export default function EmptyBoard({ type }) {
+export function EmptyBoard({ type }) {
   // Estado para controlar la apertura del modal de nuevo Board
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
 
   return (
-    <div className='bg-white dark:bg-gray-800 h-screen w-screen flex flex-col items-center justify-center'>
+    <div className='flex flex-col items-center justify-center h-full gap-3'>
       {/* Mensaje de acuerdo al tipo de acción */}
-      <h3 className='text-gray-500 font-bold'>
+      <h3 className='text-gray-500 font-bold text-center'>
         {type === "edit"
           ? "Este Board está vacío. Crea una nueva columna para comenzar."
           : "No hay tableros disponibles. Crea un nuevo Board para empezar."}
@@ -19,7 +19,7 @@ export default function EmptyBoard({ type }) {
         onClick={() => {
           setIsBoardModalOpen(true);
         }}
-        className='w-full max-w-xs font-bold hover:opacity-70 dark:text-white dark:bg-gray-700 mt-8 relative text-white bg-blue-500 dark:bg-[#000428] py-2 rounded-full'
+        className='w-full max-w-xs font-bold hover:opacity-70 dark:text-white relative text-white bg-[#000428] p-2 rounded-full'
       >
         {type === "edit" ? "Agregar nueva Columna" : "Agregar nuevo Board"}
       </button>

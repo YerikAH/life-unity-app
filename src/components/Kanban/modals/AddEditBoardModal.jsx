@@ -1,15 +1,16 @@
-import crossIcon from "../assets/images-kanban/icon-cross.svg";
-import { addBoard, editBoard } from "../redux/slices/boardsSlice";
+import { addBoard, editBoard } from "../../../redux/slices/boardsSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { IconX } from "@tabler/icons-react";
 
-export default function AddEditBoardModal({ setIsBoardModalOpen, type }) {
+export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [newColumns, setNewColumns] = useState([
-    { name: "Todo", tasks: [], id: uuidv4() },
-    { name: "Doing", tasks: [], id: uuidv4() },
+    { name: "In Progress", tasks: [], id: uuidv4() },
+    { name: "In Review", tasks: [], id: uuidv4() },
+    { name: "Done", tasks: [], id: uuidv4() },
   ]);
   const [isValid, setIsValid] = useState(true);
   const board = useSelector((state) => state.boards).find(
@@ -63,7 +64,7 @@ export default function AddEditBoardModal({ setIsBoardModalOpen, type }) {
   const onSubmit = (type) => {
     setIsBoardModalOpen(false);
     if (type === "add") {
-      dispatch(addBoard({ name, newColumns }));
+      dispatch(addBoard({ name, newColumns, id: uuidv4() }));
     } else {
       dispatch(editBoard({ name, newColumns }));
     }
@@ -77,14 +78,13 @@ export default function AddEditBoardModal({ setIsBoardModalOpen, type }) {
         }
         setIsBoardModalOpen(false);
       }}
-      className="fixed right-0 left-0 top-0 bottom-0 px-2 py-4 overflow-hidden z-50 justify-center items-center flex bg-[#00000080]"
-    >
-      <div className="overflow-hidden max-h-[95vh] bg-white dark:bg-[#2b2c37] dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto w-full px-8 py-8 rounded-xl">
+      className="fixed inset-0 z-50 justify-center items-center flex bg-[#00000080] bg-opacity-35 transition-opacity backdrop-blur-sm">
+      <div className="bg-white dark:bg-[#2b2c37] dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md w-full p-8 rounded-xl mx-5">
         <h3 className="text-lg">
           {type === "edit" ? "Editar" : "Añadir nuevo"} Board
         </h3>
         {/* Nombre del tablero */}
-        <div className="mt-8 flex flex-col space-y-3">
+        <div className="mt-5 flex flex-col gap-2">
           <label className="text-sm dark:text-white text-gray-500">
             Nombre del Board
           </label>
@@ -100,51 +100,58 @@ export default function AddEditBoardModal({ setIsBoardModalOpen, type }) {
         </div>
 
         {/* Columnas del tablero */}
-        <div className="mt-8 flex flex-col space-y-3">
+        <div className="mt-5 flex flex-col gap-2">
           <label className="text-sm dark:text-white text-gray-500">
             Columnas del Board
           </label>
 
-          {newColumns.map((column, index) => (
-            <div key={index} className="flex items-center w-full">
-              <input
-                className="bg-transparent flex-grow px-4 py-2 rounded-md text-sm border border-gray-600 outline-none focus:outline-[#000428]"
-                onChange={(e) => {
-                  onChange(column.id, e.target.value);
-                }}
-                value={column.name}
-                type="text"
-              />
-              <img
-                src={crossIcon}
-                className="m-4 cursor-pointer"
-                alt=""
-                onClick={() => {
-                  onDelete(column.id);
-                }}
-              />
-            </div>
-          ))}
+          <div className="h-[150px] overflow-y-auto flex flex-col gap-2">
+            {newColumns.map((column, index) => (
+              <div key={index} className="flex items-center w-full gap-2">
+                <input
+                  className="flex-grow px-4 py-2 rounded-md text-sm border border-gray-600 outline-none focus:ring-[#000428]"
+                  onChange={(e) => {
+                    onChange(column.id, e.target.value);
+                  }}
+                  value={column.name}
+                  type="text"
+                />
+                {type != "add" && (
+                  <IconX
+                    className="cursor-pointer"
+                    onClick={() => {
+                      onDelete(column.id);
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
         <div>
-          <button
-            className="w-full items-center hover:opacity-75 dark:text-[#000428] dark:bg-white text-white bg-[#000428] my-2 py-2 rounded-full"
-            onClick={() => {
-              setNewColumns((state) => [
-                ...state,
-                { name: "", tasks: [], id: uuidv4() },
-              ]);
-            }}
-          >
-            + Añadir nueva columna
-          </button>
+          {type != "add" && (
+            <button
+              className="w-full items-center hover:opacity-75 dark:text-[#000428] dark:bg-white text-white bg-[#000428] my-2 py-2 rounded-full"
+              onClick={() => {
+                setNewColumns((state) => [
+                  ...state,
+                  { name: "", tasks: [], id: uuidv4() },
+                ]);
+              }}>
+              + Añadir nueva columna
+            </button>
+          )}
+          {!isValid && (
+            <p className="text-red-500 text-sm mt-2">
+              Por favor, completa el nombre de todas las columnas
+            </p>
+          )}
           <button
             className="w-full items-center hover:opacity-75 dark:text-white dark:bg-[#000428] mt-8 relative text-white bg-[#000428] py-2 rounded-full"
             onClick={() => {
               const isValid = validate();
               if (isValid === true) onSubmit(type);
-            }}
-          >
+            }}>
             {type === "add" ? "Crear nuevo Board" : "Guardar cambios"}
           </button>
         </div>

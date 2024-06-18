@@ -1,12 +1,13 @@
-.items {
+.items{
+  position: relative;
   color: white;
+  transition: color 0.3s, background-color 0.1s;
 }
 
 .items:hover,
 .active {
   background-color: white;
   color: #000428;
-  transition: 0.3s;
 }
 
 .items::before {
@@ -17,6 +18,7 @@
   top: -20px;
   right: 0;
   border-radius: 50%;
+  transition: 0.1s;
 }
 
 .items::after {
@@ -27,6 +29,7 @@
   bottom: -20px;
   right: 0;
   border-radius: 50%;
+  transition: 0.1s;
 }
 
 .items:hover::before,

@@ -1,7 +1,9 @@
 {
   "boards": [
     {
+      "id":1,
       "name": "Tablero de Elena",
+      "description":"Una vez que sintamos que la versión uno está lista, necesitamos probarla rigurosamente tanto interna como externamente para identificar cualquier brecha importante.",
       "isActive": true,
       "columns": [
         {
@@ -285,7 +287,9 @@
       ]
     },
     {
+      "id":2,
       "name": "Tablero de Harvey",
+      "description":"Una vez que sintamos que la versión uno está lista, necesitamos probarla rigurosamente tanto interna como externamente para identificar cualquier brecha importante.",
       "isActive": false,
       "columns": [
         {
@@ -377,6 +381,7 @@
       ]
     },
     {
+      "id":3,
       "name": "Julio's Board",
       "isActive" : false,
       "columns": [

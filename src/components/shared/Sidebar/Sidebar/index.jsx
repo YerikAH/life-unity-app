@@ -7,6 +7,7 @@ import {
   IconSalad,
   IconSettings,
   IconTable,
+  IconPigMoney
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../../../services/auth";
@@ -37,6 +38,12 @@ const linksArray = [
     name: "Nutrition",
     route: "/nutrition",
   },
+  // {
+  //   collapsed:false,
+  //   icon: <IconPigMoney />,
+  //   name: "Finances",
+  //   route: "/finances",
+  // }
 ];
 
 export const Sidebar = () => {
@@ -84,7 +91,7 @@ export const Sidebar = () => {
               route="/settings"
             />
           </ul>
-          <ul className="px-6">
+          <ul className="px-6 py-3">
             <button
               onClick={userLogout}
               className="text-white w-full p-4 flex items-center gap-2 transition-all hover:bg-red-500 rounded-lg">

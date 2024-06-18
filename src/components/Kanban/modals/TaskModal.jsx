@@ -1,25 +1,27 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ElipsisMenu from "../components/Kanban/ElipsisMenu";
-import elipsis from "../assets/images-kanban/icon-vertical-ellipsis.svg";
-import { deleteTask, setTaskStatus } from "../redux/slices/boardsSlice";
-import DeleteModal from "./DeleteModal";
-import Subtask from "../components/Kanban/Subtask";
-import AddEditTaskModal from "./AddEditTaskModal";
+import {
+  ElipsisMenu,
+  AddEditTaskModal,
+  Subtask,
+  DeleteModal,
+} from "../../Kanban";
+import { deleteTask, setTaskStatus } from "../../../redux/slices/boardsSlice";
+import { IconDotsVertical } from "@tabler/icons-react";
 
-export default function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
+export function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
   const dispatch = useDispatch();
   const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive === true);
   const columns = board.columns;
-  const col = columns.find((col, i) => i === colIndex);
-  const task = col.tasks.find((task, i) => i === taskIndex);
+  const col = columns.find((_, i) => i === colIndex);
+  const task = col.tasks.find((_, i) => i === taskIndex);
   const subtasks = task.subtasks;
 
   let completed = 0;
-  subtasks.forEach((subtask) => {
+  subtasks?.forEach((subtask) => {
     if (subtask.isCompleted) {
       completed++;
     }
@@ -68,18 +70,23 @@ export default function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
   return (
     <div
       onClick={onClose}
-      className="fixed right-0 top-0 px-2 py-4 overflow-scroll  z-50 left-0 bottom-0 justify-center items-center flex dropdown bg-[#00000080]"
-    >
+      className="fixed inset-0 z-50 justify-center items-center flex bg-[#00000080] bg-opacity-35 transition-opacity backdrop-blur-sm">
       {/* SECCIÓN DEL MODAL */}
-      <div className="scrollbar-none overflow-y-scroll max-h-[95vh] my-auto bg-white dark:bg-[#2b2c37] text-[#000428] dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md mx-auto w-full px-8 py-8 rounded-xl">
+      <div className=" bg-white dark:bg-[#2b2c37] text-[#000428] dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md p-8 rounded-xl w-full">
         <div className="relative flex justify-between w-full items-center">
-          <h1 className="text-lg">{task.title}</h1>
-          <img
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2 items-center">
+            <h1 className="text-xl">{task.title}</h1>
+            <div className="size-6 rounded-full" style={{backgroundColor:task.color}}></div>
+            </div>
+            <p className="text-gray-500 tracking-wide text-sm">
+              Deadline: {task.date}
+            </p>
+          </div>
+          <IconDotsVertical
             onClick={() => {
               setIsElipsisMenuOpen((prevState) => !prevState);
             }}
-            src={elipsis}
-            alt="elipsis"
             className="cursor-pointer h-6"
           />
           {isElipsisMenuOpen && (
@@ -90,35 +97,39 @@ export default function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
             />
           )}
         </div>
-        <p className="text-gray-500 font-[600] tracking-wide text-xs pt-6">
-          {task.description}
-        </p>
-        <p className="pt-6 text-gray-500 tracking-widest text-sm">
-          Subtareas ({completed} de {subtasks.length})
-        </p>
-        {/* sección de subtareas */}
-        <div className="mt-3 space-y-2">
-          {subtasks.map((subtask, index) => {
-            return (
-              <Subtask
-                index={index}
-                taskIndex={taskIndex}
-                colIndex={colIndex}
-                key={index}
-              />
-            );
-          })}
-        </div>
+        {task.description && (
+          <p className="text-primary font-medium text-md pt-4">
+            {task.description}
+          </p>
+        )}
+        {subtasks?.length>0 && (
+          <>
+            <p className="text-sm dark:text-white text-gray-500 mt-4">
+              Subtareas ({completed} de {subtasks?.length})
+            </p>
+            <div className="mt-3 space-y-2">
+              {subtasks?.map((_, index) => {
+                return (
+                  <Subtask
+                    index={index}
+                    taskIndex={taskIndex}
+                    colIndex={colIndex}
+                    key={index}
+                  />
+                );
+              })}
+            </div>{" "}
+          </>
+        )}
         {/* Sección de Estado Actual */}
-        <div className="mt-8 flex flex-col space-y-3">
+        <div className="mt-4 flex flex-col space-y-3">
           <label className="text-sm dark:text-white text-gray-500">
             Estado Actual
           </label>
           <select
-            className="select-status flex-grow px-4 py-2 rounded-md text-sm focus:border-0 border-[1px] border-gray-300 focus:outline-[#000428] bg-transparent dark:bg-[#000428bb] outline-none"
+            className="rounded-md text-sm outline-none w-full border-gray-600 focus:ring-0 focus:border-gray-600"
             value={status}
-            onChange={onChange}
-          >
+            onChange={onChange}>
             {columns.map((col, index) => (
               <option key={index} value={col.name}>
                 {col.name}
@@ -130,6 +141,7 @@ export default function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
       {isDeleteModalOpen && (
         <DeleteModal
           onDeleteBtnClick={onDeleteBtnClick}
+          setIsDeleteModalOpen={setIsDeleteModalOpen}
           type="task"
           title={task.title}
         />
@@ -145,5 +157,4 @@ export default function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
       )}
     </div>
   );
-  
 }

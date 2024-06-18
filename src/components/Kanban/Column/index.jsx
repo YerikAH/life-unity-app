@@ -1,36 +1,17 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { shuffle } from "lodash";
-import Task from "../Task";
+import { Task } from "../../Kanban";
 import { dragTask } from "../../../redux/slices/boardsSlice";
+import {IconTargetArrow, IconRotateClockwise2, IconCircleCheck, IconLayout} from "@tabler/icons-react"
 
-export default function Column({ colIndex }) {
-  // Array de colores para los puntos junto a los nombres de las columnas
-  const colors = [
-    "bg-red-500",
-    "bg-orange-500",
-    "bg-blue-500",
-    "bg-purple-500",
-    "bg-green-500",
-    "bg-indigo-500",
-    "bg-amber-500",
-    "bg-pink-500",
-    "bg-sky-500",
-  ];
+export function Column({ colIndex }) {
 
   const dispatch = useDispatch();
-  // Estado para guardar el color seleccionado aleatoriamente
-  const [color, setColor] = useState(null);
 
   // Obtener el estado de los tableros desde Redux
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive === true);
-  const col = board.columns.find((col, i) => i === colIndex);
-
-  // Efecto para establecer un color aleatorio al montar el componente
-  useEffect(() => {
-    setColor(shuffle(colors).pop());
-  }, [dispatch]);
+  const col = board.columns.find((_, i) => i === colIndex);
 
   // Manejar el evento de soltar tarea en una columna diferente
   const handleOnDrop = (e) => {
@@ -49,22 +30,25 @@ export default function Column({ colIndex }) {
   };
 
   return (
-    <div
-      onDrop={handleOnDrop}
-      onDragOver={handleOnDragOver}
-      className="pl-16 pt-[100px] flex flex-col min-w-[80px]"
-    >
+    <div onDrop={handleOnDrop} onDragOver={handleOnDragOver} className="flex flex-col gap-5 my-5 md:my-0 flex-none md:mb-10 md:min-w-[250px]">
       {/* Título de la columna con un punto de color aleatorio */}
-      <div className="flex items-center justify-center gap-2">
-        <div className={`rounded-full w-4 h-4 ${color}`} />
-        <p className="font-normal  text-[#000428] text-lg">
-          {col.name} ({col.tasks.length})
+      <div className="hidden md:flex items-center justify-center gap-2">
+        {
+          col.name === "In Progress" ? <IconTargetArrow size={24} /> :
+          col.name === "In Review" ? <IconRotateClockwise2 size={24} /> :
+          col.name === "Done" ? <IconCircleCheck size={24} /> : <IconLayout size={24} />
+        }
+        <p className="font-semibold text-[#000428] text-lg">
+          {col.name}
         </p>
+        <span className="bg-primary text-white size-6 rounded-full flex justify-center items-center">{col.tasks.length}</span>
       </div>
       {/* Lista de tareas en la columna */}
-      {col.tasks.map((task, index) => (
-        <Task key={index} taskIndex={index} colIndex={colIndex} />
-      ))}
+      <div className="flex items-center justify-center gap-5 flex-col">
+        {col.tasks.map((_, index) => (
+          <Task key={index} taskIndex={index} colIndex={colIndex} />
+        ))}
+      </div>
     </div>
   );
 }
