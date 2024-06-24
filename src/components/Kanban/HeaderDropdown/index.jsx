@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 
 import { setBoardActive } from "../.././../redux/slices/boardsSlice";
 
-export default function HeaderDropdown({ setIsOpenDropdown, setBoardModalOpen}) {
+export function HeaderDropdown({ setIsOpenDropdown, setBoardModalOpen}) {
   const dispatch = useDispatch();
   const [colorTheme, setTheme] = useDarkMode();
   const [darkSide, setDarkSide] = useState(

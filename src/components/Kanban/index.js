@@ -1,11 +1,15 @@
 export { Center } from './Center'
+export { MobileColumn } from './MobileColumn';
 export { Column } from './Column'
 export { ElipsisMenu } from './ElipsisMenu'
 export { EmptyBoard } from './EmptyBoard'
 export { Header } from './Header'
-
 export { HeaderDropdown } from './HeaderDropdown'
-export { SideBar } from './SideBar'
+export { Boards } from './Boards'
 export { Subtask } from './Subtask'
 export { Task } from './Task'
+export { TaskModal } from './modals/TaskModal'
+export { AddEditBoardModal } from './modals/AddEditBoardModal'
+export { AddEditTaskModal } from './modals/AddEditTaskModal'
+export { DeleteModal } from './modals/DeleteModal'
 

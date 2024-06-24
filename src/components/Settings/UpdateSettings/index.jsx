@@ -8,6 +8,7 @@ import {
 import { useForm } from "react-hook-form";
 import { updateProfileUser } from "../../../services/auth";
 import { uploadFile, auth } from "../../../services/firebase";
+import { Image } from "../../shared/Image";
 
 export function UpdateSettings() {
   const {
@@ -16,7 +17,6 @@ export function UpdateSettings() {
     formState: { errors },
     reset,
   } = useForm();
-  const [photo, setPhoto] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const imageInput = useRef(null);
@@ -44,13 +44,9 @@ export function UpdateSettings() {
   };
 
   const fetchUser = async () => {
-    setPhoto(false);
     setIsLoading(true);
     const currentUser = auth.currentUser;
     setUser(currentUser);
-    if (currentUser?.photoURL) {
-      setPhoto(true);
-    }
     setIsLoading(false);
   };
 
@@ -67,67 +63,7 @@ export function UpdateSettings() {
         <div className="flex items-start justify-between  lg:h-20 flex-col lg:flex-row">
           <div className="flex gap-5 h-20 lg:flex-[3_3_0%]">
             <div className="bg-white p-1 rounded-full shadow-lg size-36 md:size-40 relative bottom-24 ">
-              {isLoading ? null : photo ? (
-                <img
-                  src={user?.photoURL}
-                  alt="avatar"
-                  className="size-full object-cover rounded-full"
-                />
-              ) : (
-                <svg
-                  viewBox="0 0 36 36"
-                  fill="none"
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  className="size-full"
-                >
-                  <mask
-                    id=":r80:"
-                    maskUnits="userSpaceOnUse"
-                    x="0"
-                    y="0"
-                    width="36"
-                    height="36"
-                  >
-                    <rect width="36" height="36" rx="72" fill="#FFFFFF"></rect>
-                  </mask>
-                  <g mask="url(#:r80:)">
-                    <rect width="36" height="36" fill="#000428"></rect>
-                    <rect
-                      x="0"
-                      y="0"
-                      width="36"
-                      height="36"
-                      transform="translate(-5 9) rotate(189 18 18) scale(1)"
-                      fill="#f9a826"
-                      rx="36"
-                    ></rect>
-                    <g transform="translate(-5 4.5) rotate(9 18 18)">
-                      <path d="M13,19 a1,0.75 0 0,0 10,0" fill="#000000"></path>
-                      <rect
-                        x="10"
-                        y="14"
-                        width="1.5"
-                        height="2"
-                        rx="1"
-                        stroke="none"
-                        fill="#000000"
-                      ></rect>
-                      <rect
-                        x="24"
-                        y="14"
-                        width="1.5"
-                        height="2"
-                        rx="1"
-                        stroke="none"
-                        fill="#000000"
-                      ></rect>
-                    </g>
-                  </g>
-                </svg>
-              )}
+              <Image user={user} isLoading={isLoading} marginy="my-0" />
             </div>
             <div>
               <h1 className="text-2xl font-semibold font-primary">
@@ -177,75 +113,7 @@ export function UpdateSettings() {
           <div className="py-5 md:p-0 flex gap-5 lg:gap-10 items-center justify-center">
             <div className="flex flex-col gap-3 items-center">
               <div className="size-28 lg:size-32 shadow-lg rounded-full p-1">
-                {isLoading ? null : photo ? (
-                  <img
-                    src={user?.photoURL}
-                    alt="avatar"
-                    className="size-full object-cover rounded-full"
-                  />
-                ) : (
-                  <svg
-                    viewBox="0 0 36 36"
-                    fill="none"
-                    role="img"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="80"
-                    height="80"
-                    className="size-full"
-                  >
-                    <mask
-                      id=":r80:"
-                      maskUnits="userSpaceOnUse"
-                      x="0"
-                      y="0"
-                      width="36"
-                      height="36"
-                    >
-                      <rect
-                        width="36"
-                        height="36"
-                        rx="72"
-                        fill="#FFFFFF"
-                      ></rect>
-                    </mask>
-                    <g mask="url(#:r80:)">
-                      <rect width="36" height="36" fill="#000428"></rect>
-                      <rect
-                        x="0"
-                        y="0"
-                        width="36"
-                        height="36"
-                        transform="translate(-5 9) rotate(189 18 18) scale(1)"
-                        fill="#f9a826"
-                        rx="36"
-                      ></rect>
-                      <g transform="translate(-5 4.5) rotate(9 18 18)">
-                        <path
-                          d="M13,19 a1,0.75 0 0,0 10,0"
-                          fill="#000000"
-                        ></path>
-                        <rect
-                          x="10"
-                          y="14"
-                          width="1.5"
-                          height="2"
-                          rx="1"
-                          stroke="none"
-                          fill="#000000"
-                        ></rect>
-                        <rect
-                          x="24"
-                          y="14"
-                          width="1.5"
-                          height="2"
-                          rx="1"
-                          stroke="none"
-                          fill="#000000"
-                        ></rect>
-                      </g>
-                    </g>
-                  </svg>
-                )}
+                <Image user={user} isLoading={isLoading}  marginy="my-0" />
               </div>
             </div>
             <div className="flex items-center justify-center w-full">

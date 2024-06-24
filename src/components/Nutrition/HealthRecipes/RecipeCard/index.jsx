@@ -15,7 +15,7 @@ export default function RecipesCard({
   return (
     <div
       id="recipe"
-      className="rounded-xl max-w-md  w-full  flex bg-fuel-yellow-300 border-fuel-yellow-400 gap-1 flex-none overflow-hidden">
+      className="rounded-xl max-w-sm w-full flex bg-fuel-yellow-300 border-fuel-yellow-400 gap-1 flex-none overflow-hidden">
       <div className="w-[40%] md:w-[150px] flex-none h-full">
         <img
           src={image}
@@ -23,7 +23,7 @@ export default function RecipesCard({
           className="size-full object-cover"
         />
       </div>
-      <div className="py-6 px-4 flex flex-col justify-between">
+      <div className="p-4 flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between  gap-2">
             <h3 className="leading-5 font-semibold text-base font-primary text-yellow-950">{title.split(" ").slice(0, 5).join(" ")}</h3>

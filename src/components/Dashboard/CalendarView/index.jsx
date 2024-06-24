@@ -123,7 +123,7 @@ export function CalendarView() {
             </button>
           </div>
         </div>
-        <Paper>
+        <Paper className="overflow-hidden">
           <Scheduler data={data} height={460}>
             <ViewState currentDate={selectedDate} />
             <EditingState onCommitChanges={commitChanges} />
