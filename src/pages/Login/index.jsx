@@ -9,7 +9,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
-import { loginUser, loginWithGoogle } from "../../services/auth";
+import { loginWithGoogle } from "../../services/auth";
+import {iniciarSesion} from "../../utils"
 
 export function Login() {
   const [error, setError] = useState(false);
@@ -26,8 +27,9 @@ export function Login() {
 
   const onSubmit = handleSubmit(async (data) => {
     reset();
-    const logeado = await loginUser(data.email, data.password);
-    if (logeado) {
+    const logeado = await iniciarSesion(data.username, data.password);
+    if (logeado.access) {
+      localStorage.setItem("token", JSON.stringify(logeado));
       setError(false);
       navigate("/");
     } else {
@@ -99,23 +101,18 @@ export function Login() {
               <div className="relative w-full grid">
                 <div className="mb-3">
                   <input
-                    name="email-login"
+                    name="username-login"
                     type="text"
-                    placeholder="Email"
+                    placeholder="Username"
                     className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black bg-white"
-                    {...register("email", {
+                    {...register("username", {
                       required: {
                         value: true,
-                        message: "Email is required",
-                      },
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-                        message: "Invalid email format",
+                        message: "Username is required",
                       },
                     })}
                   />
-                  {errorMessage("email")}
+                  {errorMessage("username")}
                 </div>
                 <div className="relative mb-3">
                   <input

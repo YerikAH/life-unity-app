@@ -1,7 +1,7 @@
 import { IconUser } from "@tabler/icons-react";
-import { auth } from "../../../services/firebase";
 import { useState, useEffect } from "react";
 import { Image } from "../../shared/Image";
+import { obtenerUsuario } from "../../../utils/consultasDb";
 
 export function Profile() {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,7 +9,7 @@ export function Profile() {
 
   const fetchUser = async () => {
     setIsLoading(true);
-    const currentUser = auth.currentUser;
+    const currentUser = await obtenerUsuario();
     setUser(currentUser);
     setIsLoading(false);
   };
@@ -26,9 +26,11 @@ export function Profile() {
           <IconUser className='text-gray-900' />
         </div>
         <div className="w-full grid place-items-center mt-6">
-          <Image user={user} width={64} height={64} isLoading={isLoading} />
+          <div className="max-w-[275px] w-full">
+          <Image user={user} width={24} height={24} isLoading={isLoading} />
+          </div>
           <p className="text-2xl font-semibold text-[#000428] font-primary">
-            {user?.displayName}
+            {user?.first_name} {user?.last_name}
           </p>
           <p className="text-sm text-gray-500 font-primary">{user?.email}</p>
         </div>

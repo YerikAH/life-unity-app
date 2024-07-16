@@ -1,32 +1,32 @@
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Sidebar } from "../../../components/shared";
-import { getCurrentUser } from "../../../services/auth";
+import { validarToken } from "../../../utils";
 
 export function MainLayout() {
   const navigate = useNavigate();
   const [showPage, setShowPage] = useState(false);
 
-  const fetchUser = async () => {
-    try {
-      await getCurrentUser();
-      setShowPage(true);
-    } catch (error) {
-      navigate("/login");
-    }
+  const fetchUser = () => {
+      const isAuth = validarToken();
+      if (isAuth) {
+        setShowPage(true);
+      } else {
+        navigate("/login");
+      }
   };
 
   useEffect(() => {
     fetchUser();
-  }, );
+  });
 
   return (
     <>
       {showPage && (
         <>
           <div className="flex md:h-screen w-full overflow-auto">
-            {/* <Sidebar /> */}
-            <div className='w-full mx-auto max-w-8xl p-4 min-h-screen md:h-full'>
+            <Sidebar />
+            <div className="w-full mx-auto max-w-8xl p-4 min-h-screen md:h-full">
               <Outlet />
             </div>
           </div>

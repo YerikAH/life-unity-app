@@ -7,8 +7,9 @@ import {
 } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { updateProfileUser } from "../../../services/auth";
-import { uploadFile, auth } from "../../../services/firebase";
+import { uploadFile } from "../../../services/firebase";
 import { Image } from "../../shared/Image";
+import { obtenerUsuario } from "../../../utils";
 
 export function UpdateSettings() {
   const {
@@ -45,7 +46,7 @@ export function UpdateSettings() {
 
   const fetchUser = async () => {
     setIsLoading(true);
-    const currentUser = auth.currentUser;
+    const currentUser = await obtenerUsuario();
     setUser(currentUser);
     setIsLoading(false);
   };
@@ -67,7 +68,7 @@ export function UpdateSettings() {
             </div>
             <div>
               <h1 className="text-2xl font-semibold font-primary">
-                {user?.displayName}
+                {user?.first_name} {user?.last_name}
               </h1>
               <p className="text-gray-500 font-primary">{user?.email}</p>
             </div>

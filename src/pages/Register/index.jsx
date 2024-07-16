@@ -7,9 +7,8 @@ import { useState } from "react";
 import s from "./index.module.css";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
+import {registrarUsuario} from "../../utils"
 import {
-  createUser,
-  updateProfileUser,
   loginWithGoogle,
 } from "../../services/auth";
 
@@ -30,22 +29,23 @@ export function Register() {
   const togglePassword = () => setShowPassword(!showPassword);
 
   const onSubmit = handleSubmit(async (data) => {
-    setError(false);
-    setIsLoading(true);
-    reset();
-    const userCreated = await createUser(data.email, data.password);
-    if (!userCreated) {
-      setError(true);
+    try {
+      setIsLoading(true);
+      reset();
+      // eslint-disable-next-line no-unused-vars
+      const { terms, ...dataWithoutTerms } = data;
+      const userCreated = await registrarUsuario(dataWithoutTerms);
+      if (userCreated.error) {
+        setError(true);
+        setIsLoading(false);
+        return;
+      }
       setIsLoading(false);
-      return;
-    }
-
-    const name = data.firstName + " " + data.lastName;
-
-    await updateProfileUser(name);
-    setIsLoading(false);
-    if (isLoading === false) {
-      navigate("/");
+      if(isLoading === false){
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
     }
   });
 
@@ -117,7 +117,7 @@ export function Register() {
                     type="text"
                     placeholder="First Name"
                     className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black "
-                    {...register("firstName", {
+                    {...register("first_name", {
                       required: {
                         value: true,
                         message: "First Name is required",
@@ -147,7 +147,7 @@ export function Register() {
                       },
                     })}
                   />
-                  {errorMessage("lastName")}
+                  {errorMessage("last_name")}
                 </div>
               </div>
               <div className="mb-3">
@@ -168,6 +168,21 @@ export function Register() {
                   })}
                 />
                 {errorMessage("email")}
+              </div>
+              <div className="mb-3">
+                <input
+                  name="username"
+                  type="text"
+                  placeholder="Username"
+                  className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black "
+                  {...register("username", {
+                    required: {
+                      value: true,
+                      message: "Username is required",
+                    },
+                  })}
+                />
+                {errorMessage("username")}
               </div>
               <div className="relative">
                 <div className="mb-3">
@@ -235,7 +250,7 @@ export function Register() {
               </div>
               {error && (
                 <p className="text-red-500 text-xs font-semibold mb-3 font-primary">
-                  The email already exist
+                  The user already exist
                 </p>
               )}
               <button
