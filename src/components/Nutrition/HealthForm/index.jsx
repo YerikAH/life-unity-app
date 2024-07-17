@@ -109,7 +109,7 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
                     Back
                   </button>
                   <button
-                    className="flex items-center justify-end gap-2 absolute right-0 bg-yellow px-5 py-2 rounded-2xl font-semibold"
+                    className="flex items-center justify-end gap-2 absolute right-0 bg-[#E8AA42] px-5 py-2 rounded-2xl font-semibold"
                     onClick={() => {
                       handleOpenForm();
                       handleSetDrop();

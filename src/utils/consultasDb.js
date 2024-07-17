@@ -1,16 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
-export const validarToken = () => {
-  let decodedToken = obtenerInfoToken();
-  if (decodedToken && decodedToken.exp * 1000 > Date.now()) {
-    return true; // Token valido
-  } else {
-    return false; // Token invalido
-  }
-};
-
 export const iniciarSesion = async (username, password) => {
-  const response = await fetch("http://127.0.0.1:8000/api/v1/token/", {
+  const response = await fetch("http://localhost:8000/api/v1/token/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -21,23 +12,13 @@ export const iniciarSesion = async (username, password) => {
     }),
   });
   const dataResponse = await response.json();
+  localStorage.setItem("accessToken", dataResponse.access);
+  localStorage.setItem("refreshToken", dataResponse.refresh);
   return dataResponse;
 };
 
-export const obtenerInfoToken = () => {
-  const token = JSON.parse(localStorage.getItem("token")).access;
-  let decodedToken = null;
-  try {
-    decodedToken = jwtDecode(token);
-    return decodedToken;
-  } catch (error) {
-    console.error("Error decoding token:", error);
-    return null;
-  }
-};
-
 export const registrarUsuario = async (data) => {
-  const response = await fetch("http://127.0.0.1:8000/api/v1/users/", {
+  const response = await fetch("http://localhost:8000/api/v1/users/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -49,9 +30,53 @@ export const registrarUsuario = async (data) => {
   return dataResponse;
 };
 
+export const isTokenExpired = (token) => {
+  try {
+    const decoded = jwtDecode(token);
+    const now = Date.now() / 1000;
+    return decoded.exp < now;
+  } catch (error) {
+    return true; // Si hay un error al decodificar el token, lo consideramos expirado
+  }
+};
+
+// Maneja la solicitud para refrescar el token
+export const refreshAccessToken = async () => {
+  try {
+    const refreshToken = localStorage.getItem("refreshToken");
+    const response = await fetch("http://localhost:8000/api/token/refresh/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refresh: refreshToken }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al refrescar el token");
+    }
+
+    const data = await response.json();
+    localStorage.setItem("accessToken", data.access);
+    return true;
+  } catch (error) {
+    console.error("Error al refrescar el token:", error);
+    return false;
+  }
+};
+
+export const obtenerInfoToken = () => {
+  const token = localStorage.getItem("accessToken");
+  const decoded = jwtDecode(token);
+  return decoded;
+}
+
+
 export const obtenerUsuario = async () => {
   const idByToken = obtenerInfoToken().user_id;
-  const response = await fetch(`http://127.0.0.1:8000/api/v1/users/${idByToken}/`);
+  const response = await fetch(
+    `http://localhost:8000/api/v1/users/${idByToken}/`
+  );
   const dataResponse = await response.json();
   return dataResponse;
 };
@@ -61,7 +86,7 @@ export const obtenerDatos = async (url) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("token").accessToken,
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
   });
   const data = await response.json();
@@ -69,6 +94,39 @@ export const obtenerDatos = async (url) => {
   return data;
 };
 
-// export const postDatos = async (url, data)=>{
+export const updateUser = async (data)=>{
+  const idByToken = obtenerInfoToken().user_id;
+  const response = await fetch(`http://localhost:8000/api/v1/users/${idByToken}/`, {
+    method: "PUT",
+    body: data,
+  });
+  const dataResponse = await response.json();
+  return dataResponse;
+}
 
-// }
+export const fetchDatos = async (url, method) => {
+  const response = await fetch(url, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    },
+  });
+  const dataResponse = await response.json();
+  return dataResponse;
+}
+
+export const crudDatos = async (url,data, method)=>{
+  const response = await fetch(url, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    },
+    body: JSON.stringify(data),
+  });
+  const dataResponse = await response.json();
+  return dataResponse;
+}
+
+

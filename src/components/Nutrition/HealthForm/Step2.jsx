@@ -8,7 +8,7 @@ export default function Step2({handleActivity}) {
         <div className="w-[50px] bg-[#777777] h-[5px] rounded-2xl"></div>
       </div>
       <h1 className="text-2xl mt-2 font-semibold md:w-[70%] text-center m-auto mb-5">
-        What's your lever of physical activity?
+        What&apos;s your lever of physical activity?
       </h1>
       <form className="flex flex-col gap-4 mx-3 md:mx-10">
         <button type="button" name="physical-activity" className="font-semibold shadow-xl rounded-lg flex gap-4 items-center justify-center py-3 px-5 text-start focus:ring-2 ring-[#E8AA42] hover:ring-2"

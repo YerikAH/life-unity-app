@@ -7,10 +7,8 @@ import {
   IconSalad,
   IconSettings,
   IconTable,
-  IconPigMoney
 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../../../../services/auth";
 import { CustomLink } from "../CustomLink";
 
 const linksArray = [
@@ -48,27 +46,28 @@ const linksArray = [
 
 export const Sidebar = () => {
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(false);
 
-  const handleCollapsed = () => setCollapsed(!collapsed)
+  const handleCollapsed = () => setCollapsed(!collapsed);
 
-  const userLogout = async () => {
-    try {
-      await logoutUser();
-      navigate("/login");
-    } catch (error) {
-      console.log(error.message);
-      return error.message;
-    }
+  const userLogout = () => {
+    localStorage.removeItem("acessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/login");
   };
 
-
   return (
-    <div className={`p-6  w-full transition-all delay-40 ${collapsed ? "max-w-36" : "max-w-72"}`}>
+    <div
+      className={`p-6  w-full transition-all delay-40 ${
+        collapsed ? "max-w-36" : "max-w-72"
+      }`}>
       <div className="w-full bg-primary flex rounded-3xl flex-col justify-between h-full py-12">
         <div className="flex w-full flex-col ">
-          <SidebarLogo handleCollapsed={handleCollapsed} collapsed={collapsed} />
-          <nav className='w-full pl-6 mt-4'>
+          <SidebarLogo
+            handleCollapsed={handleCollapsed}
+            collapsed={collapsed}
+          />
+          <nav className="w-full pl-6 mt-4">
             <ul className="w-full py-4 flex gap-2 flex-col ">
               {linksArray.map((item, idx) => (
                 <CustomLink
@@ -99,14 +98,12 @@ export const Sidebar = () => {
                 <IconLogout />
               </span>
               {!collapsed && (
-                <span className="font-primary font-semibold">
-                  Logout
-                </span>
+                <span className="font-primary font-semibold">Logout</span>
               )}
             </button>
           </ul>
         </div>
       </div>
-    </div >
+    </div>
   );
 };

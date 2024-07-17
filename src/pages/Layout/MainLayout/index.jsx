@@ -1,24 +1,30 @@
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Sidebar } from "../../../components/shared";
-import { validarToken } from "../../../utils";
+import { isTokenExpired,refreshAccessToken } from "../../../utils";
 
 export function MainLayout() {
   const navigate = useNavigate();
   const [showPage, setShowPage] = useState(false);
 
-  const fetchUser = () => {
-      const isAuth = validarToken();
-      if (isAuth) {
-        setShowPage(true);
-      } else {
+  useEffect(() => {
+    // Verifica si el token de acceso está presente y no ha expirado
+    const token = localStorage.getItem("accessToken");
+    if (!token || isTokenExpired(token)) {
+      if (!refreshAccessToken()){
         navigate("/login");
       }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  });
+    }
+    // Verifica si el token de refresco ha expirado
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (isTokenExpired(refreshToken)) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      navigate("/login");
+    }
+    // si el token de acceso no ha expirado ni el refresh token, muestra la página
+    setShowPage(true);
+  }, [navigate]);
 
   return (
     <>

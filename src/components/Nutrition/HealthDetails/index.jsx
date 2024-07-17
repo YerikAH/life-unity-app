@@ -80,7 +80,6 @@ export function HealthDetails() {
 
     const fetchAndSetValues = async () => {
       const fetchedData = await fetchData();
-      console.log(fetchedData);
       dispatch(setValuesRecommended(fetchedData));
     };
 

@@ -7,16 +7,13 @@ import { useState } from "react";
 import s from "./index.module.css";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
-import {registrarUsuario} from "../../utils"
-import {
-  loginWithGoogle,
-} from "../../services/auth";
+import { registrarUsuario } from "../../utils";
+import { loginWithGoogle } from "../../services/auth";
 
 export function Register() {
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   useTitle("Register - LifeUnity");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -30,22 +27,17 @@ export function Register() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      setIsLoading(true);
       reset();
       // eslint-disable-next-line no-unused-vars
       const { terms, ...dataWithoutTerms } = data;
       const userCreated = await registrarUsuario(dataWithoutTerms);
       if (userCreated.error) {
         setError(true);
-        setIsLoading(false);
         return;
       }
-      setIsLoading(false);
-      if(isLoading === false){
-        navigate("/login");
-      }
+      navigate("/login");
     } catch (error) {
-      console.log(error);
+      setError(true);
     }
   });
 
@@ -79,8 +71,7 @@ export function Register() {
           </div>
           <Link
             to="/login"
-            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20"
-          >
+            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20">
             LogIn
           </Link>
         </nav>
@@ -100,8 +91,7 @@ export function Register() {
                 type="button"
                 className="font-primary flex items-center w-full justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
                 name="google-signup"
-                onClick={registerGoogle}
-              >
+                onClick={registerGoogle}>
                 <img src={google} alt="" className="size-[25px]" />
                 Sign up with Google
               </button>
@@ -210,8 +200,7 @@ export function Register() {
                   name="show-password-login"
                   className="absolute right-2 top-2.5"
                   type="button"
-                  onClick={togglePassword}
-                >
+                  onClick={togglePassword}>
                   {showPassword ? (
                     <IconEyeClosed size={16} />
                   ) : (
@@ -235,13 +224,11 @@ export function Register() {
                   />
                   <label
                     htmlFor="agree-terms"
-                    className="font-primary flex gap-1"
-                  >
+                    className="font-primary flex gap-1">
                     I agree all
                     <a
                       href="#"
-                      className="border-b border-b-black font-primary"
-                    >
+                      className="border-b border-b-black font-primary">
                       Term, Privacy Policy and Fees
                     </a>
                   </label>
@@ -256,8 +243,7 @@ export function Register() {
               <button
                 type="submit"
                 name="signup-btn"
-                className="font-primary text-sm w-full bg-fuel-yellow-400 py-2 font-semibold rounded-md hover:bg-fuel-yellow-500 transition-all"
-              >
+                className="font-primary text-sm w-full bg-fuel-yellow-400 py-2 font-semibold rounded-md hover:bg-fuel-yellow-500 transition-all">
                 Sign Up
               </button>
             </form>
