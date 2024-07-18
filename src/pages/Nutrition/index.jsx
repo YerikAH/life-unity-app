@@ -8,8 +8,17 @@ import {
 } from "../../components/Nutrition";
 import { useEffect } from "react";
 import { useTitle } from "../../hooks";
+import { useDispatch } from "react-redux";
+import { userNutritionData, userNutritionRecomended, userValuesConsumed } from "../../redux/slices/nutritionSlice";
 export function Nutrition() {
   useTitle("Nutrition - LifeUnity");
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(userNutritionData());
+    dispatch(userNutritionRecomended());
+    dispatch(userValuesConsumed());
+  }, [dispatch]);
 
   useEffect(() => {
     const setMidnightClear = () => {
@@ -23,7 +32,6 @@ export function Nutrition() {
       const msToMidnight = night.getTime() - now.getTime();
       // esperar hasta la medianoche y borrar los valores
       setTimeout(() => {
-        localStorage.removeItem('totalValues');
         setMidnightClear(); // programar la siguiente eliminación
       }, msToMidnight);
     };

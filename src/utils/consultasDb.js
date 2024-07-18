@@ -76,7 +76,10 @@ export const refreshAccessToken = async () => {
 };
 
 export const obtenerInfoToken = () => {
-  const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("accessToken") || "";
+  if (!token) {
+    return {};
+  }
   const decoded = jwtDecode(token);
   return decoded;
 };

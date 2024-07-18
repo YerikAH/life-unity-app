@@ -4,18 +4,15 @@ import { DonutChart } from "./DonutChart";
 import { HealthForm } from "../HealthForm";
 import { analysis, crudDatos, obtenerInfoToken } from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
-import { setValuesRecommended } from "../../../redux/slices/nutritionSlice";
+import { setUserValuesRecommended } from "../../../redux/slices/nutritionSlice";
 
 export function HealthDetails() {
+  const data = useSelector((state) => state.nutrition.userData);
   const dispatch = useDispatch();
   const firstUpdate = useRef(true);
   const [isDrop, setDrop] = useState(false);
   const [isOpenForm, setOpenForm] = useState(false);
-  const [formResolved, setFormResolved] = useState(
-    localStorage.getItem("userData") ? true : false
-  );
-
-  const data = useSelector((state) => state.nutrition.userData);
+  const [formResolved, setFormResolved] = useState(!!data);
 
   const handleSetDrop = () => {
     setDrop(!isDrop);
@@ -59,19 +56,17 @@ export function HealthDetails() {
       const waterLiter = Number(water[0]);
       const waterCups = Number(water[1]);
       const recommended = {
-        cal: calNumber,
+        cals: calNumber,
         carbs: carbsNumber,
         protein: proteinNumber,
         fat: fatNumber,
-        water: {
-          liter: waterLiter,
-          cups: waterCups,
-        },
-      };
+        water_liters: waterLiter,
+        water_cups: waterCups,
+        }
       return recommended;
+      }
     }
     
-  };
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -81,7 +76,7 @@ export function HealthDetails() {
 
     const fetchAndSetValues = async () => {
       const fetchedData = await fetchData();
-      dispatch(setValuesRecommended(fetchedData));
+      dispatch(setUserValuesRecommended(fetchedData));
     };
 
     fetchAndSetValues();
@@ -121,7 +116,7 @@ export function HealthDetails() {
         <div className="flex  justify-center gap-10">
           <div className="flex items-center gap-5 flex-col">
             <h3 className="font-primary">Heigth</h3>
-            <span className="text-[#F9A826] font-bold text-2xl text-center">
+            <span className="text-[#F9A826] font-bold text-2xl text-center font-primary">
               {" "}
               {data.height || "--"} cm{" "}
             </span>

@@ -10,7 +10,7 @@ import RecipesCard from "./RecipeCard";
 import OpenRecipe from "./OpenRecipe";
 import { getRecipes, searchRecipe } from "../../../utils";
 import { useDispatch } from "react-redux";
-import { setValuesConsumed } from "../../../redux/slices/nutritionSlice";
+import { setUserValuesConsumed } from "../../../redux/slices/nutritionSlice";
 
 export function HealthRecipes() {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export function HealthRecipes() {
       fat: recipe.totalNutrients.FAT.quantity / recipe.yield,
       carbs: recipe.totalNutrients.CHOCDF.quantity / recipe.yield,
     };
-    dispatch(setValuesConsumed(recipeRecent));
+    dispatch(setUserValuesConsumed(recipeRecent));
   };
 
   const nextSlide = useCallback(() => {
@@ -143,7 +143,7 @@ export function HealthRecipes() {
                   role="status"
                   className="flex items-center justify-center h-48 max-w-sm bg-gray-300 rounded-xl animate-pulse dark:bg-gray-700 flex-none w-full">
                   <svg
-                    class="w-10 h-10 text-gray-200 dark:text-gray-600"
+                    className="w-10 h-10 text-gray-200 dark:text-gray-600"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"

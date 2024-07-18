@@ -1,33 +1,34 @@
 import * as React from "react";
 import { useEffect } from "react";
-import {
-  IconUsersGroup,
-  IconPlus,
-  IconMinus,
-} from "@tabler/icons-react";
+import { IconUsersGroup, IconPlus, IconMinus } from "@tabler/icons-react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  increaseWater,
-  decreaseWater,
-} from "../../../redux/slices/nutritionSlice";
+import { controlWater } from "../../../redux/slices/nutritionSlice";
 import s from "./index.module.css";
 
 export function WaterProgress() {
   const dispatch = useDispatch();
   const [congrats, setCongrats] = React.useState(false);
   const [percentageAnimation, setPercentageAnimation] = React.useState(0);
-  const valuesRecommended = useSelector((state) => state.nutrition?.valuesRecommended);
+  const valuesRecommended = useSelector(
+    (state) => state.nutrition?.valuesRecommended
+  );
   const totalValues = useSelector((state) => state.nutrition?.totalValues);
 
   useEffect(() => {
-    if (totalValues.totalWater >= valuesRecommended.water.cups && valuesRecommended.water.cups !== 0) {
+    if (
+      totalValues.total_water >= valuesRecommended.water_cups &&
+      valuesRecommended.water_cups !== 0
+    ) {
       setCongrats(true);
     } else {
       setCongrats(false);
     }
-    const percentage = "-" + totalValues.totalWater * 100 / valuesRecommended.water.cups + "%";
+    const percentage =
+      "-" +
+      (totalValues.total_water * 100) / valuesRecommended.water_cups +
+      "%";
     setPercentageAnimation(percentage);
-  }, [totalValues]);
+  }, [totalValues, valuesRecommended]);
 
   return (
     <>
@@ -45,10 +46,14 @@ export function WaterProgress() {
               </div>
             </div>
             <div className="flex justify-between items-center ">
-              <button onClick={() => dispatch(decreaseWater())} className="active:scale-95 hover:bg-gray-200 rounded-lg p-2">
+              <button
+                onClick={() => dispatch(controlWater("decrease"))}
+                className="active:scale-95 hover:bg-gray-200 rounded-lg p-2">
                 <IconMinus stroke={2} size={18} />
               </button>
-              <button onClick={() => dispatch(increaseWater())} className="active:scale-95 hover:bg-gray-200 rounded-lg p-2">
+              <button
+                onClick={() => dispatch(controlWater("increase"))}
+                className="active:scale-95 hover:bg-gray-200 rounded-lg p-2">
                 <IconPlus stroke={2} size={18} />
               </button>
             </div>
@@ -56,17 +61,19 @@ export function WaterProgress() {
           <div className="mb-6">
             <div className="flex items-center justify-between gap-5 text-center">
               <span className="text-yellow font-semibold text-sm font-primary text-gray-500">
-                {valuesRecommended?.water?.liter || "--"} liters
+                {valuesRecommended?.water_liters || "--"} liters
               </span>
               <span className="text-yellow font-semibold text-sm font-primary text-gray-500">
-                {totalValues?.totalWater}/
-                {valuesRecommended?.water?.cups || "--"} cups
+                {totalValues?.total_water}/
+                {valuesRecommended?.water_cups || "--"} cups
               </span>
             </div>
           </div>
 
           <div className="w-full flex justify-center items-center">
-            <div className={s.water} style={{ '--percentage': percentageAnimation }}></div>
+            <div
+              className={s.water}
+              style={{ "--percentage": percentageAnimation }}></div>
           </div>
 
           {congrats && (
