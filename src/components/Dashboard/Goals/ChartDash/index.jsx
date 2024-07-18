@@ -15,13 +15,13 @@ export function ChartDash() {
     chart.render();
 
     const carbsPercentage =
-      (totalValues.totalCarbs / valuesRecommended.carbs) * 100;
+      (totalValues.total_carbs / valuesRecommended.carbs) * 100;
     const proteinPercentage =
-      (totalValues.totalProtein / valuesRecommended.protein) * 100;
-    const calPercentage = (totalValues.totalCal / valuesRecommended.cal) * 100;
-    const fatPercentage = (totalValues.totalFat / valuesRecommended.fat) * 100;
+      (totalValues.total_protein / valuesRecommended.protein) * 100;
+    const calPercentage = (totalValues.total_cals / valuesRecommended.cals) * 100;
+    const fatPercentage = (totalValues.total_fat / valuesRecommended.fat) * 100;
     const waterPercentage =
-      (totalValues.totalWater / valuesRecommended.water.cups) * 100;
+      (totalValues.total_water / valuesRecommended.water_cups) * 100;
 
     chart.updateSeries([
       carbsPercentage,

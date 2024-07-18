@@ -205,6 +205,7 @@ export const CardsHabit = () => {
                 >
                   {(draggableProvided) => (
                     <li
+                    className="z-1"
                       key={habit.id}
                       ref={draggableProvided.innerRef}
                       {...draggableProvided.draggableProps}

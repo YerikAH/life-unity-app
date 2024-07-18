@@ -11,6 +11,7 @@ const boardsSlice = createSlice({
       const board = {
         id: payload.id,
         name: payload.name,
+        description: payload.description,
         isActive,
         columns: [],
       };
@@ -21,6 +22,7 @@ const boardsSlice = createSlice({
       const payload = action.payload;
       const board = state.find((board) => board.isActive);
       board.name = payload.name;
+      board.description = payload.description;
       board.columns = payload.newColumns;
     },
     deleteBoard: (state, action) => {

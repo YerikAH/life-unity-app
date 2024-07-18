@@ -7,7 +7,7 @@ export const SidebarLogo = ({ collapsed, handleCollapsed }) => {
       onClick={handleCollapsed}
     >
       {collapsed ? (
-        <div className="w-full max-w-16 h-16">
+        <div className="w-full max-w-16 h-16 items-center justify-center flex">
           <img className="w-full object-cover" src={logo} alt="Logo Life Unity" />
         </div>
       ) : (

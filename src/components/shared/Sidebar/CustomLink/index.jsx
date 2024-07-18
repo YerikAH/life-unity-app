@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import s from "./index.module.css";
 
-export const CustomLink = ({ icon, name, route, collapsed }) => {
+export const CustomLink = ({ icon, name=null, route, collapsed }) => {
 
   const getLinkClass = (path, dropdownPaths = []) =>
     location.pathname === path || dropdownPaths.includes(location.pathname)
@@ -16,7 +16,7 @@ export const CustomLink = ({ icon, name, route, collapsed }) => {
           route
         )}`}
       >
-        <span>{icon}</span>
+        <span className="flex-none">{icon}</span>
         {!collapsed && (
           <span className="font-primary font-semibold"> {name} </span>
         )}

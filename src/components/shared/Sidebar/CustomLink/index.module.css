@@ -1,4 +1,5 @@
 .items{
+  color: white;
   position: relative;
   color: white;
   transition: color 0.3s, background-color 0.1s;
@@ -41,3 +42,4 @@
 .active::after {
   box-shadow: 10px -10px 0 0 white;
 }
+

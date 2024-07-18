@@ -53,7 +53,7 @@ export function Header({
   };
 
   return (
-    <div className=" bg-white w-full p-2 md:p-0 flex flex-col gap-2 md:px-5">
+    <div className=" bg-white p-2 md:p-0 flex flex-col gap-2 md:px-5">
       {/* Lado izquierdo */}
       <div className="flex justify-between items-center gap-5">
         <h3 className="text-3xl font-bold">{board?.name}</h3>
