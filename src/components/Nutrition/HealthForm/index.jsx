@@ -52,11 +52,11 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
     const height = Number(isHeight);
     dispatch(
       setUserData({
-        age,
+        birth_date: birthDate,
         weight: isMeasures.weight === "kg" ? weight : weight / 2.20462,
         height: isMeasures.height === "cm" ? height : height / 0.0328,
-        gender: isGender,
-        activity: isActivity,
+        sex: isGender,
+        daily_activity: isActivity,
       })
     );
     setFormResolved(true);

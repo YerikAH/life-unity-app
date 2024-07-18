@@ -126,7 +126,7 @@ export function Register() {
                     type="text"
                     placeholder="Last Name"
                     className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black "
-                    {...register("lastName", {
+                    {...register("last_name", {
                       required: {
                         value: true,
                         message: "Last Name is required",
@@ -237,7 +237,7 @@ export function Register() {
               </div>
               {error && (
                 <p className="text-red-500 text-xs font-semibold mb-3 font-primary">
-                  The user already exist
+                  The account already exist
                 </p>
               )}
               <button

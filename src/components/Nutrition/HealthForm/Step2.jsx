@@ -12,7 +12,7 @@ export default function Step2({handleActivity}) {
       </h1>
       <form className="flex flex-col gap-4 mx-3 md:mx-10">
         <button type="button" name="physical-activity" className="font-semibold shadow-xl rounded-lg flex gap-4 items-center justify-center py-3 px-5 text-start focus:ring-2 ring-[#E8AA42] hover:ring-2"
-        onClick={()=>handleActivity("Inactive")}>
+        onClick={()=>handleActivity("sedentary")}>
           <div className="text-center">
             <h3>Sedentary</h3>
             <p className="text-[15px] font-normal mt-1 leading-5">
@@ -21,7 +21,7 @@ export default function Step2({handleActivity}) {
           </div>
         </button>
         <button type="button" name="physical-activity" className="font-semibold shadow-xl rounded-lg flex gap-4 items-center justify-center py-3 px-5 text-start focus:ring-2 ring-[#E8AA42] hover:ring-2"
-        onClick={()=>handleActivity("Low Active")}>
+        onClick={()=>handleActivity("light")}>
           <div className="text-center">
             <h3>Light</h3>
             <p className="text-[15px] font-normal mt-1 leading-5">
@@ -30,7 +30,7 @@ export default function Step2({handleActivity}) {
           </div>
         </button>
         <button type="button" name="physical-activity" className="font-semibold shadow-xl rounded-lg flex gap-4 items-center justify-center py-3 px-5 text-start focus:ring-2 ring-[#E8AA42] hover:ring-2"
-        onClick={()=>handleActivity("Active")}>
+        onClick={()=>handleActivity("moderate")}>
           <div className="text-center">
             <h3>Moderate</h3>
             <p className="text-[15px] font-normal mt-1 leading-5">
@@ -39,7 +39,7 @@ export default function Step2({handleActivity}) {
           </div>
         </button>
         <button type="button" name="physical-activity" className="font-semibold shadow-xl rounded-lg flex gap-4 items-center justify-center py-3 px-5 text-start focus:ring-2 ring-[#E8AA42] hover:ring-2"
-        onClick={()=>handleActivity("Very Active")}>
+        onClick={()=>handleActivity("high")}>
           <div className="text-center">
             <h3>High</h3>
             <p className="text-[15px] font-normal mt-1 leading-5">

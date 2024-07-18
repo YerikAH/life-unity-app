@@ -1,4 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchDatos, obtenerInfoToken, crudDatos } from "../../utils";
+
+const userNutritionData = async ()=>{
+  const user_id = obtenerInfoToken().user_id;
+  const response = await fetchDatos(`http://127.0.0.1:8000/api/v1/nutrition-personal/?id_user=${user_id}`, "GET");
+  if (response.length === 0){
+    return {};
+  }
+  return response[0];
+}
 
 const nutritionSlice = createSlice({
   name: "nutrition",
@@ -17,9 +27,7 @@ const nutritionSlice = createSlice({
           },
         }, 
     valuesConsumed: [], 
-    userData: localStorage.getItem("userData")
-      ? JSON.parse(localStorage.getItem("userData"))
-      : {},
+    userData: await userNutritionData(),
     totalValues: localStorage.getItem("totalValuesConsumed")
       ? JSON.parse(localStorage.getItem("totalValuesConsumed"))
       : {
@@ -31,9 +39,15 @@ const nutritionSlice = createSlice({
         },
   },
   reducers: {
-    setUserData: (state, param) => {
+    setUserData: async (state, param) => {
       state.userData = param.payload;
-      localStorage.setItem("userData", JSON.stringify(param.payload));
+      const user_id = obtenerInfoToken().user_id;
+      const newData = { id_user: user_id, ...param.payload };
+      await crudDatos(
+        "http://127.0.0.1:8000/api/v1/nutrition-personal/",
+        newData,
+        "POST"
+      );
     },
     setValuesRecommended: (state, param) => {
       state.valuesRecommended = param.payload;
