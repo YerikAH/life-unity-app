@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SidebarLogo } from "../SidebarLogo";
 import {
   IconLayout2,
@@ -58,8 +58,8 @@ export const Sidebar = () => {
 
   return (
     <div
-      className={`p-6  w-full transition-all delay-40 ${
-        collapsed ? "max-w-36" : "max-w-72"
+      className={`p-6  w-full transition-all delay-40 flex-none ${
+        collapsed ? "w-36" : "w-72"
       }`}>
       <div className="w-full bg-primary flex rounded-3xl flex-col justify-between h-full py-12">
         <div className="flex w-full flex-col ">

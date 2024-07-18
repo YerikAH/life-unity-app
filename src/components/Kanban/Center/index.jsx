@@ -25,7 +25,7 @@ export function Center() {
         <MobileColumn />
       ) : (
         <>
-          <div className="hidden md:flex gap-6 p-10 md:p-5 justify-center md:justify-start hover:overflow-x-visible h-full">
+          <div className="hidden md:grid grid-cols-[repeat(3,minmax(300px,_1fr))] overflow-hidden gap-6 p-10 md:p-5 justify-center md:justify-start hover:overflow-x-visible h-full">
             {columns.map((_, index) => (
               <Column key={index} colIndex={index} />
             ))}

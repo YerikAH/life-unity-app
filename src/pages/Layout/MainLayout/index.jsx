@@ -1,11 +1,23 @@
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { Sidebar } from "../../../components/shared";
+import { Sidebar, SidebarMobile } from "../../../components/shared";
 import { isTokenExpired,refreshAccessToken } from "../../../utils";
 
 export function MainLayout() {
   const navigate = useNavigate();
-  const [showPage, setShowPage] = useState(false);
+  const [showPage, setShowPage] = useState(false);  
+  const [width, setWidth] = useState(window.innerWidth);
+
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
 
   useEffect(() => {
     // Verifica si el token de acceso está presente y no ha expirado
@@ -31,7 +43,8 @@ export function MainLayout() {
       {showPage && (
         <>
           <div className="flex md:h-screen w-full overflow-auto">
-            <Sidebar />
+              {width < 768 ? (<SidebarMobile />) : (<Sidebar />)
+            }
             <div className="w-full mx-auto max-w-8xl p-4 min-h-screen md:h-full">
               <Outlet />
             </div>
