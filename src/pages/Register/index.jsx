@@ -7,17 +7,13 @@ import { useState } from "react";
 import s from "./index.module.css";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
-import {
-  createUser,
-  updateProfileUser,
-  loginWithGoogle,
-} from "../../services/auth";
+import { registrarUsuario } from "../../utils";
+import { loginWithGoogle } from "../../services/auth";
 
 export function Register() {
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   useTitle("Register - LifeUnity");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -30,22 +26,18 @@ export function Register() {
   const togglePassword = () => setShowPassword(!showPassword);
 
   const onSubmit = handleSubmit(async (data) => {
-    setError(false);
-    setIsLoading(true);
-    reset();
-    const userCreated = await createUser(data.email, data.password);
-    if (!userCreated) {
+    try {
+      reset();
+      // eslint-disable-next-line no-unused-vars
+      const { terms, ...dataWithoutTerms } = data;
+      const userCreated = await registrarUsuario(dataWithoutTerms);
+      if (userCreated.error) {
+        setError(true);
+        return;
+      }
+      navigate("/login");
+    } catch (error) {
       setError(true);
-      setIsLoading(false);
-      return;
-    }
-
-    const name = data.firstName + " " + data.lastName;
-
-    await updateProfileUser(name);
-    setIsLoading(false);
-    if (isLoading === false) {
-      navigate("/");
     }
   });
 
@@ -79,8 +71,7 @@ export function Register() {
           </div>
           <Link
             to="/login"
-            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20"
-          >
+            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider outline outline-2 outline-primary cursor-pointer transition duration-300  relative z-20">
             LogIn
           </Link>
         </nav>
@@ -100,8 +91,7 @@ export function Register() {
                 type="button"
                 className="font-primary flex items-center w-full justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
                 name="google-signup"
-                onClick={registerGoogle}
-              >
+                onClick={registerGoogle}>
                 <img src={google} alt="" className="size-[25px]" />
                 Sign up with Google
               </button>
@@ -117,7 +107,7 @@ export function Register() {
                     type="text"
                     placeholder="First Name"
                     className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black "
-                    {...register("firstName", {
+                    {...register("first_name", {
                       required: {
                         value: true,
                         message: "First Name is required",
@@ -136,7 +126,7 @@ export function Register() {
                     type="text"
                     placeholder="Last Name"
                     className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black "
-                    {...register("lastName", {
+                    {...register("last_name", {
                       required: {
                         value: true,
                         message: "Last Name is required",
@@ -147,7 +137,7 @@ export function Register() {
                       },
                     })}
                   />
-                  {errorMessage("lastName")}
+                  {errorMessage("last_name")}
                 </div>
               </div>
               <div className="mb-3">
@@ -168,6 +158,21 @@ export function Register() {
                   })}
                 />
                 {errorMessage("email")}
+              </div>
+              <div className="mb-3">
+                <input
+                  name="username"
+                  type="text"
+                  placeholder="Username"
+                  className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black "
+                  {...register("username", {
+                    required: {
+                      value: true,
+                      message: "Username is required",
+                    },
+                  })}
+                />
+                {errorMessage("username")}
               </div>
               <div className="relative">
                 <div className="mb-3">
@@ -195,8 +200,7 @@ export function Register() {
                   name="show-password-login"
                   className="absolute right-2 top-2.5"
                   type="button"
-                  onClick={togglePassword}
-                >
+                  onClick={togglePassword}>
                   {showPassword ? (
                     <IconEyeClosed size={16} />
                   ) : (
@@ -220,13 +224,11 @@ export function Register() {
                   />
                   <label
                     htmlFor="agree-terms"
-                    className="font-primary flex gap-1"
-                  >
+                    className="font-primary flex gap-1">
                     I agree all
                     <a
                       href="#"
-                      className="border-b border-b-black font-primary"
-                    >
+                      className="border-b border-b-black font-primary">
                       Term, Privacy Policy and Fees
                     </a>
                   </label>
@@ -235,14 +237,13 @@ export function Register() {
               </div>
               {error && (
                 <p className="text-red-500 text-xs font-semibold mb-3 font-primary">
-                  The email already exist
+                  The account already exist
                 </p>
               )}
               <button
                 type="submit"
                 name="signup-btn"
-                className="font-primary text-sm w-full bg-fuel-yellow-400 py-2 font-semibold rounded-md hover:bg-fuel-yellow-500 transition-all"
-              >
+                className="font-primary text-sm w-full bg-fuel-yellow-400 py-2 font-semibold rounded-md hover:bg-fuel-yellow-500 transition-all">
                 Sign Up
               </button>
             </form>

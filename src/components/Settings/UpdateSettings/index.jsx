@@ -6,9 +6,8 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
-import { updateProfileUser } from "../../../services/auth";
-import { uploadFile, auth } from "../../../services/firebase";
 import { Image } from "../../shared/Image";
+import { obtenerUsuario, updateUser } from "../../../utils";
 
 export function UpdateSettings() {
   const {
@@ -22,10 +21,28 @@ export function UpdateSettings() {
   const imageInput = useRef(null);
 
   const onSubmit = handleSubmit(async (data) => {
-    const file = imageInput.current.files[0];
-    const url = await uploadFile(file);
-    const fullname = data.firstName.trim() + " " + data.lastName.trim();
-    await updateProfileUser(fullname, url);
+    const image = imageInput.current.files[0];
+    const dataFiltrado = Object.entries(data).reduce((acc, [key, value]) => {
+      if (value.trim() !== "") {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+    const newD = (() => {
+      // Verificar si `image` no está en blanco
+      if (image) {
+        return { image, ...dataFiltrado };
+      } else {
+        return { ...dataFiltrado };
+      }
+    })();
+    console.log(newD);
+    const form = new FormData();
+    Object.entries(newD).forEach(([key, value]) => {
+      form.append(key, value);
+    }); 
+    const newUser = await updateUser(form);
+    setUser(newUser);
     reset();
   });
 
@@ -45,7 +62,7 @@ export function UpdateSettings() {
 
   const fetchUser = async () => {
     setIsLoading(true);
-    const currentUser = auth.currentUser;
+    const currentUser = await obtenerUsuario();
     setUser(currentUser);
     setIsLoading(false);
   };
@@ -62,19 +79,19 @@ export function UpdateSettings() {
         </div>
         <div className="flex items-start justify-between  lg:h-20 flex-col lg:flex-row">
           <div className="flex gap-5 h-20 lg:flex-[3_3_0%]">
-            <div className="bg-white p-1 rounded-full shadow-lg size-36 md:size-40 relative bottom-24 ">
+            <div className="bg-white p-1 rounded-full shadow-lg size-36 md:size-40 relative bottom-24 flex justify-center">
               <Image user={user} isLoading={isLoading} marginy="my-0" />
             </div>
             <div>
               <h1 className="text-2xl font-semibold font-primary">
-                {user?.displayName}
+                {user?.first_name} {user?.last_name}
               </h1>
               <p className="text-gray-500 font-primary">{user?.email}</p>
             </div>
           </div>
         </div>
       </header>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} encType="multipart/form-data">
         <section className="flex justify-between gap-5 w-full items-center py-5 border-b border-b-[#838383]">
           <div className="w-full flex-1 lg:flex-[3_3_0%]">
             <h2 className="font-semibold text-base font-primary">
@@ -112,7 +129,7 @@ export function UpdateSettings() {
           </div>
           <div className="py-5 md:p-0 flex gap-5 lg:gap-10 items-center justify-center">
             <div className="flex flex-col gap-3 items-center">
-              <div className="size-28 lg:size-32 shadow-lg rounded-full p-1">
+              <div className="size-28 lg:size-32 shadow-lg rounded-full p-1 flex justify-center">
                 <Image user={user} isLoading={isLoading}  marginy="my-0" />
               </div>
             </div>
@@ -140,7 +157,7 @@ export function UpdateSettings() {
                 </button>
                 <input
                   ref={imageInput}
-                  name="photoUrl"
+                  name="image"
                   id="dropzone-file"
                   type="file"
                   className="hidden font-primary"
@@ -172,7 +189,7 @@ export function UpdateSettings() {
                       id="full-name"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Enter first name"
-                      {...register("firstName")}
+                      {...register("first_name")}
                     />
                   </div>
                   <div className="flex-1  w-full">
@@ -181,7 +198,7 @@ export function UpdateSettings() {
                       id="last-name"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Enter last name"
-                      {...register("lastName")}
+                      {...register("last_name")}
                     />
                   </div>
                 </div>
@@ -210,6 +227,22 @@ export function UpdateSettings() {
                     })}
                   />
                   {errorMessage("email")}
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 flex-1 ">
+                <label htmlFor="email" className="font-semibold">
+                  Username
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-3 pointer-events-none translate-y-[25%]">
+                    <IconMail stroke={2} size="20" />
+                  </div>
+                  <input
+                    type="text"
+                    id="email"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Write your username"
+                  />
                 </div>
               </div>
               <div className="flex flex-col gap-2 flex-1">

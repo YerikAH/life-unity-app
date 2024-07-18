@@ -6,14 +6,13 @@ import {
 import { useState } from "react";
 import { data } from "./data";
 import { useEffect } from "react";
-import { auth } from "../../../services/firebase";
 import { Image } from "../../shared/Image";
+import { obtenerUsuario } from "../../../utils";
 
 export function Leader() {
   const [dataScore, setDataScore] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [up, setUp] = useState(true);
 
   const fetchDataScore = () => {
     const sortedData = [...data, user].sort((a, b) => {
@@ -30,7 +29,7 @@ export function Leader() {
 
   const fetchUser = async () => {
     setIsLoading(true);
-    const currentUser = auth.currentUser;
+    const currentUser = await obtenerUsuario();
     currentUser.score = 100;
     setUser(currentUser);
     setIsLoading(false);
@@ -54,7 +53,7 @@ export function Leader() {
         </h2>
         <IconGraph className="text-gray-900" />
       </div>
-      <div >
+      <div>
         <div>
           <div className="grid justify-between grid-cols-3 w-full border-b border-gray-200 px-5 py-2">
             <h2 className="font-primary font-bold text-left">Name</h2>
@@ -63,31 +62,53 @@ export function Leader() {
           </div>
           <div className="grid gap-2 h-[300px] overflow-auto py-4">
             {dataScore.map((item, idx) => (
-              <div key={idx} className="grid grid-cols-3 gap-2 justify-between px-5">
+              <div
+                key={idx}
+                className="grid grid-cols-3 gap-2 justify-between px-5">
                 <div className="flex gap-2 items-center">
-                  <img
-                    src={user?.photoURL}
-                    className="size-8 rounded-full"
-                  />
-                  <p className="font-primary text-sm truncate text-gray-500"> {item.name || user?.displayName}</p>
+                  <img src={user?.photoURL} className="size-8 rounded-full" />
+                  <p className="font-primary text-sm truncate text-gray-500">
+                    {" "}
+                    {item.name || user?.displayName}
+                  </p>
                 </div>
                 <div className="flex justify-end items-center">
                   {item.range === "up" ? (
-                    <IconArrowBadgeUpFilled size={16} className="text-gray-500" />
+                    <IconArrowBadgeUpFilled
+                      size={16}
+                      className="text-gray-500"
+                    />
                   ) : (
-                    <IconArrowBadgeDownFilled size={16} className="text-gray-500" />
+                    <IconArrowBadgeDownFilled
+                      size={16}
+                      className="text-gray-500"
+                    />
                   )}
-                  <p className="font-primary text-sm truncate text-gray-500 text-right">{idx + 1}</p>
+                  <p className="font-primary text-sm truncate text-gray-500 text-right">
+                    {idx + 1}
+                  </p>
                 </div>
-                <p className="font-primary text-sm truncate text-gray-500 text-right">{item.score}</p>
+                <p className="font-primary text-sm truncate text-gray-500 text-right">
+                  {item.score}
+                </p>
               </div>
             ))}
           </div>
         </div>
         <div className="border-t border-gray flex justify-between items-center pt-4">
           <div className="px-5 font-bold flex gap-5 items-center">
-          <Image user={user} width={10} height={10} isLoading={isLoading} marginy="my-0" />
-            <span className="font-semibold font-primary text-sm">{user?.displayName}</span>
+            <div className="flex justify-center size-full rounded-full">
+              <Image
+                user={user}
+                width={12}
+                height={12}
+                isLoading={isLoading}
+                marginy="my-0"
+              />
+            </div>
+            <span className="font-semibold font-primary text-sm">
+              {user?.first_name} {user?.last_name}
+            </span>
           </div>
           {/* cambiar el score segun redux de habitos los puntos */}
           <span className="px-6 font-primary text-sm">{user?.score}</span>

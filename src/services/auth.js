@@ -81,9 +81,6 @@ export async function updateProfileUser(
     if (name && name.trim() !== "") updateData.displayName = name.trim();
     updateData.photoURL = photoUrl;
     await updateProfile(currentUser, updateData);
-    // investigar como hacer un update de email y password
-    // if (newEmail) await updateEmail(currentUser, newEmail);
-    // if (newPassword)  await updatePassword(currentUser, newPassword);
   } catch (error) {
     return null;
   }

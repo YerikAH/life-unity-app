@@ -21,10 +21,10 @@ export function Image({
             </svg>
             <span className="sr-only">Loading...</span>
           </div>
-      ) : user?.photoURL ? (
+      ) : user?.image ? (
         <img
           className={`object-cover w-${width} h-${height} ${rounded} ${marginy}`}
-          src={user?.photoURL}
+          src={user?.image}
           alt="avatar"
         />
       ) : (
@@ -33,8 +33,8 @@ export function Image({
           fill="none"
           role="img"
           xmlns="http://www.w3.org/2000/svg"
-          width={width * 4}
-          height={height * 4}
+          width={width}
+          height={height}
           className={`${marginy} size-full`}>
           <mask
             id=":r18:"

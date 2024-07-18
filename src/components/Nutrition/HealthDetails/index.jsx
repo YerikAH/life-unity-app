@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { IconChevronDown, IconFileSpreadsheet } from "@tabler/icons-react";
 import { DonutChart } from "./DonutChart";
 import { HealthForm } from "../HealthForm";
-import { analysis } from "../../../utils";
+import { analysis, crudDatos, obtenerInfoToken } from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setValuesRecommended } from "../../../redux/slices/nutritionSlice";
 
@@ -70,6 +70,7 @@ export function HealthDetails() {
       };
       return recommended;
     }
+    
   };
 
   useEffect(() => {
@@ -80,7 +81,6 @@ export function HealthDetails() {
 
     const fetchAndSetValues = async () => {
       const fetchedData = await fetchData();
-      console.log(fetchedData);
       dispatch(setValuesRecommended(fetchedData));
     };
 

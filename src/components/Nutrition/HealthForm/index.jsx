@@ -52,11 +52,11 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
     const height = Number(isHeight);
     dispatch(
       setUserData({
-        age,
+        birth_date: birthDate,
         weight: isMeasures.weight === "kg" ? weight : weight / 2.20462,
         height: isMeasures.height === "cm" ? height : height / 0.0328,
-        gender: isGender,
-        activity: isActivity,
+        sex: isGender,
+        daily_activity: isActivity,
       })
     );
     setFormResolved(true);
@@ -109,7 +109,7 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
                     Back
                   </button>
                   <button
-                    className="flex items-center justify-end gap-2 absolute right-0 bg-yellow px-5 py-2 rounded-2xl font-semibold"
+                    className="flex items-center justify-end gap-2 absolute right-0 bg-[#E8AA42] px-5 py-2 rounded-2xl font-semibold"
                     onClick={() => {
                       handleOpenForm();
                       handleSetDrop();

@@ -9,7 +9,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
-import { loginUser, loginWithGoogle } from "../../services/auth";
+import { loginWithGoogle } from "../../services/auth";
+import { iniciarSesion } from "../../utils";
 
 export function Login() {
   const [error, setError] = useState(false);
@@ -25,9 +26,10 @@ export function Login() {
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
+    setError(false);
     reset();
-    const logeado = await loginUser(data.email, data.password);
-    if (logeado) {
+    const logeado = await iniciarSesion(data.username, data.password);
+    if (logeado.access || logeado.refresh) {
       setError(false);
       navigate("/");
     } else {
@@ -65,15 +67,13 @@ export function Login() {
           </div>
           <Link
             to="/register"
-            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider  outline outline-2 outline-primary cursor-pointer transition duration-300 relative z-20"
-          >
+            className="font-primary bg-primary text-white px-6 py-2 rounded-md text-md font-semibold tracking-wider  outline outline-2 outline-primary cursor-pointer transition duration-300 relative z-20">
             SignUp
           </Link>
         </nav>
         <main
           id="login-header"
-          className="py-10 flex flex-col gap-16 justify-center items-center max-w-[375px] m-auto md:flex-row md:max-w-full md:items-center lg:gap-[200px] md:h-[calc(100%-70px)] px-10"
-        >
+          className="py-10 flex flex-col gap-16 justify-center items-center max-w-[375px] m-auto md:flex-row md:max-w-full md:items-center lg:gap-[200px] md:h-[calc(100%-70px)] px-10">
           <section className="w-full header-left md:max-w-[300px] md:flex-none lg:min-w-[400px]">
             <div className="text-center mb-6">
               <h1 className="text-4xl font-bold font-primary">Welcome Back!</h1>
@@ -86,8 +86,7 @@ export function Login() {
                 type="button"
                 name="google-login"
                 className="font-primary w-full flex items-center justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
-                onClick={loginGoogle}
-              >
+                onClick={loginGoogle}>
                 <img src={google} alt="" className="size-[25px]" />
                 Log in with Google
               </button>
@@ -99,23 +98,18 @@ export function Login() {
               <div className="relative w-full grid">
                 <div className="mb-3">
                   <input
-                    name="email-login"
+                    name="username-login"
                     type="text"
-                    placeholder="Email"
+                    placeholder="Username"
                     className="font-primary w-full text-sm py-2 px-5 rounded-md font-semibold placeholder:text-[#3F3E3E] focus:ring-black focus:border-black bg-white"
-                    {...register("email", {
+                    {...register("username", {
                       required: {
                         value: true,
-                        message: "Email is required",
-                      },
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-                        message: "Invalid email format",
+                        message: "Username is required",
                       },
                     })}
                   />
-                  {errorMessage("email")}
+                  {errorMessage("username")}
                 </div>
                 <div className="relative mb-3">
                   <input
@@ -141,8 +135,7 @@ export function Login() {
                     name="show-password-login"
                     className="absolute right-2 top-2.5"
                     onClick={togglePassword}
-                    type="button"
-                  >
+                    type="button">
                     {showPassword ? (
                       <IconEyeClosed size={16} />
                     ) : (
@@ -159,8 +152,7 @@ export function Login() {
               <button
                 type="submit"
                 name="login-btn"
-                className="text-sm mt-5 w-full bg-[#E8AA42] py-2 font-semibold rounded-md hover:bg-[#ECBA67] font-primary"
-              >
+                className="text-sm mt-5 w-full bg-[#E8AA42] py-2 font-semibold rounded-md hover:bg-[#ECBA67] font-primary">
                 Log In
               </button>
             </form>
