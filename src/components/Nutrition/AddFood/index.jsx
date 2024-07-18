@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ItemsFood from "./ItemsFood";
 import { food } from "../../../data";
 import { searchFood } from "../../../utils";
-import { useDispatch, useSelector } from "react-redux";
-import { setValuesConsumed } from "../../../redux/slices/nutritionSlice";
+import { useDispatch } from "react-redux";
+import { setUserValuesConsumed } from "../../../redux/slices/nutritionSlice";
 
 export function AddFood() {
   const dispatch = useDispatch();
@@ -27,12 +27,12 @@ export function AddFood() {
       fat: response.totalNutrients.FAT.quantity,
       cal: response.calories,
     };
-    const newItem = {
-      name: extraInput,
-      value: Number(extraInputValue),
-      ...calculatedValues,
-    };
-    dispatch(setValuesConsumed(newItem));
+    // const newItem = {
+    //   name: extraInput,
+    //   value: Number(extraInputValue),
+    //   ...calculatedValues,
+    // };
+    dispatch(setUserValuesConsumed(calculatedValues));
     setExtraInput("");
     setExtraInputValue("");
   };
@@ -45,7 +45,7 @@ export function AddFood() {
         </h2>
         <div className="md:h-full py-2">
           <section className="mb-4">
-            <h3 className="mb-3">You can find food of all categories</h3>
+            <h3 className="mb-3 text-center">You can find food of all categories</h3>
             <div className="flex flex-col gap-2 px-2 mb-3">
               <div className="shadow-[0_0_10px_0_rgba(0,0,0,0.25)] rounded-2xl px-4 py-2 flex flex-col  gap-2 hover:bg-[#F9A826] focus:bg-[#F9A826]">
                 <div className="flex justify-between items-center">

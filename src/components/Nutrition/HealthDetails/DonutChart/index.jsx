@@ -7,9 +7,9 @@ export function DonutChart() {
   const chartRef = useRef(null);
   const totalValues = useSelector((state) => state.nutrition.totalValues);
   const caloriesRecommended = useSelector(
-    (state) => state.nutrition.valuesRecommended?.cal || 0
+    (state) => state.nutrition.valuesRecommended?.cals || 0
   );
-  const caloriesConsumed = useSelector(state => state.nutrition.totalValues?.totalCal || 0);
+  const caloriesConsumed = useSelector(state => state.nutrition.totalValues?.total_cals || 0);
 
   useEffect(() => {
     const chart = new ApexCharts(chartRef.current, dataDonut);
@@ -81,7 +81,7 @@ export function DonutChart() {
     yaxis: {
       labels: {
         formatter: function (value) {
-          return value + "kcal";
+          return value.toFixed(2) + "kcal";
         },
       },
     },

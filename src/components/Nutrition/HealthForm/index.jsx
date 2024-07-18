@@ -3,7 +3,18 @@ import { IconX, IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../../../redux/slices/nutritionSlice";
+import { setUserNutritionData } from "../../../redux/slices/nutritionSlice";
+
+const calculateAge = (birthDate) => {
+  const today = new Date();
+  const birthDateObj = new Date(birthDate);
+  let age = today.getFullYear() - birthDateObj.getFullYear();
+  const month = today.getMonth() - birthDateObj.getMonth();
+  return month < 0 ||
+    (month === 0 && today.getDate() < birthDateObj.getDate())
+    ? age - 1
+    : age;
+};
 
 export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
   const dispatch = useDispatch();
@@ -33,17 +44,6 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
     setIsActivity(type);
   };
 
-  const calculateAge = (birthDate) => {
-    const today = new Date();
-    const birthDateObj = new Date(birthDate);
-    let age = today.getFullYear() - birthDateObj.getFullYear();
-    const month = today.getMonth() - birthDateObj.getMonth();
-    return month < 0 ||
-      (month === 0 && today.getDate() < birthDateObj.getDate())
-      ? age - 1
-      : age;
-  };
-
   const handleData = () => {
     const age = calculateAge(birthDate);
     if (!isActivity || !isGender || !age || !isWeight || !isHeight || age < 10)
@@ -51,7 +51,7 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
     const weight = Number(isWeight);
     const height = Number(isHeight);
     dispatch(
-      setUserData({
+      setUserNutritionData({
         birth_date: birthDate,
         weight: isMeasures.weight === "kg" ? weight : weight / 2.20462,
         height: isMeasures.height === "cm" ? height : height / 0.0328,

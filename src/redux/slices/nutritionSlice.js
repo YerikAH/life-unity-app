@@ -1,101 +1,185 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchDatos, obtenerInfoToken, crudDatos } from "../../utils";
 
-const userNutritionData = async ()=>{
-  const user_id = obtenerInfoToken().user_id;
-  const response = await fetchDatos(`http://127.0.0.1:8000/api/v1/nutrition-personal/?id_user=${user_id}`, "GET");
-  if (response.length === 0){
-    return {};
+export const userNutritionData = createAsyncThunk(
+  "nutrition/fetchUserData",
+  async () => {
+    const user_id = obtenerInfoToken().user_id;
+    const response = await fetchDatos(
+      `http://127.0.0.1:8000/api/v1/nutrition-personal/?id_user=${user_id}`,
+      "GET"
+    );
+    if (response.length === 0) {
+      return {};
+    }
+    return response[0];
   }
-  return response[0];
-}
+);
+
+export const setUserNutritionData = createAsyncThunk(
+  "nutrition/setUserData",
+  async (param, { getState }) => {
+    // eslint-disable-next-line no-unused-vars
+    const state = getState();
+    const user_id = obtenerInfoToken().user_id; // Asegúrate de que esta función sea sincrónica o maneja la asincronía adecuadamente
+    const newData = { id_user: user_id, ...param };
+    const response = await crudDatos(
+      "http://127.0.0.1:8000/api/v1/nutrition-personal/",
+      newData,
+      "POST"
+    );
+    return response; // Asume que `crudDatos` retorna una promesa que resuelve los datos de respuesta
+  }
+);
+
+export const userNutritionRecomended = createAsyncThunk(
+  "nutrition/userNutritionRecomended",
+  async () => {
+    const user_id = obtenerInfoToken().user_id;
+    const response = await fetchDatos(
+      `http://127.0.0.1:8000/api/v1/values-recommended/?id_user=${user_id}`,
+      "GET"
+    );
+    if (response.length === 0) {
+      return {};
+    }
+    return response[0];
+  }
+);
+
+export const setUserValuesRecommended = createAsyncThunk(
+  "nutrition/setUserValuesRecommended",
+  async (param, { getState }) => {
+    // eslint-disable-next-line no-unused-vars
+    const state = getState();
+    const user_id = obtenerInfoToken().user_id; // Asegúrate de que esta función sea sincrónica o maneja la asincronía adecuadamente
+    const newData = { id_user: user_id, ...param };
+    const response = await crudDatos(
+      "http://127.0.0.1:8000/api/v1/values-recommended/",
+      newData,
+      "POST"
+    );
+    return response; // Asume que `crudDatos` retorna una promesa que resuelve los datos de respuesta
+  }
+);
+
+export const userValuesConsumed = createAsyncThunk(
+  "nutrition/userValuesConsumed",
+  async () => {
+    const user_id = obtenerInfoToken().user_id;
+    const response = await fetchDatos(
+      `http://127.0.0.1:8000/api/v1/values-consumed/?id_user=${user_id}`,
+      "GET"
+    );
+    if (response.length === 0) {
+      return {};
+    }
+    return response[0];
+  }
+);
+
+export const setUserValuesConsumed = createAsyncThunk(
+  "nutrition/setUserValuesConsumed",
+  async (param, { getState }) => {
+    // eslint-disable-next-line no-unused-vars
+    const state = getState();
+    const user_id = obtenerInfoToken().user_id; // Asegúrate de que esta función sea sincrónica o maneja la asincronía adecuadamente
+    const newData = { id_user: user_id, ...param };
+    const response = await crudDatos(
+      "http://127.0.0.1:8000/api/v1/values-consumed/",
+      newData,
+      "POST"
+    );
+    return response; // Asume que `crudDatos` retorna una promesa que resuelve los datos de respuesta
+  }
+);
+
+export const controlWater = createAsyncThunk(
+  "nutrition/controlWater",
+  async (param, { getState }) => {
+    // eslint-disable-next-line no-unused-vars
+    const state = getState();
+    const user_id = obtenerInfoToken().user_id; // Asegúrate de que esta función sea sincrónica o maneja la asincronía adecuadamente
+    let newData = {};
+    if (param === "increase") {
+      newData = { id_user: user_id, water: 1 };
+    } else {
+      if (state.nutrition.totalValues.total_water == 0) {
+        return state.nutrition.totalValues;
+      } else {
+        newData = { id_user: user_id, water: -1 };
+      }
+    }
+    const response = await crudDatos(
+      "http://127.0.0.1:8000/api/v1/values-consumed/",
+      newData,
+      "POST"
+    );
+    return response; // Asume que `crudDatos` retorna una promesa que resuelve los datos de respuesta
+  }
+);
 
 const nutritionSlice = createSlice({
   name: "nutrition",
   initialState: {
-    valuesRecommended: 
-    localStorage.getItem("valuesRecommended")
-      ? JSON.parse(localStorage.getItem("valuesRecommended")): 
-      {
-          carbs: 0,
-          protein: 0,
-          cal: 0,
-          fat: 0,
-          water: {
-            liter: 0,
-            cups: 0,
-          },
-        }, 
-    valuesConsumed: [], 
-    userData: await userNutritionData(),
-    totalValues: localStorage.getItem("totalValuesConsumed")
-      ? JSON.parse(localStorage.getItem("totalValuesConsumed"))
-      : {
-          totalCarbs: 0,
-          totalProtein: 0,
-          totalCal: 0,
-          totalFat: 0,
-          totalWater: 0,
-        },
+    valuesRecommended: {
+      carbs: 0,
+      protein: 0,
+      cal: 0,
+      fat: 0,
+      water_cups: 0,
+      water_liters: 0,
+    },
+    userData: {},
+    totalValues: {
+      total_carbs: 0,
+      total_protein: 0,
+      total_cals: 0,
+      total_fat: 0,
+      total_water: 0,
+    },
   },
   reducers: {
-    setUserData: async (state, param) => {
-      state.userData = param.payload;
-      const user_id = obtenerInfoToken().user_id;
-      const newData = { id_user: user_id, ...param.payload };
-      await crudDatos(
-        "http://127.0.0.1:8000/api/v1/nutrition-personal/",
-        newData,
-        "POST"
-      );
+    setUserData: (state, action) => {
+      state.userData = action.payload;
     },
-    setValuesRecommended: (state, param) => {
-      state.valuesRecommended = param.payload;
-      localStorage.setItem("valuesRecommended", JSON.stringify(param.payload));
+    setValuesRecommended: (state, action) => {
+      state.valuesRecommended = action.payload;
     },
-    setValuesConsumed: (state, param) => {
-      state.valuesConsumed.push(param.payload);
-
-      state.totalValues = state.valuesConsumed.reduce(
-        (total, item) => {
-          return {
-            totalCarbs: total.totalCarbs + (item?.carbs || 0),
-            totalProtein: total.totalProtein + (item?.protein || 0),
-            totalCal: total.totalCal + (item?.cal || 0),
-            totalFat: total.totalFat + (item?.fat || 0),
-            totalWater: state.totalValues.totalWater,
-          }; 
-        },
-        {
-          totalCarbs: 0,
-          totalProtein: 0,
-          totalCal: 0,
-          totalFat: 0,
-          totalWater: 0,
-        }
-      );
-
-      localStorage.setItem(
-        "totalValuesConsumed",
-        JSON.stringify(state.totalValues)
-      );
+    setValuesConsumed: (state, action) => {
+      state.totalValues = action.payload;
     },
     increaseWater: (state) => {
-      state.totalValues.totalWater += 1;
-      localStorage.setItem(
-        "totalValuesConsumed",
-        JSON.stringify(state.totalValues)
-      );
+      state.totalValues.total_water += 1;
     },
     decreaseWater: (state) => {
-      if (state.totalValues.totalWater > 0) {
-        state.totalValues.totalWater -= 1;
+      if (state.totalValues.total_water > 0) {
+        state.totalValues.total_water -= 1;
       }
-      localStorage.setItem(
-        "totalValuesConsumed",
-        JSON.stringify(state.totalValues)
-      );
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(userNutritionData.fulfilled, (state, action) => {
+      state.userData = action.payload;
+    });
+    builder.addCase(setUserNutritionData.fulfilled, (state, action) => {
+      state.userData = action.payload;
+    });
+    builder.addCase(userNutritionRecomended.fulfilled, (state, action) => {
+      state.valuesRecommended = action.payload;
+    });
+    builder.addCase(setUserValuesRecommended.fulfilled, (state, action) => {
+      state.valuesRecommended = action.payload;
+    });
+    builder.addCase(userValuesConsumed.fulfilled, (state, action) => {
+      state.totalValues = action.payload;
+    });
+    builder.addCase(setUserValuesConsumed.fulfilled, (state, action) => {
+      state.totalValues = action.payload;
+    });
+    builder.addCase(controlWater.fulfilled, (state, action) => {
+      state.totalValues = action.payload;
+    });
   },
 });
 

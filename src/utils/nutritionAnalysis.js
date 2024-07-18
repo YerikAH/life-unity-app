@@ -1,8 +1,29 @@
 import { NUTRITION_ANALYSIS_KEY } from "../constants";
 export const analysis = async (data) => {
-  const { age, weight, height, gender, activity } = data;
-  const activityUrl = activity.replace(" ", "%20");
-  const url = `https://nutrition-calculator.p.rapidapi.com/api/nutrition-info?measurement_units=met&sex=${gender}&age_value=${age}&age_type=yrs&cm=${height}&kilos=${weight}&activity_level=${activityUrl}`;
+  let { birth_date, weight, height, sex, daily_activity } = data;
+  const today = new Date();
+  const birthDateObj = new Date(birth_date);
+  let age = today.getFullYear() - birthDateObj.getFullYear();
+  const month = today.getMonth() - birthDateObj.getMonth();
+  if (month < 0 || month === 0 && today.getDate() < birthDateObj.getDate()){
+    age -= 1;
+  }
+  switch (daily_activity) {
+    case "sedentary":
+      daily_activity = "Low active";
+      break;
+    case "light":
+      daily_activity = "Active";
+      break;
+    case "moderate":
+      daily_activity = "Inactive";
+      break;
+    case "high":
+      daily_activity = "Very Active";
+      break;
+  }
+  const activityUrl = daily_activity.replace(" ", "%20");
+  const url = `https://nutrition-calculator.p.rapidapi.com/api/nutrition-info?measurement_units=met&sex=${sex}&age_value=${age}&age_type=yrs&cm=${height}&kilos=${weight}&activity_level=${activityUrl}`;
   const options = {
     method: "GET",
     headers: {

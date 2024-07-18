@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { setValuesConsumed } from "../../../../redux/slices/nutritionSlice";
+import { setUserValuesConsumed } from "../../../../redux/slices/nutritionSlice";
 
 export default function ItemsFood({ food }) {
   const dispatch = useDispatch();
@@ -8,7 +8,6 @@ export default function ItemsFood({ food }) {
   const [inputValues, setInputValues] = useState({});
 
   const handleSave = () => {
-
     for (const id in inputValues) {
       const idNumber = Number(id);
 
@@ -22,13 +21,7 @@ export default function ItemsFood({ food }) {
         fat: (fat * inputValue) / 100,
         cal: (cal * inputValue) / 100,
       };
-      const newItem = {
-        id: idNumber,
-        name,
-        value: inputValue,
-        ...calculatedValues,
-      };
-      dispatch(setValuesConsumed(newItem));
+      dispatch(setUserValuesConsumed(calculatedValues));
     }
 
     setOpenItems([]);
