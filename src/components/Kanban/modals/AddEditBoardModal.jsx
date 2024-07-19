@@ -1,7 +1,8 @@
 import { addBoard, editBoard } from "../../../redux/slices/boardsSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { IconX } from "@tabler/icons-react";
 
 export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
   const dispatch = useDispatch();
@@ -16,32 +17,32 @@ export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
     { name: "Done", tasks: [], id: uuidv4() },
   ]);
 
-  // useEffect(() => {
-  //   // Si estamos editando, establecemos el nombre y las columnas del tablero existente
-  //   if (type === "edit" && board) {
-  //     setNewColumns(
-  //       board.columns.map((col) => {
-  //         return { ...col, id: uuidv4() };
-  //       })
-  //     );
-  //     setName(board.name);
-  //   }
-  // }, [type, board]);
+  useEffect(() => {
+    // Si estamos editando, establecemos el nombre y las columnas del tablero existente
+    if (type === "edit" && board) {
+      setNewColumns(
+        board.columns.map((col) => {
+          return { ...col, id: uuidv4() };
+        })
+      );
+      setName(board.name);
+    }
+  }, [type, board]);
 
   // Función para cambiar el nombre de la columna
-  // const onChange = (id, newValue) => {
-  //   setNewColumns((prevState) => {
-  //     const newState = [...prevState];
-  //     const column = newState.find((col) => col.id === id);
-  //     column.name = newValue;
-  //     return newState;
-  //   });
-  // };
+  const onChange = (id, newValue) => {
+    setNewColumns((prevState) => {
+      const newState = [...prevState];
+      const column = newState.find((col) => col.id === id);
+      column.name = newValue;
+      return newState;
+    });
+  };
 
   // Función para eliminar una columna
-  // const onDelete = (id) => {
-  //   setNewColumns((prevState) => prevState.filter((el) => el.id !== id));
-  // };
+  const onDelete = (id) => {
+    setNewColumns((prevState) => prevState.filter((el) => el.id !== id));
+  };
 
   // Función para validar el formulario
   const validate = () => {
@@ -51,6 +52,12 @@ export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
 
     if(!description.trim()) {
       return false;
+    }
+
+    for (let i = 0; i < newColumns.length; i++) {
+      if (!newColumns[i].name.trim()) {
+        return false;
+      }
     }
     return true;
   };
@@ -113,11 +120,24 @@ export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
             Columnas del Board
           </label>
           <div className="h-[150px] overflow-y-auto flex flex-col gap-2">
-            {newColumns.map((column, index) => (
+          {newColumns.map((column, index) => (
               <div key={index} className="flex items-center w-full gap-2">
-                <h3 className="flex-grow px-4 py-2 rounded-md text-sm border border-gray-600 outline-none focus:ring-[#000428]">
-                  {column.name}
-                </h3>
+                <input
+                  className="flex-grow px-4 py-2 rounded-md text-sm border border-gray-600 outline-none focus:ring-[#000428]"
+                  onChange={(e) => {
+                    onChange(column.id, e.target.value);
+                  }}
+                  value={column.name}
+                  type="text"
+                />
+                {type != "add" && (
+                  <IconX
+                    className="cursor-pointer"
+                    onClick={() => {
+                      onDelete(column.id);
+                    }}
+                  />
+                )}
               </div>
             ))}
           </div>
