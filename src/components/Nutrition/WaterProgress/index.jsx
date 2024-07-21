@@ -13,7 +13,6 @@ export function WaterProgress() {
     (state) => state.nutrition?.valuesRecommended
   );
   const totalValues = useSelector((state) => state.nutrition?.totalValues);
-
   useEffect(() => {
     if (
       totalValues.total_water >= valuesRecommended.water_cups &&

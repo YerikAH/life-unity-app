@@ -43,8 +43,8 @@ export function MainLayout() {
       {showPage && (
         <>
           <div className="flex md:h-screen w-full overflow-auto">
-              {width < 768 ? (<SidebarMobile />) : (<Sidebar />)
-            }
+              {/* {width < 768 ? (<SidebarMobile />) : (<Sidebar />)
+            } */}
             <div className="w-full mx-auto max-w-8xl p-4 min-h-screen md:h-full">
               <Outlet />
             </div>
