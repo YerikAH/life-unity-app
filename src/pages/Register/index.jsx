@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import google from "../../assets/google.svg";
 import logo from "../../assets/logo.svg";
 import imgSignup from "../../assets/img-signup.svg";
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
@@ -7,8 +6,9 @@ import { useState } from "react";
 import s from "./index.module.css";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
-import { registrarUsuario } from "../../utils";
-import { loginWithGoogle } from "../../services/auth";
+import { registrarUsuario, registrarUsuarioGoogle } from "../../utils";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 export function Register() {
   const [error, setError] = useState(false);
@@ -30,7 +30,10 @@ export function Register() {
       reset();
       // eslint-disable-next-line no-unused-vars
       const { terms, ...dataWithoutTerms } = data;
-      const userCreated = await registrarUsuario(dataWithoutTerms);
+      const userCreated = await registrarUsuario({
+        ...dataWithoutTerms,
+        is_active: true,
+      });
       if (userCreated.error) {
         setError(true);
         return;
@@ -51,11 +54,30 @@ export function Register() {
     );
   };
 
-  const registerGoogle = async () => {
+  const registrarGoogle = async (credentialResponse) => {
+    const decoded = jwtDecode(credentialResponse.credential);
+    const form = new FormData();
+    form.append("first_name", decoded.given_name);
+    form.append("last_name", decoded.family_name);
+    form.append("username", decoded.name.toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9@.+_-]/g, ""));
+    form.append("email", decoded.email);
+    form.append("password", decoded.sub);
+    form.append("is_active", true);
     try {
-      await loginWithGoogle();
+      const imageResponse = await fetch(decoded.picture);
+      const imageBlob = await imageResponse.blob();
+      const imageFile = new File([imageBlob], "profile_picture.jpg", {
+        type: "image/jpeg",
+      });
+      form.append("image", imageFile);
+      const userCreated = await registrarUsuarioGoogle(form);
+      if (userCreated.error) {
+        setError(true);
+        return;
+      }
+      navigate("/login");
     } catch (error) {
-      return null;
+      setError(true);
     }
   };
 
@@ -87,14 +109,21 @@ export function Register() {
               </p>
             </div>
             <form className="relative z-20" onSubmit={onSubmit}>
-              <button
-                type="button"
-                className="font-primary flex items-center w-full justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
-                name="google-signup"
-                onClick={registerGoogle}>
-                <img src={google} alt="" className="size-[25px]" />
-                Sign up with Google
-              </button>
+            <div className="w-full flex justify-center">
+                <GoogleLogin
+                  theme="filled_black"
+                  size="large"
+                  shape="circle"
+                  width="300px"
+                  logo_alignment="center"
+                  onSuccess={async (credentialResponse) => {
+                    await registrarGoogle(credentialResponse);
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </div>
               <div className={`flex items-center gap-3 my-3 ${s.lines}`}>
                 <span className="font-primary font-semibold text-[15px]">
                   OR

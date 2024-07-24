@@ -36,7 +36,6 @@ export function UpdateSettings() {
         return { ...dataFiltrado };
       }
     })();
-    console.log(newD);
     const form = new FormData();
     Object.entries(newD).forEach(([key, value]) => {
       form.append(key, value);

@@ -2,15 +2,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
 import s from "./index.module.css";
-import google from "../../assets/google.svg";
 import logo from "../../assets/logo.svg";
 import imgLogin from "../../assets/img-login.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTitle } from "../../hooks";
 import { useForm } from "react-hook-form";
-import { loginWithGoogle } from "../../services/auth";
 import { iniciarSesion } from "../../utils";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 export function Login() {
   const [error, setError] = useState(false);
@@ -47,11 +47,18 @@ export function Login() {
     );
   };
 
-  const loginGoogle = async () => {
+  const loginGoogle = async (credentialResponse) => {
+    const decoded = jwtDecode(credentialResponse.credential);
     try {
-      await loginWithGoogle();
+      const logeado = await iniciarSesion(decoded.name.toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9@.+_-]/g, ""), decoded.sub);
+      if (logeado.access || logeado.refresh) {
+        setError(false);
+        navigate("/");
+      } else {
+        setError(true);
+      }
     } catch (error) {
-      return null;
+      setError(true);
     }
   };
 
@@ -82,14 +89,21 @@ export function Login() {
               </p>
             </div>
             <form className="relative z-20" onSubmit={onSubmit}>
-              <button
-                type="button"
-                name="google-login"
-                className="font-primary w-full flex items-center justify-center gap-2 text-sm bg-white py-2 rounded-md font-semibold hover:bg-[#3F3E3E] hover:text-white transition-btn"
-                onClick={loginGoogle}>
-                <img src={google} alt="" className="size-[25px]" />
-                Log in with Google
-              </button>
+              <div className="w-full flex justify-center">
+                <GoogleLogin
+                  theme="filled_black"
+                  size="large"
+                  shape="circle"
+                  width="300px"
+                  logo_alignment="center"
+                  onSuccess={async (credentialResponse) => {
+                    await loginGoogle(credentialResponse);
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </div>
               <div className={`${s.lines} flex items-center gap-3 my-3`}>
                 <span className=" font-primary font-semibold text-[15px]">
                   OR

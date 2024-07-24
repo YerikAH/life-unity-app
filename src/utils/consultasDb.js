@@ -34,11 +34,19 @@ export const registrarUsuario = async (data) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-    //
   });
   const dataResponse = await response.json();
   return dataResponse;
 };
+
+export const registrarUsuarioGoogle = async (data) => {
+  const response = await fetch("http://127.0.0.1:8000/api/v1/users/", {
+    method: "POST",
+    body: data,
+  });
+  const dataResponse = await response.json();
+  return dataResponse;
+}
 
 export const isTokenExpired = (token) => {
   try {
@@ -102,7 +110,6 @@ export const obtenerDatos = async (url) => {
     },
   });
   const data = await response.json();
-  console.log(data);
   return data;
 };
 
@@ -159,3 +166,7 @@ export const crudDatos = async (url, data, method) => {
     return false;
   }
 };
+
+// export const subirImagen = async (data) => {
+
+// }
