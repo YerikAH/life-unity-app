@@ -1,8 +1,8 @@
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 export const iniciarSesion = async (username, password) => {
   try {
-    const response = await fetch("http://localhost:8000/api/v1/token/", {
+    const response = await fetch("http://127.0.0.1:8000/api/token/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export const isTokenExpired = (token) => {
 export const refreshAccessToken = async () => {
   try {
     const refreshToken = localStorage.getItem("refreshToken");
-    const response = await fetch("http://localhost:8000/api/token/refresh/", {
+    const response = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export const obtenerInfoToken = () => {
 export const obtenerUsuario = async () => {
   const idByToken = obtenerInfoToken().user_id;
   const response = await fetch(
-    `http://localhost:8000/api/v1/users/${idByToken}/`
+    `http://127.0.0.1:8000/api/v1/users/${idByToken}/`
   );
   const dataResponse = await response.json();
   return dataResponse;
@@ -109,7 +109,7 @@ export const obtenerDatos = async (url) => {
 export const updateUser = async (data) => {
   const idByToken = obtenerInfoToken().user_id;
   const response = await fetch(
-    `http://localhost:8000/api/v1/users/${idByToken}/`,
+    `http://127.0.0.1:8000/api/v1/users/${idByToken}/`,
     {
       method: "PUT",
       body: data,

@@ -7,6 +7,5 @@ export const globalStore = configureStore({
     reducer: {
         nutrition: nutritionSliceReducer,
         boards: boardsSliceReducer,
-
     }
 })
