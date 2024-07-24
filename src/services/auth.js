@@ -90,6 +90,7 @@ export async function loginWithGoogle() {
   const provider = new GoogleAuthProvider();
   try {
     const result = await signInWithRedirect(auth, provider);
+    console.log(result);
     return result;
   } catch (error) {
     return null;

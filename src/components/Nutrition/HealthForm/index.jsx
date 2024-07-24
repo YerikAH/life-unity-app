@@ -2,22 +2,27 @@ import { useCallback, useState } from "react";
 import { IconX, IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
-import { useDispatch } from "react-redux";
-import { setUserNutritionData } from "../../../redux/slices/nutritionSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setUserNutritionData,
+  setUserValuesRecommended,
+} from "../../../redux/slices/nutritionSlice";
+import { analysis } from "../../../utils";
 
 const calculateAge = (birthDate) => {
+  
   const today = new Date();
   const birthDateObj = new Date(birthDate);
   let age = today.getFullYear() - birthDateObj.getFullYear();
   const month = today.getMonth() - birthDateObj.getMonth();
-  return month < 0 ||
-    (month === 0 && today.getDate() < birthDateObj.getDate())
+  return month < 0 || (month === 0 && today.getDate() < birthDateObj.getDate())
     ? age - 1
     : age;
 };
 
 export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
   const dispatch = useDispatch();
+  const data = useSelector((state) => state.nutrition.userData);
   const [step, setStep] = useState(1);
   const [isMeasures, setIsMeasures] = useState({
     weight: "kg",
@@ -44,7 +49,48 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
     setIsActivity(type);
   };
 
-  const handleData = () => {
+  const fetchData = async () => {
+    const result = await analysis(data);
+    const calNumber = Number(
+      result?.BMI_EER["Estimated Daily Caloric Needs"]
+        .replace("kcal/day", "")
+        .replace(",", "")
+        .trim()
+    );
+    const carbsNumber =
+      result?.macronutrients_table["macronutrients-table"][1][1]
+        .replace("grams", "")
+        .split("-")
+        .map((str) => Number(str.trim()))
+        .reduce((a, b) => a + b, 0) / 2;
+    const proteinNumber = Number(
+      result?.macronutrients_table["macronutrients-table"][3][1]
+        .replace("grams", "")
+        .trim()
+    );
+    const fatNumber =
+      result?.macronutrients_table["macronutrients-table"][4][1]
+        .replace("grams", "")
+        .split("-")
+        .map((str) => Number(str.trim()))
+        .reduce((a, b) => a + b, 0) / 2;
+    const regex = /\d+\.\d+|\d+/g;
+    const water =
+      result?.macronutrients_table["macronutrients-table"][10][1].match(regex);
+    const waterLiter = Number(water[0]);
+    const waterCups = Number(water[1]);
+    const recommended = {
+      cals: calNumber,
+      carbs: carbsNumber,
+      protein: proteinNumber,
+      fat: fatNumber,
+      water_liters: waterLiter,
+      water_cups: waterCups,
+    };
+    return recommended;
+  };
+
+  const handleData = async () => {
     const age = calculateAge(birthDate);
     if (!isActivity || !isGender || !age || !isWeight || !isHeight || age < 10)
       return;
@@ -59,6 +105,8 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
         daily_activity: isActivity,
       })
     );
+    const fetchedData = await fetchData();
+    dispatch(setUserValuesRecommended(fetchedData));
     setFormResolved(true);
   };
 

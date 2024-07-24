@@ -1,15 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { IconChevronDown, IconFileSpreadsheet } from "@tabler/icons-react";
 import { DonutChart } from "./DonutChart";
 import { HealthForm } from "../HealthForm";
-import { analysis, crudDatos, obtenerInfoToken } from "../../../utils";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserValuesRecommended } from "../../../redux/slices/nutritionSlice";
+import { useSelector } from "react-redux";
 
 export function HealthDetails() {
   const data = useSelector((state) => state.nutrition.userData);
-  const dispatch = useDispatch();
-  const firstUpdate = useRef(true);
   const [isDrop, setDrop] = useState(false);
   const [isOpenForm, setOpenForm] = useState(false);
   const [formResolved, setFormResolved] = useState(!!data);
@@ -21,66 +17,6 @@ export function HealthDetails() {
   const handleOpenForm = () => {
     setOpenForm(!isOpenForm);
   };
-
-  const fetchData = async () => {
-    if (formResolved) {
-      const result = await analysis(data);
-      const calNumber = Number(
-        result?.BMI_EER["Estimated Daily Caloric Needs"]
-          .replace("kcal/day", "")
-          .replace(",", "")
-          .trim()
-      );
-      const carbsNumber =
-        result?.macronutrients_table["macronutrients-table"][1][1]
-          .replace("grams", "")
-          .split("-")
-          .map((str) => Number(str.trim()))
-          .reduce((a, b) => a + b, 0) / 2;
-      const proteinNumber = Number(
-        result?.macronutrients_table["macronutrients-table"][3][1]
-          .replace("grams", "")
-          .trim()
-      );
-      const fatNumber =
-        result?.macronutrients_table["macronutrients-table"][4][1]
-          .replace("grams", "")
-          .split("-")
-          .map((str) => Number(str.trim()))
-          .reduce((a, b) => a + b, 0) / 2;
-      const regex = /\d+\.\d+|\d+/g;
-      const water =
-        result?.macronutrients_table["macronutrients-table"][10][1].match(
-          regex
-        );
-      const waterLiter = Number(water[0]);
-      const waterCups = Number(water[1]);
-      const recommended = {
-        cals: calNumber,
-        carbs: carbsNumber,
-        protein: proteinNumber,
-        fat: fatNumber,
-        water_liters: waterLiter,
-        water_cups: waterCups,
-        }
-      return recommended;
-      }
-    }
-    
-
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-
-    const fetchAndSetValues = async () => {
-      const fetchedData = await fetchData();
-      dispatch(setUserValuesRecommended(fetchedData));
-    };
-
-    fetchAndSetValues();
-  }, [data]);
 
   return (
     <>
