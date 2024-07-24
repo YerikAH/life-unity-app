@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {AddEditBoardModal} from "../../Kanban";
 
-export function EmptyBoard({ type }) {
+export function  EmptyBoard({ type }) {
   // Estado para controlar la apertura del modal de nuevo Board
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
 
