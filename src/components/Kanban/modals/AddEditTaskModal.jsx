@@ -18,9 +18,7 @@ export function AddEditTaskModal({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date().toISOString().slice(0,10));
-  const board = useSelector((state) => state.boards).find(
-    (board) => board.isActive
-  );
+  const board = useSelector((state) => state.kanban.boards)[0]
   const columns = board.columns;
   const col = columns.find((_, index) => index === prevColIndex);
   const task = col ? col.tasks.find((_, index) => index === taskIndex) : [];

@@ -12,8 +12,7 @@ export function Goals() {
           <IconTargetArrow className="text-gray-900" />
         </div>
         <p className="mt-2 text-sm text-gray-500 font-primary font-normal">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit maiores
-          dolore.
+          Here you can see your progress about nutrition consume during the day.
         </p>
       </div>
 

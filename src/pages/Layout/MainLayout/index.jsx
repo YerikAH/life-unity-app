@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { Sidebar, SidebarMobile } from "../../../components/shared";
+// import { Sidebar, SidebarMobile } from "../../../components/shared";
 import { isTokenExpired,refreshAccessToken } from "../../../utils";
 
 export function MainLayout() {
   const navigate = useNavigate();
   const [showPage, setShowPage] = useState(false);  
-  const [width, setWidth] = useState(window.innerWidth);
+  const [, setWidth] = useState(window.innerWidth);
 
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth);
@@ -25,6 +25,7 @@ export function MainLayout() {
     if (!token || isTokenExpired(token)) {
       if (!refreshAccessToken()){
         navigate("/login");
+        return;
       }
     }
     // Verifica si el token de refresco ha expirado

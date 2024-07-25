@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 // import data from "../../data/Kanban/data.json";
 import axios from "axios";
+import { obtenerInfoToken } from "../../utils";
+
 
 const boardAPI = axios.create({
   baseURL: "http://127.0.0.1:8000/api/v1/boards/",
@@ -28,9 +31,11 @@ const subtasksAPI = axios.create({
 
 export const createBoard = createAsyncThunk(
     'boards/createBoard',
-    async (data, { rejectWithValue }) => {
+    async (data, { dispatch, rejectWithValue }) => {
       try {
-        const response = await boardAPI.post('/', data);
+        const id_user = obtenerInfoToken().user_id; 
+        const response = await boardAPI.post('/', {...data, id_user});
+        dispatch(fetchBoards()); 
         return response.data;
       } catch (error) {
         console.error('Error al Crear el Board: ', error);
@@ -41,9 +46,10 @@ export const createBoard = createAsyncThunk(
 
 export const updateBoard = createAsyncThunk(
     'boards/updateBoard',
-    async (data, { rejectWithValue }) => {
+    async (data, { dispatch, rejectWithValue }) => {
       try {
         const response = await boardAPI.put(`/${data.id}/`, data);
+        dispatch(fetchBoards()); 
         return response.data;
       } catch (error) {
         console.error('Error al Actualizar el Board: ', error);
@@ -54,9 +60,10 @@ export const updateBoard = createAsyncThunk(
 
 export const deleteBoards = createAsyncThunk(
     'boards/deleteBoard',
-    async (id, { rejectWithValue }) => {
+    async (id, { dispatch, rejectWithValue }) => {
       try {
         await boardAPI.delete(`/${id}/`);
+        dispatch(fetchBoards()); 
         return id;
       } catch (error) {
         console.error('Error al Eliminar el Board: ', error);
@@ -69,6 +76,7 @@ export const fetchBoards = createAsyncThunk(
     'boards/fetchBoards',
     async (_, { rejectWithValue }) => {
       try {
+        // NOTA: obtener los boards solo de un usuario
         const response = await boardAPI.get('/');
         return response.data;
       } catch (error) {
@@ -76,6 +84,20 @@ export const fetchBoards = createAsyncThunk(
         return rejectWithValue(error.response.data);
       }
     }
+);
+
+export const fetchTasks = createAsyncThunk(
+  'boards/fetchTasks',
+  async (_, { rejectWithValue }) => {
+    try {
+      // NOTA: obtener los boards solo de un usuario
+      const response = await taskAPI.get('/');
+      return response.data;
+    } catch (error) {
+      console.error('Error al Obtener los Tasks: ', error);
+      return rejectWithValue(error.response.data);
+    }
+  }
 );
 
 export const createTask = createAsyncThunk(
@@ -118,9 +140,23 @@ export const deleteTasks = createAsyncThunk(
 );
 
 const boardsSlice = createSlice({
-  name: "boards",
-  initialState: [],
+  name: "kanban",
+  initialState: 
+    {
+      idActiveBoard:0,
+      boards: [],
+      tasks: [],
+      columns:[
+        { name: "In Progress", id: 1 },
+        { name: "In Review", id: 2 },
+        { name: "Done", id: 3 },
+      ]
+    },
   reducers: {
+    changeActive:(state, action)=>{
+      const idActiveBoard = action.payload
+      state.idActiveBoard = idActiveBoard
+    },
     addBoard: (state, action) => {
       const isActive = state.length > 0 ? false : true;
       const payload = action.payload;
@@ -221,80 +257,98 @@ const boardsSlice = createSlice({
       const board = state.find((board) => board.isActive);
       const col = board.columns.find((col, i) => i === payload.colIndex);
       col.tasks = col.tasks.filter((task, i) => i !== payload.taskIndex);
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchBoards.fulfilled, (state, action) => {
       state.boards = action.payload;
     });
     builder.addCase(createBoard.fulfilled, (state, action) => {
-      const isActive = state.boards.length > 0 ? false : true;
-      const payload = action.payload;
-      const board = {
-        id: payload.id,
-        name: payload.name,
-        description: payload.description,
-        isActive,
-        columns: payload.columns || [],
-      };
-      state.boards.push(board);
     });
     builder.addCase(updateBoard.fulfilled, (state, action) => {
-      const payload = action.payload;
-      const board = state.boards.find((board) => board.id === payload.id);
-      if (board) {
-        board.name = payload.name;
-        board.description = payload.description;
-        board.columns = payload.columns || [];
-      }
     });
     builder.addCase(deleteBoards.fulfilled, (state, action) => {
-      const id = action.payload;
-      state.boards = state.boards.filter((board) => board.id !== id);
-      if (state.boards.length > 0) state.boards[0].isActive = true;
+    });
+    builder.addCase(fetchTasks.fulfilled, (state, action) => {
+      state.tasks = action.payload;
     });
     builder.addCase(createTask.fulfilled, (state, action) => {
-      const payload = action.payload;
-      const board = state.boards.find((board) => board.id === payload.boardId);
-      if (board) {
-        const column = board.columns.find((col) => col.name === payload.status);
-        if (column) {
-          column.tasks.push(payload);
-        }
-      }
+      state.tasks = action.payload;
     });
     builder.addCase(updateTask.fulfilled, (state, action) => {
-      const payload = action.payload;
-      const board = state.boards.find((board) => board.id === payload.boardId);
-      if (board) {
-        const column = board.columns.find((col) => col.name === payload.prevStatus);
-        const task = column.tasks.find((task) => task.id === payload.id);
-        if (task) {
-          task.title = payload.title;
-          task.status = payload.status;
-          task.description = payload.description;
-          task.date = payload.date;
-          task.color = payload.color;
-          if (payload.subtasksToCheck) task.subtasks = payload.subtasksToCheck;
+      state.tasks = action.payload;
+    });
+    // builder.addCase(fetchBoards.fulfilled, (state, action) => {
+    //   state.boards = action.payload;
+    // });
+    // builder.addCase(createBoard.fulfilled, (state, action) => {
+    //   const isActive = state.boards.length > 0 ? false : true;
+    //   const payload = action.payload;
+    //   const board = {
+    //     id: payload.id,
+    //     name: payload.name,
+    //     description: payload.description,
+    //     isActive,
+    //     columns: payload.columns || [],
+    //   };
+    //   state.boards.push(board);
+    // });
+    // builder.addCase(updateBoard.fulfilled, (state, action) => {
+    //   const payload = action.payload;
+    //   const board = state.boards.find((board) => board.id === payload.id);
+    //   if (board) {
+    //     board.name = payload.name;
+    //     board.description = payload.description;
+    //     board.columns = payload.columns || [];
+    //   }
+    // });
+    // builder.addCase(deleteBoards.fulfilled, (state, action) => {
+    //   const id = action.payload;
+    //   state.boards = state.boards.filter((board) => board.id !== id);
+    //   if (state.boards.length > 0) state.boards[0].isActive = true;
+    // });
+    // builder.addCase(createTask.fulfilled, (state, action) => {
+    //   const payload = action.payload;
+    //   const board = state.boards.find((board) => board.id === payload.boardId);
+    //   if (board) {
+    //     const column = board.columns.find((col) => col.name === payload.status);
+    //     if (column) {
+    //       column.tasks.push(payload);
+    //     }
+    //   }
+    // });
+    // builder.addCase(updateTask.fulfilled, (state, action) => {
+    //   const payload = action.payload;
+    //   const board = state.boards.find((board) => board.id === payload.boardId);
+    //   if (board) {
+    //     const column = board.columns.find((col) => col.name === payload.prevStatus);
+    //     const task = column.tasks.find((task) => task.id === payload.id);
+    //     if (task) {
+    //       task.title = payload.title;
+    //       task.status = payload.status;
+    //       task.description = payload.description;
+    //       task.date = payload.date;
+    //       task.color = payload.color;
+    //       if (payload.subtasksToCheck) task.subtasks = payload.subtasksToCheck;
 
-          // Mover tarea si el estado cambió
-          if (payload.prevStatus !== payload.status) {
-            column.tasks = column.tasks.filter((task) => task.id !== payload.id);
-            const newColumn = board.columns.find((col) => col.name === payload.status);
-            newColumn.tasks.push(task);
-          }
-        }
-      }
-    });
-    builder.addCase(deleteTasks.fulfilled, (state, action) => {
-      const {boardId, taskId} = action.payload;
-      const board = state.boards.find((board) => board.id === boardId);
-      if (board) {
-        board.columns.forEach((col) => {
-          col.tasks = col.tasks.filter((task) => task.id !== taskId);
-        });
-      }
-    });
+    //       // Mover tarea si el estado cambió
+    //       if (payload.prevStatus !== payload.status) {
+    //         column.tasks = column.tasks.filter((task) => task.id !== payload.id);
+    //         const newColumn = board.columns.find((col) => col.name === payload.status);
+    //         newColumn.tasks.push(task);
+    //       }
+    //     }
+    //   }
+    // });
+    // builder.addCase(deleteTasks.fulfilled, (state, action) => {
+    //   const {boardId, taskId} = action.payload;
+    //   const board = state.boards.find((board) => board.id === boardId);
+    //   if (board) {
+    //     board.columns.forEach((col) => {
+    //       col.tasks = col.tasks.filter((task) => task.id !== taskId);
+    //     });
+    //   }
+    // });
   }
 });
 
@@ -311,4 +365,5 @@ export const {
   setSubtaskCompleted,
   setTaskStatus,
   deleteTask,
+  changeActive
 } = boardsSlice.actions;

@@ -6,6 +6,6 @@ import { boardsSliceReducer } from './slices/boardsSlice';
 export const globalStore = configureStore({
     reducer: {
         nutrition: nutritionSliceReducer,
-        boards: boardsSliceReducer,
+        kanban: boardsSliceReducer,
     }
 })
