@@ -4,9 +4,8 @@ import { Column } from "../../Kanban";
 import {IconTargetArrow, IconRotateClockwise2, IconCircleCheck} from "@tabler/icons-react"
 
 export function MobileColumn() {
-  const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive === true);
-  let columns = board?.columns || []; // Manejar el caso donde board podría ser indefinido
+  const boards = useSelector((state) => state.kanban?.boards);
+  let columns  =  useSelector((state) => state.kanban?.columns);
   const [selectedTab, setSelectedTab] = useState(0); // Inicialmente selecciona el primer tab
 
   return (

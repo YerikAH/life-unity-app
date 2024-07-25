@@ -20,7 +20,7 @@ export function Profile() {
 
   return (
     <>
-      <section className="shadow border rounded-xl py-5 px-5  bg-white order-first xl:order-3">
+      <section className="shadow border rounded-xl py-5 px-5  bg-white">
         <div className="flex justify-between items-center">
           <h3 className="font-bold text-xl text-[#000428] font-primary">
             My Profile
@@ -28,8 +28,8 @@ export function Profile() {
           <IconUser className="text-gray-900" />
         </div>
         <div className="w-full grid place-items-center mt-6">
-          <div className="max-w-[275px] w-full rounded-full max-h-[300px] flex justify-center">
-            <Image user={user} width={40} height={40} isLoading={isLoading} />
+          <div className="max-w-[275px] w-full rounded-full md:h-[300px] flex justify-center items-center">
+            <Image user={user} width={"[250px]"} height={"[300px]"} isLoading={isLoading} />
           </div>
           <p className="text-2xl font-semibold text-[#000428] font-primary">
             {user?.first_name} {user?.last_name}

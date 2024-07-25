@@ -9,7 +9,7 @@ import {
   DeleteModal,
   Boards,
 } from "../../Kanban";
-import { deleteBoard } from "../../../redux/slices/boardsSlice";
+import { changeActive, deleteBoard, deleteBoards } from "../../../redux/slices/boardsSlice";
 
 export function Header({
   setIsBoardModalOpen,
@@ -23,8 +23,9 @@ export function Header({
   const [isEllipsisOpen, setIsEllipsisOpen] = useState(false);
 
   const [boardType, setBoardType] = useState("add");
-  const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive);
+  const idActiveBoard = useSelector((state)=>state.kanban?.idActiveBoard)
+  const boards = useSelector((state) => state.kanban?.boards);
+  const board = boards.find((item)=>item.id === idActiveBoard)
   const dispatch = useDispatch();
 
   const setSeeBoardsSidebar = () => {
@@ -43,7 +44,8 @@ export function Header({
   };
 
   const onDeleteBtnClick = (id) => {
-    dispatch(deleteBoard(id));
+    dispatch(deleteBoards(id));
+    dispatch(changeActive(board.length > 1 ? board[0].id : null));
     setIsDeleteModalOpen(false);
   };
 
@@ -56,7 +58,7 @@ export function Header({
     <div className=" bg-white p-2 md:p-0 flex flex-col gap-2 md:px-5">
       {/* Lado izquierdo */}
       <div className="flex justify-between items-center gap-5">
-        <h3 className="text-3xl font-bold">{board?.name}</h3>
+        <h3 className="text-3xl font-bold">{board?.board_name}</h3>
         <div className="flex items-center md:gap-5 flex-col-reverse md:flex-row">
           <button
             className="buttones hidden md:block text-right"
@@ -83,7 +85,7 @@ export function Header({
         </div>
       </div>
       <p className="text-gray-600 font-semibold text-sm md:text-md md:w-[50%]">
-        {board?.description}
+        {board?.board_description}
       </p>
       {isOpenDropdown && (
         <HeaderDropdown
@@ -112,7 +114,7 @@ export function Header({
           id={board.id}
           setIsDeleteModalOpen={setIsDeleteModalOpen}
           onDeleteBtnClick={onDeleteBtnClick}
-          title={board.name}
+          title={board.board_name}
           type="board"
         />
       )}

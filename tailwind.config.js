@@ -50,6 +50,6 @@ export default {
     require("tailwind-scrollbar"),
     require("flowbite/plugin")({
       charts: true,
-    }),
+    })
   ],
 };

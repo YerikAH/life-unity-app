@@ -12,6 +12,7 @@ export function AuthLayout() {
     if (!token || isTokenExpired(token)) {
       if (!refreshAccessToken()){
         navigate("/login");
+        return;
       }
     }
     // Verifica si el token de refresco ha expirado
@@ -20,6 +21,7 @@ export function AuthLayout() {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       navigate("/login");
+      return;
     }
     // si el token de acceso no ha expirado ni el refresh token, muestra la página
     setShowPage(true);

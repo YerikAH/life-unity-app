@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconEyeOff, IconChalkboard, IconSquarePlus } from "@tabler/icons-react";
-import { setBoardActive } from "../../../redux/slices/boardsSlice";
+import { setBoardActive, changeActive } from "../../../redux/slices/boardsSlice";
 import { AddEditBoardModal } from "..";
 
 export function Boards({ setIsSideBarOpen }) {
   const dispatch = useDispatch();
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
 
-  const boards = useSelector((state) => state.boards);
-
+  const boards = useSelector((state) => state.kanban?.boards);
+  const idActiveBoard = useSelector((state) => state.kanban?.idActiveBoard);
   const toggleSidebar = () => {
     setIsSideBarOpen((curr) => !curr);
   };
@@ -33,15 +33,15 @@ export function Boards({ setIsSideBarOpen }) {
           {boards.map((board) => (
             <button
               className={`text-left flex gap-4 items-center px-5 mr-8 rounded-r-xl duration-300 ease-in-out py-4 hover:bg-[#000428bd] hover:text-white ${
-                board.isActive &&
+                board.id === idActiveBoard &&
                 " bg-[#000428] rounded-r-xl text-white"
               } `}
               key={board.id}
               onClick={() => {
-                dispatch(setBoardActive(board.id));
+                dispatch(changeActive(board.id));
               }}>
               <IconChalkboard/>
-              <span className="text-lg font-bold">{board.name}</span>
+              <span className="text-lg font-bold">{board.board_name}</span>
             </button>
           ))}
 
