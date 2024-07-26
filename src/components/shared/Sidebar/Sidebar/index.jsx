@@ -18,12 +18,12 @@ const linksArray = [
     name: "Home",
     route: "/",
   },
-  {
-    collapsed: false,
-    icon: <IconPuzzle />,
-    name: "Habits",
-    route: "/habits",
-  },
+  // {
+  //   collapsed: false,
+  //   icon: <IconPuzzle />,
+  //   name: "Habits",
+  //   route: "/habits",
+  // },
   {
     collapsed: false,
     icon: <IconTable />,
@@ -58,7 +58,7 @@ export const Sidebar = () => {
 
   return (
     <div
-      className={`p-6  w-full transition-all delay-40 flex-none ${
+      className={`p-6 transition-all delay-40 flex-none ${
         collapsed ? "w-36" : "w-72"
       }`}>
       <div className="w-full bg-primary flex rounded-3xl flex-col justify-between h-full py-12">
