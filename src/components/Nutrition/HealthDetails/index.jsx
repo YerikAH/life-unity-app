@@ -8,8 +8,7 @@ export function HealthDetails() {
   const data = useSelector((state) => state.nutrition.userData);
   const [isDrop, setDrop] = useState(false);
   const [isOpenForm, setOpenForm] = useState(false);
-  const [formResolved, setFormResolved] = useState(!!data);
-
+  const [formResolved, setFormResolved] = useState(Object.keys(data).length > 0);
   const handleSetDrop = () => {
     setDrop(!isDrop);
   };

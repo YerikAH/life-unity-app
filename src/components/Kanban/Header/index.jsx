@@ -9,7 +9,7 @@ import {
   DeleteModal,
   Boards,
 } from "../../Kanban";
-import { changeActive, deleteBoard, deleteBoards } from "../../../redux/slices/boardsSlice";
+import { changeActive, deleteBoards } from "../../../redux/slices/boardsSlice";
 
 export function Header({
   setIsBoardModalOpen,

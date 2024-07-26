@@ -59,7 +59,6 @@ export function AddEditTaskModal({
 
   const onChangeStatus = (e) => {
     setStatus(e.target.value);
-    // setNewColIndex(e.target.selectedIndex);
   };
 
   const validate = () => {
@@ -245,7 +244,6 @@ export function AddEditTaskModal({
           onClick={() => {
             const isValid = validate();
             if (isValid) {
-              console.log("valido");
               onSubmit(type);
               setIsAddTaskModalOpen(false);
               type === "edit" && setIsTaskModalOpen(false);

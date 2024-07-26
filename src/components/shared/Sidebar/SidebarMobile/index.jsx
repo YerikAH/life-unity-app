@@ -12,7 +12,7 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { logoutUser } from "../../../../services/auth";
+// import { logoutUser } from "../../../../services/auth";
 
 export const SidebarMobile = () => {
   const location = useLocation();
@@ -35,7 +35,7 @@ export const SidebarMobile = () => {
 
   const userLogout = async () => {
     try {
-      await logoutUser();
+      // await logoutUser();
       navigate("/login");
     } catch (error) {
       console.log(error.message);

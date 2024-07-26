@@ -29,11 +29,10 @@ export function UpdateSettings() {
       return acc;
     }, {});
     const newD = (() => {
-      // Verificar si `image` no está en blanco
       if (image) {
-        return { image, ...dataFiltrado };
+        return { image, ...dataFiltrado, is_active: true };
       } else {
-        return { ...dataFiltrado };
+        return { ...dataFiltrado, is_active: true };
       }
     })();
     const form = new FormData();

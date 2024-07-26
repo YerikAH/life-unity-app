@@ -15,7 +15,7 @@ export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
   const [description, setDescription] = useState(
     type==="edit" ? board.board_description : ""
   );
-  const [newColumns, setNewColumns] = useState([
+  const [newColumns, ] = useState([
     { name: "In Progress", tasks: [], id: uuidv4() },
     { name: "In Review", tasks: [], id: uuidv4() },
     { name: "Done", tasks: [], id: uuidv4() },
@@ -66,8 +66,8 @@ export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
         <h3 className="text-lg">
           {type === "edit" ? "Editar" : "Añadir nuevo"} Board
         </h3>
-        {/* Nombre del tablero */}
-        <div className="mt-5 flex flex-col gap-2">
+        <div>
+          <div className="mt-5 flex flex-col gap-2">
           <label className="text-sm dark:text-white text-gray-500">
             Nombre del Board
           </label>
@@ -80,6 +80,7 @@ export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
             }}
             id="board-name-input"
           />
+        </div>
         </div>
         <div className="mt-5 flex flex-col gap-2">
           <label className="text-sm dark:text-white text-gray-500">

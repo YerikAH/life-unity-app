@@ -30,7 +30,7 @@ export function Leader() {
   const fetchUser = async () => {
     setIsLoading(true);
     const currentUser = await obtenerUsuario();
-    currentUser.score = 100;
+    // currentUser.score = 100;
     setUser(currentUser);
     setIsLoading(false);
   };

@@ -1,6 +1,6 @@
 
 
-export default function Step2({handleActivity}) {
+export default function Step2({handleActivity, error}) {
   return (
     <div className="max-w-md">
       <div className="flex gap-2 mb-4 justify-center">
@@ -47,6 +47,9 @@ export default function Step2({handleActivity}) {
             </p>
           </div>
         </button>
+        {
+          error && <p className="text-red-500 text-md text-center font-semibold">{error}</p>
+        }
       </form>
     </div>
   );

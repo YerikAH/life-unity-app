@@ -20,7 +20,7 @@ export function Profile() {
 
   return (
     <>
-      <section className="shadow border rounded-xl py-5 px-5  bg-white order-first xl:order-3">
+      <section className="shadow border rounded-xl py-5 px-5  bg-white">
         <div className="flex justify-between items-center">
           <h3 className="font-bold text-xl text-[#000428] font-primary">
             My Profile

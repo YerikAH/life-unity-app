@@ -3,7 +3,7 @@ import { ChartDash } from "./ChartDash";
 
 export function Goals() {
   return (
-    <section className="shadow border rounded-xl p-5 justify-center font-semibold bg-white">
+    <section className="shadow border rounded-xl p-5 justify-center font-semibold bg-white order-3">
       <div className="mb-4">
         <div className="flex justify-between items-center">
           <h3 className="font-bold text-xl text-[#000428] font-primary">
