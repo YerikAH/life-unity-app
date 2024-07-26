@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ElipsisMenu,
@@ -6,51 +6,54 @@ import {
   Subtask,
   DeleteModal,
 } from "../../Kanban";
-import { deleteTask, setTaskStatus } from "../../../redux/slices/boardsSlice";
+import { deleteTasks, updateTask } from "../../../redux/slices/boardsSlice";
 import { IconDotsVertical } from "@tabler/icons-react";
 
-export function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
+export function TaskModal({ setIsTaskModalOpen, item }) {
   const dispatch = useDispatch();
   const [isElipsisMenuOpen, setIsElipsisMenuOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive === true);
-  const columns = board.columns;
-  const col = columns.find((_, i) => i === colIndex);
-  const task = col.tasks.find((_, i) => i === taskIndex);
-  const subtasks = task.subtasks;
+  const [completed, setCompleted] = useState(0);
+  const columns = useSelector((state) => state.kanban?.columns);
+  const subtasks = useSelector((state) => state.kanban?.subtasks).filter(
+    (subtask) => subtask.id_card === item.id
+  );
 
-  let completed = 0;
-  subtasks?.forEach((subtask) => {
-    if (subtask.isCompleted) {
-      completed++;
-    }
-  });
+  const dateTime = item?.vencimiento ? new Date(item.vencimiento) : "";
+  const date = dateTime ? dateTime?.toISOString().slice(0, 10) : ""; // YYYY-MM-DD
+  const time = dateTime ? dateTime?.toTimeString().slice(0, 8) : ""; // HH:MM:SS
 
-  const [status, setStatus] = useState(task.status);
-  const [newColIndex, setNewColIndex] = useState(columns.indexOf(col));
+
+  useEffect(() => {
+    let completedCount = 0
+    subtasks?.forEach((subtask) => {
+      if (subtask.is_completed) {
+        completedCount++;
+      }
+    });
+    setCompleted(completedCount);
+  }, [subtasks]);
+
+  const [status, setStatus] = useState(item.status || columns.name[0]);
+  // const [newColIndex, setNewColIndex] = useState(columns.indexOf(columns));
   const onChange = (e) => {
     setStatus(e.target.value);
-    setNewColIndex(e.target.selectedIndex);
+    // setNewColIndex(e.target.selectedIndex);
   };
 
   const onClose = (e) => {
     if (e.target !== e.currentTarget) {
       return;
     }
-    dispatch(
-      setTaskStatus({
-        taskIndex,
-        colIndex,
-        newColIndex,
-        status,
-      })
-    );
+    const data = {
+      status,
+    };
+    dispatch(updateTask({ taskId: item.id, data }));
     setIsTaskModalOpen(false);
   };
 
-  const onDeleteBtnClick = () => {
-    dispatch(deleteTask({ taskIndex, colIndex }));
+  const onDeleteBtnClick = (id) => {
+    dispatch(deleteTasks({ taskId: id }));
     setIsTaskModalOpen(false);
     setIsDeleteModalOpen(false);
   };
@@ -76,11 +79,13 @@ export function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
         <div className="relative flex justify-between w-full items-center">
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">
-            <h1 className="text-xl">{task.title}</h1>
-            <div className="size-6 rounded-full" style={{backgroundColor:task.color}}></div>
+              <h1 className="text-xl">{item.card_name}</h1>
+              <div
+                className="size-6 rounded-full"
+                style={{ backgroundColor: item.color }}></div>
             </div>
             <p className="text-gray-500 tracking-wide text-sm">
-              Deadline: {task.date}
+              Deadline: {dateTime ? `${date} ${time}` : "Sin Fecha Limite"}
             </p>
           </div>
           <IconDotsVertical
@@ -97,26 +102,19 @@ export function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
             />
           )}
         </div>
-        {task.description && (
+        {item.card_description && (
           <p className="text-primary font-medium text-md pt-4">
-            {task.description}
+            {item.card_description}
           </p>
         )}
-        {subtasks?.length>0 && (
+        {subtasks?.length > 0 && (
           <>
             <p className="text-sm dark:text-white text-gray-500 mt-4">
               Subtareas ({completed} de {subtasks?.length})
             </p>
             <div className="mt-3 space-y-2">
-              {subtasks?.map((_, index) => {
-                return (
-                  <Subtask
-                    index={index}
-                    taskIndex={taskIndex}
-                    colIndex={colIndex}
-                    key={index}
-                  />
-                );
+              {subtasks?.map((item) => {
+                return <Subtask item={item} key={item.id} />;
               })}
             </div>{" "}
           </>
@@ -140,19 +138,19 @@ export function TaskModal({ taskIndex, colIndex, setIsTaskModalOpen }) {
       </div>
       {isDeleteModalOpen && (
         <DeleteModal
+          id={item.id}
           onDeleteBtnClick={onDeleteBtnClick}
           setIsDeleteModalOpen={setIsDeleteModalOpen}
           type="task"
-          title={task.title}
+          title={item.card_name}
         />
       )}
       {isAddTaskModalOpen && (
         <AddEditTaskModal
+          item={item}
           setIsAddTaskModalOpen={setIsAddTaskModalOpen}
           setIsTaskModalOpen={setIsTaskModalOpen}
           type="edit"
-          taskIndex={taskIndex}
-          prevColIndex={colIndex}
         />
       )}
     </div>

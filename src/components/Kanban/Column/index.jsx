@@ -1,16 +1,16 @@
 // import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Task } from "../../Kanban";
-import { dragTask } from "../../../redux/slices/boardsSlice";
+import { updateTask } from "../../../redux/slices/boardsSlice";
 import {IconTargetArrow, IconRotateClockwise2, IconCircleCheck, IconLayout} from "@tabler/icons-react"
 
 export function Column({ colIndex, item }) {
 
   const dispatch = useDispatch();
-
-  // Obtener el estado de los tableros desde Redux
-  const boards = useSelector((state) => state.kanban.boards);
-  const col= useSelector((state) => state.kanban.columns);
+  const tasks = useSelector((state) => state.kanban?.tasks);
+  const idActiveBoard = useSelector((state) => state.kanban?.idActiveBoard);
+  const tasksFiltered = tasks.filter((task) => task.id_board === idActiveBoard && task.status === item.name);
+  const col = useSelector((state) => state.kanban?.columns).find((col) => col.id === colIndex);
 
   // Manejar el evento de soltar tarea en una columna diferente
   const handleOnDrop = (e) => {
@@ -19,7 +19,7 @@ export function Column({ colIndex, item }) {
     );
 
     if (colIndex !== prevColIndex) {
-      dispatch(dragTask({ colIndex, prevColIndex, taskIndex }));
+      dispatch(updateTask({ taskId: taskIndex, data: { status: col.name } }));
     }
   };
 
@@ -40,14 +40,13 @@ export function Column({ colIndex, item }) {
         <p className="font-semibold text-[#000428] text-lg">
           {item.name}
         </p>
-        <span className="bg-primary text-white size-6 rounded-full flex justify-center items-center">{0||col.tasks?.length}</span>
+        <span className="bg-primary text-white size-6 rounded-full flex justify-center items-center">{tasksFiltered.length}</span>
       </div>
       {/* Lista de tareas en la columna */}
       <div className="flex items-center justify-center gap-5 flex-col">
-        {/* FALTA Renderizar los tasks con un dispatch segun el name del item */}
-        {/* {col.tasks.map((_, index) => (
-          <Task key={index} taskIndex={index} colIndex={colIndex} />
-        ))} */}
+        {tasksFiltered.map((task) => (
+          <Task key={task.id} taskIndex={task.id} colIndex={item.id} item={task} />
+        ))}
       </div>
     </div>
   );

@@ -7,7 +7,6 @@ import { AddEditBoardModal } from "..";
 export function Boards({ setIsSideBarOpen }) {
   const dispatch = useDispatch();
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
-
   const boards = useSelector((state) => state.kanban?.boards);
   const idActiveBoard = useSelector((state) => state.kanban?.idActiveBoard);
   const toggleSidebar = () => {
@@ -28,7 +27,6 @@ export function Boards({ setIsSideBarOpen }) {
         <h3 className="text-gray-600 font-semibold mx-4 mb-8 text-xl text-center">
           Todos los Tableros ({boards?.length})
         </h3>
-
         <div className="flex flex-col justify-between gap-2">
           {boards.map((board) => (
             <button
