@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 // import { Sidebar, SidebarMobile } from "../../../components/shared";
 import { isTokenExpired,refreshAccessToken } from "../../../utils";
+import {SidebarMobile, Sidebar} from "../../../components/shared/index.js";
 
 export function MainLayout() {
   const navigate = useNavigate();
   const [showPage, setShowPage] = useState(false);  
-  const [, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(window.innerWidth);
 
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth);
@@ -44,8 +45,7 @@ export function MainLayout() {
       {showPage && (
         <>
           <div className="flex md:h-screen w-full overflow-auto">
-              {/* {width < 768 ? (<SidebarMobile />) : (<Sidebar />)
-            } */}
+              {width < 768 ? (<SidebarMobile />) : (<Sidebar />)}
             <div className="w-full mx-auto max-w-8xl p-4 min-h-screen md:h-full">
               <Outlet />
             </div>
