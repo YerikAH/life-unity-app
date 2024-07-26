@@ -1,7 +1,7 @@
 import { Header, Center, EmptyBoard } from "../../components/Kanban";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBoards, fetchTasks, changeActive } from "../../redux/slices/boardsSlice";
+import { fetchBoards, fetchTasks, changeActive, fetchSubtasks } from "../../redux/slices/boardsSlice";
 import { useTitle } from "../../hooks";
 
 export function KanbanPersonal() {
@@ -15,16 +15,17 @@ export function KanbanPersonal() {
   useEffect(() => {
     if (boards.length > 0) {
       dispatch(changeActive(boards[0]?.id));
+    }else{
+      dispatch(changeActive(0));
     }
   }, [boards, dispatch]);
-  console.log(boards);
   useEffect(() => {
     setLoading(true);
     dispatch(fetchBoards());
     dispatch(fetchTasks());
+    dispatch(fetchSubtasks());
     dispatch(changeActive(boards[0]?.id || 0));
     setLoading(false);
-    console.log(boards);
   }, [dispatch]);
   return (
     <div className="w-full h-full overflow-auto">

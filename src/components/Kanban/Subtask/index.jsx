@@ -1,24 +1,13 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setSubtaskCompleted } from "../../../redux/slices/boardsSlice";
 
-export function Subtask({ index, taskIndex, colIndex }) {
+import { useDispatch } from "react-redux";
+import { updateSubtask } from "../../../redux/slices/boardsSlice";
+
+export function Subtask({ item }) {
   const dispatch = useDispatch();
-  const boards = useSelector((state) => state.boards);
-  const board = boards.find((board) => board.isActive === true);
-  const col = board.columns.find((col, i) => colIndex === i);
-  const task = col.tasks.find((task, i) => taskIndex === i);
-  const subtask = task.subtasks.find((subtask, i) => i === index);
-  const checked = subtask.isCompleted;
+  const checked = item.is_completed;
 
   const onChange = () => {
-    dispatch(
-      setSubtaskCompleted({
-        index,
-        taskIndex,
-        colIndex,
-      })
-    );
+    dispatch(updateSubtask({ subtaskId: item.id, dataSubtask: { is_completed: !checked } }));
   };
 
   return (
@@ -29,7 +18,7 @@ export function Subtask({ index, taskIndex, colIndex }) {
         checked={checked}
         onChange={onChange}
       />
-      <p className={checked ? "line-through opacity-30" : ""}>{subtask.title}</p>
+      <p className={checked ? "line-through opacity-30" : ""}>{item.name}</p>
     </div>
   );
 }

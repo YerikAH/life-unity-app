@@ -23,7 +23,7 @@ export const Clock = () => {
   const day = format(time, "EEEE");
 
   return (
-    <section className="hidden lg:block shadow border rounded-xl py-5 px-5 bg-white">
+    <section className="hidden lg:block shadow border rounded-xl py-5 px-5 bg-white order-4 ">
       <div className="flex justify-between items-center">
         <h3 className="font-bold text-xl text-[#000428] font-primary">Clock</h3>
         <IconClock className="text-gray-900" />

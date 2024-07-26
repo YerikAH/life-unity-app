@@ -2,46 +2,67 @@ import ReactSlider from "react-slider";
 // import "./slider.css";
 import { SettingsContext } from "../SettingsContext";
 import { useContext } from "react";
+import { IconArrowBigLeftFilled } from "@tabler/icons-react";
 
 export function Settings() {
   const settingsInfo = useContext(SettingsContext);
+
+  /**
+   * .slider{
+    height: 40px;
+    border: 2px solid var(--red);
+    border-radius: 20px;
+}
+
+.thumb{
+    background-color: var(--red);
+    cursor:pointer;
+    width:40px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.slider.green{
+    border: 2px solid var(--green);
+}
+.slider.green .thumb{
+    background-color: var(--green);
+}
+   */
   return (
-    <div style={{ textAlign: "left" }}>
-      <label>work: {settingsInfo.workMinutes}:00</label>
-      <ReactSlider
-        className={"slider"}
-        thumbClassName={"thumb"}
-        trackClassName={"track"}
-        value={settingsInfo.workMinutes}
-        onChange={(newValue) => settingsInfo.setWorkMinutes(newValue)}
-        min={1}
-        max={120}
-      />
-      <label>break: {settingsInfo.breakMinutes}:00</label>
-      <ReactSlider
-        className={"slider green"}
-        thumbClassName={"thumb"}
-        trackClassName={"track"}
-        value={settingsInfo.breakMinutes}
-        onChange={(newValue) => settingsInfo.setBreakMinutes(newValue)}
-        min={1}
-        max={120}
-      />
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
+    <div className="flex w-full flex-col gap-10 mt-6 h-[300px] ">
+      <div className="flex flex-col gap-5">
+        <div>
+          {" "}
+          <label>Work:   <span className="font-bold text-xl ml-2">{settingsInfo.workMinutes}:00</span> minutes</label>
+          <ReactSlider
+            className="h-[40px] border-2 border-red-500 rounded-[20px] relative z-10"
+            thumbClassName="bg-red-500 cursor-pointer w-[35px] h-[35px] rounded-[20px]"
+            trackClassName={"track"}
+            value={settingsInfo.workMinutes}
+            onChange={(newValue) => settingsInfo.setWorkMinutes(newValue)}
+            min={1}
+            max={120}
+          />
+        </div>
+        <div>
+          <label>Break: <span className="font-bold text-xl ml-2">{settingsInfo.breakMinutes}:00</span> minutes</label>
+          <ReactSlider
+            className="h-[40px] border-2 border-green-500 rounded-[20px] relative z-10"
+            thumbClassName="bg-green-500 cursor-pointer w-[35px] h-[35px] rounded-[20px]"
+            trackClassName={"track"}
+            value={settingsInfo.breakMinutes}
+            onChange={(newValue) => settingsInfo.setBreakMinutes(newValue)}
+            min={1}
+            max={120}
+          />
+        </div>
+      </div>
+      <div className="flex justify-center items-center">
         <button
           onClick={() => settingsInfo.setShowSettings(false)}
-          className={"with-text"}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor">
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z"
-              clipRule="evenodd"
-            />
-          </svg>
+          className="bg-primary px-4 py-1 rounded-md text-white flex gap-2 items-center">
+          <IconArrowBigLeftFilled />
           Back
         </button>
       </div>

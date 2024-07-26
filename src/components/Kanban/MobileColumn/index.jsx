@@ -4,23 +4,24 @@ import { Column } from "../../Kanban";
 import {IconTargetArrow, IconRotateClockwise2, IconCircleCheck} from "@tabler/icons-react"
 
 export function MobileColumn() {
-  const boards = useSelector((state) => state.kanban?.boards);
-  let columns  =  useSelector((state) => state.kanban?.columns);
-  const [selectedTab, setSelectedTab] = useState(0); // Inicialmente selecciona el primer tab
-
+  const columns  =  useSelector((state) => state.kanban?.columns);
+  const idActiveBoard = useSelector((state) => state.kanban.idActiveBoard);
+  const [selectedTab, setSelectedTab] = useState(1); // Inicialmente selecciona el primer tab
+  const tasks = useSelector((state) => state.kanban?.tasks);
+  const tasksBoard = tasks.filter((task) => task.id_board === idActiveBoard);
   return (
     <>
       <nav className="flex gap-10 pt-2 w-full overflow-hidden hover:overflow-x-auto border-b border-primary">
-        {columns.map((column, index) => (
+        {columns.map((column) => (
           <button
-            key={index}
+            key={column.id}
             className={`flex items-center gap-5 text-sm flex-none py-2 px-4 rounded-t-md font-semibold ${
-              Number(index) === selectedTab ? "bg-primary text-white" : ""
+              Number(column.id) === selectedTab ? "bg-primary text-white" : ""
             }`}
-            onClick={() => setSelectedTab(index)}>
+            onClick={() => setSelectedTab(column.id)}>
               {
-                Number(index) === 0 ? <IconTargetArrow size={24} /> :
-                Number(index) === 1 ? <IconRotateClockwise2 size={24} /> :
+                Number(column.id) === 1 ? <IconTargetArrow size={24} /> :
+                Number(column.id) === 2 ? <IconRotateClockwise2 size={24} /> :
                 <IconCircleCheck size={24} />
 
               }
@@ -29,18 +30,18 @@ export function MobileColumn() {
             </h3>
             <span
               className={`p-2 rounded-full size-6 flex justify-center items-center ${
-                index === selectedTab
+                column.id === selectedTab
                   ? "bg-white text-primary"
                   : "text-white bg-primary"
               }`}>
-              {column.tasks.length}
+              {tasksBoard.filter((task) => task.status === column.name).length}
             </span>
           </button>
         ))}
       </nav>
-      {columns.map((_, index) => {
-        if (Number(index) === selectedTab) {
-          return <Column key={index} colIndex={index} />;
+      {columns.map((item) => {
+        if (Number(item.id) === selectedTab) {
+          return <Column key={item.id} colIndex={item.id} item={item} />;
         }
         return null;
       })}

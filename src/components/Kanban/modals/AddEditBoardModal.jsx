@@ -1,13 +1,10 @@
 import {
-  addBoard,
   createBoard,
-  editBoard,
   updateBoard,
 } from "../../../redux/slices/boardsSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import { IconX } from "@tabler/icons-react";
+import { useState } from "react";
 
 export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
   const dispatch = useDispatch();
@@ -23,21 +20,6 @@ export function AddEditBoardModal({ setIsBoardModalOpen, type }) {
     { name: "In Review", tasks: [], id: uuidv4() },
     { name: "Done", tasks: [], id: uuidv4() },
   ]);
-
-  // Función para cambiar el nombre de la columna
-  const onChange = (id, newValue) => {
-    setNewColumns((prevState) => {
-      const newState = [...prevState];
-      const column = newState.find((col) => col.id === id);
-      column.name = newValue;
-      return newState;
-    });
-  };
-
-  // Función para eliminar una columna
-  const onDelete = (id) => {
-    setNewColumns((prevState) => prevState.filter((el) => el.id !== id));
-  };
 
   // Función para validar el formulario
   const validate = () => {

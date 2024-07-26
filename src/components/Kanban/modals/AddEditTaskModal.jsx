@@ -1,31 +1,52 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { IconX, IconColorPicker } from "@tabler/icons-react";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, editTask } from "../../../redux/slices/boardsSlice";
+import {
+  createSubtask,
+  createTask,
+  updateSubtask,
+  updateTask,
+} from "../../../redux/slices/boardsSlice";
 import { HexColorPicker } from "react-colorful";
+
+const convertToLocalDateTime = (dateTimeString) => {
+  const dateTime = new Date(dateTimeString);
+  const offset = dateTime.getTimezoneOffset();
+  const localDateTime = new Date(dateTime.getTime() - offset * 60 * 1000);
+  return localDateTime.toISOString().slice(0, 16);
+};
 
 export function AddEditTaskModal({
   type,
   setIsTaskModalOpen,
   setIsAddTaskModalOpen,
-  taskIndex,
-  prevColIndex = 0,
+  item,
 }) {
   const dispatch = useDispatch();
+  const idActiveBoard = useSelector((state) => state.kanban.idActiveBoard);
+  const columns = useSelector((state) => state.kanban.columns);
+  const subtasksFiltered = useSelector((state) => state.kanban.subtasks).filter(
+    (subcard) => subcard.id_card === item?.id
+  );
   const [openColorPicker, setOpenColorPicker] = useState(false);
   const [isValid, setIsValid] = useState(true);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().slice(0,10));
-  const board = useSelector((state) => state.kanban.boards)[0]
-  const columns = board.columns;
-  const col = columns.find((_, index) => index === prevColIndex);
-  const task = col ? col.tasks.find((_, index) => index === taskIndex) : [];
-  const [color, setColor] = useState(task?.color ||"#aabbcc");
-  const [status, setStatus] = useState(columns[prevColIndex].name);
-  const [newColIndex, setNewColIndex] = useState(prevColIndex);
-  const [subtasks, setSubtasks] = useState([]);
+  const [title, setTitle] = useState(type === "edit" ? item?.card_name : "");
+  const [description, setDescription] = useState(
+    type === "edit" && item?.card_description ? item?.card_description : ""
+  );
+
+  const initialDateTime = item?.vencimiento
+    ? convertToLocalDateTime(item.vencimiento)
+    : "";
+
+  const [date, setDate] = useState(initialDateTime);
+  const [color, setColor] = useState(item?.color || "#aabbcc");
+  const [status, setStatus] = useState(
+    type === "edit" ? item?.status : columns[0].name
+  );
+  // const [newColIndex, setNewColIndex] = useState(prevColIndex);
+  const [subtasks, setSubtasks] = useState(subtasksFiltered || []);
 
   const onChangeSubtasks = (id, newValue) => {
     setSubtasks((prevState) => {
@@ -38,7 +59,7 @@ export function AddEditTaskModal({
 
   const onChangeStatus = (e) => {
     setStatus(e.target.value);
-    setNewColIndex(e.target.selectedIndex);
+    // setNewColIndex(e.target.selectedIndex);
   };
 
   const validate = () => {
@@ -46,56 +67,54 @@ export function AddEditTaskModal({
     if (!title.trim()) {
       return false;
     }
+
+    const hasEmptyTitle = subtasks?.some((subtask) => !subtask.title.trim());
+
+    if (hasEmptyTitle) {
+      return false;
+    }
+
     setIsValid(true);
     return true;
   };
-
-  useEffect(() => {
-    if (type === "edit" ) {
-      setSubtasks(
-        task.subtasks?.map((subtask) => {
-          return { ...subtask, id: uuidv4() };
-        })
-      );
-      setTitle(task.title);
-      setDescription(task.description);
-    }
-    console.log(subtasks)
-  },[])
 
   const onDelete = (id) => {
     setSubtasks((prevState) => prevState.filter((el) => el.id !== id));
   };
 
   const onSubmit = (type) => {
-    const subtasksToCheck = subtasks?.filter(
-      (subtask) => subtask.title.trim() !== ""
-    );
-    if (type === "add") {
-      dispatch(
-        addTask({
-          title,
-          description,
-          subtasksToCheck,
-          date, 
-          color,
-          status,
-        })
-      );
+    const data = {
+      card_name: title,
+      card_description: description,
+      color,
+      status,
+    };
+    if (date) {
+      data.vencimiento = date;
+    }
+
+    if (subtasksFiltered.length > 0) {
+      subtasksFiltered.forEach((subtask) => {
+        const dataSubtask = {
+          name: subtask.title
+        };
+        dispatch(updateSubtask({ subtaskId: subtask.id, dataSubtask }));
+      });
     } else {
-      dispatch(
-        editTask({
-          title,
-          description,
-          subtasksToCheck,
-          status,
-          date,
-          color,
-          taskIndex,
-          prevColIndex,
-          newColIndex,
-        })
-      );
+      subtasks?.forEach((subtask) => {
+        const dataSubtask = {
+          name: subtask.title,
+          id_card: item.id,
+        };
+        dispatch(createSubtask({ dataSubtask }));
+      });
+    }
+
+    if (type === "add") {
+      data.id_board = idActiveBoard;
+      dispatch(createTask({ data }));
+    } else {
+      dispatch(updateTask({ taskId: item.id, data }));
     }
   };
 
@@ -183,13 +202,13 @@ export function AddEditTaskModal({
               </div>
             ))}
           </div>
-
           <button
             className=" w-full items-center text-white bg-[#000428] py-2 rounded-full text-sm font-semibold"
             onClick={() => {
               setSubtasks((prevState) => [
                 ...prevState,
-                { title: "", id: uuidv4() },]);
+                { title: "", id: uuidv4() },
+              ]);
             }}>
             + Agregar Nueva Subtarea
           </button>
@@ -202,7 +221,7 @@ export function AddEditTaskModal({
           <input
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            type="date"
+            type="datetime-local"
             className="rounded-md text-sm outline-none  w-full border-gray-600 focus:ring-0 focus:border-gray-600"></input>
         </div>
         {/* Estado Actual  */}
@@ -226,6 +245,7 @@ export function AddEditTaskModal({
           onClick={() => {
             const isValid = validate();
             if (isValid) {
+              console.log("valido");
               onSubmit(type);
               setIsAddTaskModalOpen(false);
               type === "edit" && setIsTaskModalOpen(false);
