@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { obtenerInfoToken } from "../../utils";
+import { API_URL, ENDPOINTS } from "../../utils/endpoints";
 
 const boardAPI = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1/boards/",
+  baseURL: `${API_URL}${ENDPOINTS.BOARDS}`,
   headers: {
     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
     'Content-Type': 'application/json',
@@ -11,7 +12,7 @@ const boardAPI = axios.create({
 });
 
 const taskAPI = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1/cards/",
+  baseURL: `${API_URL}${ENDPOINTS.CARDS}`,
   headers: {
     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
     'Content-Type': 'application/json',
@@ -19,7 +20,7 @@ const taskAPI = axios.create({
 })
 
 const subtasksAPI = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1/subcards/",
+  baseURL: `${API_URL}${ENDPOINTS.SUBCARDS}`,
   headers: {
     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
     'Content-Type': 'application/json',
