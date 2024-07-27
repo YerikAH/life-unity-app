@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IconEyeOff, IconChalkboard, IconSquarePlus } from "@tabler/icons-react";
-import { setBoardActive, changeActive } from "../../../redux/slices/boardsSlice";
+import { changeActive } from "../../../redux/slices/boardsSlice";
 import { AddEditBoardModal } from "..";
 
 export function Boards({ setIsSideBarOpen }) {

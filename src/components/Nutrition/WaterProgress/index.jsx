@@ -15,7 +15,7 @@ export function WaterProgress() {
   const totalValues = useSelector((state) => state.nutrition?.totalValues);
   useEffect(() => {
     if (
-      totalValues.total_water >= valuesRecommended.water_cups &&
+      totalValues?.total_water >= valuesRecommended.water_cups &&
       valuesRecommended.water_cups !== 0
     ) {
       setCongrats(true);
@@ -46,12 +46,20 @@ export function WaterProgress() {
             </div>
             <div className="flex justify-between items-center ">
               <button
-                onClick={() => dispatch(controlWater("decrease"))}
+                onClick={() => {
+                  if (valuesRecommended?.water_cups) {
+                    dispatch(controlWater("decrease"));
+                  }
+                }}
                 className="active:scale-95 hover:bg-gray-200 rounded-lg p-2">
                 <IconMinus stroke={2} size={18} />
               </button>
               <button
-                onClick={() => dispatch(controlWater("increase"))}
+                onClick={() => {
+                  if (valuesRecommended?.water_cups) {
+                    dispatch(controlWater("increase"));
+                  }
+                }}
                 className="active:scale-95 hover:bg-gray-200 rounded-lg p-2">
                 <IconPlus stroke={2} size={18} />
               </button>
@@ -63,7 +71,7 @@ export function WaterProgress() {
                 {valuesRecommended?.water_liters || "--"} liters
               </span>
               <span className="text-yellow font-semibold text-sm font-primary text-gray-500">
-                {totalValues?.total_water}/
+                {totalValues?.total_water || "--"}/
                 {valuesRecommended?.water_cups || "--"} cups
               </span>
             </div>

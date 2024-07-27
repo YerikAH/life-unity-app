@@ -23,9 +23,8 @@ export function TaskModal({ setIsTaskModalOpen, item }) {
   const date = dateTime ? dateTime?.toISOString().slice(0, 10) : ""; // YYYY-MM-DD
   const time = dateTime ? dateTime?.toTimeString().slice(0, 8) : ""; // HH:MM:SS
 
-
   useEffect(() => {
-    let completedCount = 0
+    let completedCount = 0;
     subtasks?.forEach((subtask) => {
       if (subtask.is_completed) {
         completedCount++;
@@ -109,14 +108,17 @@ export function TaskModal({ setIsTaskModalOpen, item }) {
         )}
         {subtasks?.length > 0 && (
           <>
-            <p className="text-sm dark:text-white text-gray-500 mt-4">
+            <p className="text-sm dark:text-white text-gray-500 mt-4 mb-2">
               Subtareas ({completed} de {subtasks?.length})
             </p>
-            <div className="mt-3 space-y-2">
-              {subtasks?.map((item) => {
-                return <Subtask item={item} key={item.id} />;
-              })}
-            </div>{" "}
+
+            <div className="flex flex-col gap-2 overflow-y-auto h-[200px] z-1 relative">
+              <div className="mt-3 space-y-2">
+                {subtasks?.map((item) => {
+                  return <Subtask item={item} key={item.id} />;
+                })}
+              </div>{" "}
+            </div>
           </>
         )}
         {/* Sección de Estado Actual */}

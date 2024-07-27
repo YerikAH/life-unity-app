@@ -16,7 +16,7 @@ export const fetchNotes = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       // FALTA : FILTRAR NOTES DE UN USUARIO EN PARTICULAR
-      const response = await notesAPI.get(`/?user_id=${obtenerInfoToken().user_id}`);
+      const response = await notesAPI.get(`?user_id=${obtenerInfoToken().user_id}`);
       return response.data;
     } catch (error) {
       console.error('Error al Obtener los Boards: ', error);
@@ -43,7 +43,7 @@ export const updateNotes = createAsyncThunk(
     'notes/updateNotes',
     async ({ noteId, data }, { dispatch, rejectWithValue }) => {
       try {
-        const response = await notesAPI.put(`/${noteId}/`, data);
+        const response = await notesAPI.put(`${noteId}/`, data);
         dispatch(fetchNotes());
         return response.data;
       } catch (error) {
@@ -57,7 +57,7 @@ export const deleteNotes = createAsyncThunk(
     'notes/deleteNotes',
     async (noteId, { dispatch, rejectWithValue }) => {
       try {
-        await notesAPI.delete(`/${noteId}/`);
+        await notesAPI.delete(`${noteId}/`);
         dispatch(fetchNotes());
         return noteId;
       } catch (error) {

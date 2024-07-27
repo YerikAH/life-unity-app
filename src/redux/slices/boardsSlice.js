@@ -62,6 +62,7 @@ export const updateBoard = createAsyncThunk(
       try {
         const response = await boardAPI.put(`/${data.id}/`, data);
         dispatch(fetchBoards()); 
+        dispatch(changeActive(data.id));
         return response.data;
       } catch (error) {
         console.error('Error al Actualizar el Board: ', error);
@@ -99,11 +100,9 @@ export const fetchTasks = createAsyncThunk(
 
 export const createTask = createAsyncThunk(
     'boards/createTask',
-    async ({ data }, { dispatch, rejectWithValue }) => {
-      console.log(data)
+    async ({ data }, {rejectWithValue }) => {
       try {
         const response = await taskAPI.post(`/`, data);
-        dispatch(fetchTasks());
         return response.data;
       } catch (error) {
         console.error('Error al Crear la Tarea: ', error);
@@ -155,10 +154,10 @@ export const fetchSubtasks = createAsyncThunk(
 
 export const createSubtask = createAsyncThunk(
     'boards/createSubtask',
-    async ({ dataSubtask }, { dispatch, rejectWithValue }) => {
+    async ({ dataSubtask }, { rejectWithValue }) => {
       try {
         const response = await subtasksAPI.post(`/`, dataSubtask);
-        dispatch(fetchSubtasks());
+        console.log(response.data);
         return response.data;
       } catch (error) {
         console.error('Error al Crear la Tarea: ', error);
@@ -221,21 +220,21 @@ const boardsSlice = createSlice({
     builder.addCase(fetchBoards.fulfilled, (state, action) => {
       state.boards = action.payload;
     });
-    builder.addCase(createBoard.fulfilled);
-    builder.addCase(updateBoard.fulfilled);
-    builder.addCase(deleteBoards.fulfilled);
+    builder.addCase(createBoard.fulfilled, (state, action) => {});
+    builder.addCase(updateBoard.fulfilled, (state, action) => {});
+    builder.addCase(deleteBoards.fulfilled, (state, action) => {});
     builder.addCase(fetchTasks.fulfilled, (state, action) => {
       state.tasks = action.payload;
     });
-    builder.addCase(createTask.fulfilled);
-    builder.addCase(updateTask.fulfilled);
-    builder.addCase(deleteTasks.fulfilled);
+    builder.addCase(createTask.fulfilled, (state, action) => {});
+    builder.addCase(updateTask.fulfilled, (state, action) => {});
+    builder.addCase(deleteTasks.fulfilled, (state, action) => {});
     builder.addCase(fetchSubtasks.fulfilled, (state, action) => {
       state.subtasks = action.payload;
     });
-    builder.addCase(createSubtask.fulfilled);
-    builder.addCase(updateSubtask.fulfilled);
-    builder.addCase(deleteSubtasks.fulfilled);
+    builder.addCase(createSubtask.fulfilled, (state, action) => {});
+    builder.addCase(updateSubtask.fulfilled, (state, action) => {});
+    builder.addCase(deleteSubtasks.fulfilled, (state, action) => {});
   }
 });
 

@@ -14,11 +14,11 @@ export function KanbanPersonal() {
   const idActiveBoard = useSelector((state) => state.kanban?.idActiveBoard);
   useEffect(() => {
     if (boards.length > 0) {
-      dispatch(changeActive(boards[0]?.id));
+      dispatch(changeActive(idActiveBoard||boards[0]?.id));
     }else{
       dispatch(changeActive(0));
     }
-  }, [boards, dispatch]);
+  }, [boards, dispatch, idActiveBoard]);
   useEffect(() => {
     setLoading(true);
     dispatch(fetchBoards());

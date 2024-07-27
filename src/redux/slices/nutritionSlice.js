@@ -7,7 +7,7 @@ export const userNutritionData = createAsyncThunk(
   async () => {
     const user_id = obtenerInfoToken().user_id;
     const response = await fetchDatos(
-      `${API_URL}${ENDPOINTS.NUTRITION_DETAILS}/?id_user=${user_id}`,
+      `${API_URL}${ENDPOINTS.NUTRITION_DETAILS}?id_user=${user_id}`,
       "GET"
     );
     if (response.length === 0) {
@@ -38,7 +38,7 @@ export const userNutritionRecomended = createAsyncThunk(
   async () => {
     const user_id = obtenerInfoToken().user_id;
     const response = await fetchDatos(
-      `${API_URL}${ENDPOINTS.VALUES_RECOMMENDED}/?id_user=${user_id}`,
+      `${API_URL}${ENDPOINTS.VALUES_RECOMMENDED}?id_user=${user_id}`,
       "GET"
     );
     if (response.length === 0) {
@@ -69,7 +69,7 @@ export const userValuesConsumed = createAsyncThunk(
   async () => {
     const user_id = obtenerInfoToken().user_id;
     const response = await fetchDatos(
-      `${API_URL}${ENDPOINTS.VALUES_CONSUMED}/?id_user=${user_id}`,
+      `${API_URL}${ENDPOINTS.VALUES_CONSUMED}?id_user=${user_id}`,
       "GET"
     );
     if (response.length === 0) {
@@ -105,7 +105,7 @@ export const controlWater = createAsyncThunk(
     if (param === "increase") {
       newData = { id_user: user_id, water: 1 };
     } else {
-      if (state.nutrition.totalValues.total_water == 0) {
+      if (state.nutrition.totalValues.total_water == 0 || !param) {
         return state.nutrition.totalValues;
       } else {
         newData = { id_user: user_id, water: -1 };

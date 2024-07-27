@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconX, IconColorPicker } from "@tabler/icons-react";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createSubtask,
   createTask,
+  deleteSubtasks,
+  fetchSubtasks,
+  fetchTasks,
   updateSubtask,
   updateTask,
 } from "../../../redux/slices/boardsSlice";
@@ -15,6 +18,12 @@ const convertToLocalDateTime = (dateTimeString) => {
   const offset = dateTime.getTimezoneOffset();
   const localDateTime = new Date(dateTime.getTime() - offset * 60 * 1000);
   return localDateTime.toISOString().slice(0, 16);
+};
+
+const isUUIDv4 = (id) => {
+  const uuidv4Pattern =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidv4Pattern.test(id);
 };
 
 export function AddEditTaskModal({
@@ -45,18 +54,24 @@ export function AddEditTaskModal({
   const [status, setStatus] = useState(
     type === "edit" ? item?.status : columns[0].name
   );
-  // const [newColIndex, setNewColIndex] = useState(prevColIndex);
-  const [subtasks, setSubtasks] = useState(subtasksFiltered || []);
+  const [subtasks, setSubtasks] = useState([]);
+  useEffect(() => {
+    if (subtasksFiltered && subtasksFiltered.length > 0) {
+      setSubtasks(subtasksFiltered);
+    }
+    dispatch(fetchSubtasks());
+  }, []);
 
   const onChangeSubtasks = (id, newValue) => {
     setSubtasks((prevState) => {
       const newState = [...prevState];
-      const subtask = newState.find((subtask) => subtask.id === id);
-      subtask.title = newValue;
+      const subtaskIndex = newState.findIndex((subtask) => subtask.id === id);
+      if (subtaskIndex !== -1) {
+        newState[subtaskIndex] = { ...newState[subtaskIndex], name: newValue };
+      }
       return newState;
     });
   };
-
   const onChangeStatus = (e) => {
     setStatus(e.target.value);
   };
@@ -67,7 +82,7 @@ export function AddEditTaskModal({
       return false;
     }
 
-    const hasEmptyTitle = subtasks?.some((subtask) => !subtask.title.trim());
+    const hasEmptyTitle = subtasks?.some((subtask) => !subtask.name.trim());
 
     if (hasEmptyTitle) {
       return false;
@@ -78,10 +93,17 @@ export function AddEditTaskModal({
   };
 
   const onDelete = (id) => {
-    setSubtasks((prevState) => prevState.filter((el) => el.id !== id));
+    if (!isUUIDv4(id)) {
+      dispatch(deleteSubtasks({ subtaskId: id }));
+    }
+
+    setSubtasks((prevState) =>
+      prevState.filter((subtask) => subtask.id !== id)
+    );
   };
 
-  const onSubmit = (type) => {
+  const onSubmit = async (type) => {
+    let taskId;
     const data = {
       card_name: title,
       card_description: description,
@@ -92,29 +114,30 @@ export function AddEditTaskModal({
       data.vencimiento = date;
     }
 
-    if (subtasksFiltered.length > 0) {
-      subtasksFiltered.forEach((subtask) => {
-        const dataSubtask = {
-          name: subtask.title
-        };
-        dispatch(updateSubtask({ subtaskId: subtask.id, dataSubtask }));
-      });
-    } else {
-      subtasks?.forEach((subtask) => {
-        const dataSubtask = {
-          name: subtask.title,
-          id_card: item.id,
-        };
-        dispatch(createSubtask({ dataSubtask }));
-      });
-    }
-
     if (type === "add") {
       data.id_board = idActiveBoard;
-      dispatch(createTask({ data }));
+      const result = await dispatch(createTask({ data }));
+      taskId = result.payload.id;
+      if (!taskId) return;
+      dispatch(fetchTasks());
     } else {
+      taskId = item.id;
       dispatch(updateTask({ taskId: item.id, data }));
     }
+
+    subtasks?.forEach((subtask) => {
+      const dataSubtask = {
+        name: subtask.name,
+        id_card: taskId,
+      };
+      if (!isUUIDv4(subtask.id)) {
+        dataSubtask.id = subtask.id;
+        dispatch(updateSubtask({ subtaskId: subtask.id, dataSubtask }));
+      } else {
+        dispatch(createSubtask({ dataSubtask }));
+      }
+    });
+    dispatch(fetchSubtasks());
   };
 
   return (
@@ -188,7 +211,7 @@ export function AddEditTaskModal({
                     onChangeSubtasks(subtask.id, e.target.value);
                   }}
                   type="text"
-                  value={subtask.title}
+                  value={subtask.name}
                   className="w-full outline-none rounded-md text-sm border-gray-600 focus:ring-0 focus:border-gray-600"
                   placeholder=" e.g Tomar un descanso para tomar café"
                 />
@@ -206,8 +229,9 @@ export function AddEditTaskModal({
             onClick={() => {
               setSubtasks((prevState) => [
                 ...prevState,
-                { title: "", id: uuidv4() },
+                { name: "", id: uuidv4() },
               ]);
+              console.log({ name: "", id: uuidv4() });
             }}>
             + Agregar Nueva Subtarea
           </button>

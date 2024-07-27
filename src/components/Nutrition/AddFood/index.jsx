@@ -27,11 +27,6 @@ export function AddFood() {
       fat: response.totalNutrients.FAT.quantity,
       cal: response.calories,
     };
-    // const newItem = {
-    //   name: extraInput,
-    //   value: Number(extraInputValue),
-    //   ...calculatedValues,
-    // };
     dispatch(setUserValuesConsumed(calculatedValues));
     setExtraInput("");
     setExtraInputValue("");

@@ -9,11 +9,14 @@ import {
 import RecipesCard from "./RecipeCard";
 import OpenRecipe from "./OpenRecipe";
 import { getRecipes, searchRecipe } from "../../../utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserValuesConsumed } from "../../../redux/slices/nutritionSlice";
 
 export function HealthRecipes() {
   const dispatch = useDispatch();
+  const valuesRecommended = useSelector(
+    (state) => state.nutrition?.valuesRecommended
+  );
   const [inputValue, setInputValue] = useState("");
   const [openRecipe, setOpenRecipe] = useState(false);
   const [translateX, setTranslateX] = useState(0);
@@ -44,6 +47,16 @@ export function HealthRecipes() {
   };
 
   const handleSetRecipeMade = (recipe) => {
+    if (
+      !valuesRecommended?.carbs ||
+      !valuesRecommended?.protein ||
+      !valuesRecommended?.fat ||
+      !valuesRecommended?.cal
+    ) {
+      setOpenRecipe(false);
+      setSelectedRecipe(null);
+      return;
+    }
     const recipeRecent = {
       cal: recipe.calories / recipe.yield,
       protein: recipe.totalNutrients.PROCNT.quantity / recipe.yield,

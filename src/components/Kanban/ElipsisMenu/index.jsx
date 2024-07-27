@@ -14,10 +14,10 @@ export function ElipsisMenu({
           ? "absolute top-[50px] right-8"
           : "absolute top-6 right-7"
       }>
-      <div className="w-50 text-sm z-50 font-medium shadow-lg shadow-[#364e7e1a] bg-white dark:bg-[#000428] space-y-4 p-5 rounded-lg">
+      <div className="w-50 text-sm z-10 font-medium shadow-lg shadow-[#364e7e1a] bg-white dark:bg-[#000428] space-y-4 p-5 rounded-lg relative">
         {type === "Board" && (
           <button
-            className="flex gap-2 items-center md:hidden"
+            className="flex gap-2 items-center lg:hidden"
             onClick={setOpenAddEditTask}>
             <IconPlus className="w-10 h-8" />
             <span className="cursor-pointer text-bold ">Agregar Task</span>

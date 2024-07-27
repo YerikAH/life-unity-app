@@ -22,7 +22,7 @@ export function Center() {
       {width <= 1020 ? (
         <MobileColumn />
       ) : (
-        <nav className="hidden lg:grid lg:grid-cols-[repeat(3,minmax(200px,_1fr))] overflow-hidden gap-6 justify-center hover:overflow-x-auto h-full w-full">
+        <nav className="hidden lg:grid lg:grid-cols-[repeat(3,minmax(200px,_1fr))] overflow-hidden gap-6 justify-center hover:overflow-x-auto h-full w-full overflow-y-auto">
           {columns.map((item) => (
             <Column key={item.id} colIndex={item.id} item={item} />
           ))}

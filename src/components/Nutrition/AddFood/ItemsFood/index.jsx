@@ -1,19 +1,33 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { setUserValuesConsumed } from "../../../../redux/slices/nutritionSlice";
 
 export default function ItemsFood({ food }) {
+  const valuesRecommended = useSelector(
+    (state) => state.nutrition?.valuesRecommended
+  );
   const dispatch = useDispatch();
   const [openItems, setOpenItems] = useState([]);
   const [inputValues, setInputValues] = useState({});
 
   const handleSave = () => {
+    if (
+      !valuesRecommended?.carbs ||
+      !valuesRecommended?.protein ||
+      !valuesRecommended?.fat ||
+      !valuesRecommended?.cal
+    ) {
+      setOpenItems([]);
+      setInputValues({});
+      return;
+    }
+
     for (const id in inputValues) {
       const idNumber = Number(id);
 
       const itemFood = food.find((item) => item.id === idNumber);
       const inputValue = Number(inputValues[id]);
-      const { name, carbs, protein, fat, cal } = itemFood;
+      const { carbs, protein, fat, cal } = itemFood;
 
       const calculatedValues = {
         carbs: (carbs * inputValue) / 100,

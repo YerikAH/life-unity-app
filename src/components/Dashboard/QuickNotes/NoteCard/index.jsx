@@ -36,7 +36,7 @@ export function NoteCard({ note, setSeeNotes, setType, setNote }) {
         </div>
         <p
           className={`text-sm mt-2 md:text-md text-gray-500 h-[120px] overflow-hidden ${
-            darkMode ? "text-gray-300" : "text-black"
+            darkMode ? "text-gray-100" : "text-black"
           }`}>
           {note.content}
         </p>

@@ -21,11 +21,10 @@ export function Header({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [openAddEditTask, setOpenAddEditTask] = useState(false);
   const [isEllipsisOpen, setIsEllipsisOpen] = useState(false);
-
   const [boardType, setBoardType] = useState("add");
   const idActiveBoard = useSelector((state)=>state.kanban?.idActiveBoard)
   const boards = useSelector((state) => state.kanban?.boards);
-  const board = boards.find((item)=>item.id === idActiveBoard)
+  const board = boards.find((item)=>item.id === idActiveBoard);
   const dispatch = useDispatch();
 
   const setSeeBoardsSidebar = () => {
@@ -45,7 +44,7 @@ export function Header({
 
   const onDeleteBtnClick = (id) => {
     dispatch(deleteBoards(id));
-    dispatch(changeActive(board.length > 1 ? board[0].id : null));
+    dispatch(changeActive(board.length > 1 ? board[0].id : 0));
     setIsDeleteModalOpen(false);
   };
 
