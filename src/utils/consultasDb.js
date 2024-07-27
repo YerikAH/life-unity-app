@@ -1,8 +1,9 @@
 import {jwtDecode} from "jwt-decode";
+import { API_URL, ENDPOINTS } from "./endpoints";
 
 export const iniciarSesion = async (username, password) => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/v1/token/", {
+    const response = await fetch(`${API_URL}${ENDPOINTS.LOGIN}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +29,7 @@ export const iniciarSesion = async (username, password) => {
 };
 
 export const registrarUsuario = async (data) => {
-  const response = await fetch("http://127.0.0.1:8000/api/v1/users/", {
+  const response = await fetch(`${API_URL}${ENDPOINTS.REGISTER}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -40,7 +41,7 @@ export const registrarUsuario = async (data) => {
 };
 
 export const registrarUsuarioGoogle = async (data) => {
-  const response = await fetch("http://127.0.0.1:8000/api/v1/users/", {
+  const response = await fetch(`${API_URL}${ENDPOINTS.REGISTER}`, {
     method: "POST",
     body: data,
   });
@@ -65,7 +66,7 @@ export const refreshAccessToken = async () => {
     if (!refreshToken) {
       throw new Error("No hay un token de refresco");
     }
-    const response = await fetch("http://127.0.0.1:8000/api/v1/token/refresh/", {
+    const response = await fetch(`${API_URL}${ENDPOINTS.REFRESH}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +99,7 @@ export const obtenerInfoToken = () => {
 export const obtenerUsuario = async () => {
   const idByToken = obtenerInfoToken().user_id;
   const response = await fetch(
-    `http://127.0.0.1:8000/api/v1/users/${idByToken}/`
+    `${API_URL}${ENDPOINTS.USER}${idByToken}/`
   );
   const dataResponse = await response.json();
   return dataResponse;
@@ -119,7 +120,7 @@ export const obtenerDatos = async (url) => {
 export const updateUser = async (data) => {
   const idByToken = obtenerInfoToken().user_id;
   const response = await fetch(
-    `http://127.0.0.1:8000/api/v1/users/${idByToken}/`,
+    `${API_URL}${ENDPOINTS.USER}${idByToken}/`,
     {
       method: "PUT",
       body: data,
@@ -169,7 +170,3 @@ export const crudDatos = async (url, data, method) => {
     return false;
   }
 };
-
-// export const subirImagen = async (data) => {
-
-// }

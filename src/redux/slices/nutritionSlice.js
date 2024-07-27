@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchDatos, obtenerInfoToken, crudDatos } from "../../utils";
+import { API_URL, ENDPOINTS } from "../../utils/endpoints";
 
 export const userNutritionData = createAsyncThunk(
   "nutrition/fetchUserData",
   async () => {
     const user_id = obtenerInfoToken().user_id;
     const response = await fetchDatos(
-      `http://127.0.0.1:8000/api/v1/nutrition-personal/?id_user=${user_id}`,
+      `${API_URL}${ENDPOINTS.NUTRITION_DETAILS}/?id_user=${user_id}`,
       "GET"
     );
     if (response.length === 0) {
@@ -24,7 +25,7 @@ export const setUserNutritionData = createAsyncThunk(
     const user_id = obtenerInfoToken().user_id; // Asegúrate de que esta función sea sincrónica o maneja la asincronía adecuadamente
     const newData = { id_user: user_id, ...param };
     const response = await crudDatos(
-      "http://127.0.0.1:8000/api/v1/nutrition-personal/",
+      `${API_URL}${ENDPOINTS.NUTRITION_DETAILS}`,
       newData,
       "POST"
     );
@@ -37,7 +38,7 @@ export const userNutritionRecomended = createAsyncThunk(
   async () => {
     const user_id = obtenerInfoToken().user_id;
     const response = await fetchDatos(
-      `http://127.0.0.1:8000/api/v1/values-recommended/?id_user=${user_id}`,
+      `${API_URL}${ENDPOINTS.VALUES_RECOMMENDED}/?id_user=${user_id}`,
       "GET"
     );
     if (response.length === 0) {
@@ -55,7 +56,7 @@ export const setUserValuesRecommended = createAsyncThunk(
     const user_id = obtenerInfoToken().user_id; // Asegúrate de que esta función sea sincrónica o maneja la asincronía adecuadamente
     const newData = { id_user: user_id, ...param };
     const response = await crudDatos(
-      "http://127.0.0.1:8000/api/v1/values-recommended/",
+      `${API_URL}${ENDPOINTS.VALUES_RECOMMENDED}`,
       newData,
       "POST"
     );
@@ -68,7 +69,7 @@ export const userValuesConsumed = createAsyncThunk(
   async () => {
     const user_id = obtenerInfoToken().user_id;
     const response = await fetchDatos(
-      `http://127.0.0.1:8000/api/v1/values-consumed/?id_user=${user_id}`,
+      `${API_URL}${ENDPOINTS.VALUES_CONSUMED}/?id_user=${user_id}`,
       "GET"
     );
     if (response.length === 0) {
@@ -83,10 +84,10 @@ export const setUserValuesConsumed = createAsyncThunk(
   async (param, { getState }) => {
     // eslint-disable-next-line no-unused-vars
     const state = getState();
-    const user_id = obtenerInfoToken().user_id; // Asegúrate de que esta función sea sincrónica o maneja la asincronía adecuadamente
+    const user_id = obtenerInfoToken().user_id;
     const newData = { id_user: user_id, ...param };
     const response = await crudDatos(
-      "http://127.0.0.1:8000/api/v1/values-consumed/",
+      `${API_URL}${ENDPOINTS.VALUES_CONSUMED}`,
       newData,
       "POST"
     );
@@ -111,7 +112,7 @@ export const controlWater = createAsyncThunk(
       }
     }
     const response = await crudDatos(
-      "http://127.0.0.1:8000/api/v1/values-consumed/",
+      `${API_URL}${ENDPOINTS.VALUES_CONSUMED}`,
       newData,
       "POST"
     );

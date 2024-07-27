@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { obtenerInfoToken } from "../../utils";
+import { API_URL, ENDPOINTS } from "../../utils/endpoints";
 
 const notesAPI = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/v1/notes/",
+  baseURL: `${API_URL}${ENDPOINTS.NOTES}`,
   headers: {
     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
     'Content-Type': 'application/json',
