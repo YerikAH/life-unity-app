@@ -1,27 +1,46 @@
+import { jwtDecode } from "jwt-decode";
 import googleLogo from "../../../assets/googleLogo.svg";
-import { auth } from "../../../services/firebase";
 import { useEffect, useState } from "react";
-import { loginWithGoogle } from "../../../services/auth";
-
+import { GoogleLogin } from "@react-oauth/google";
+import { obtenerUsuario, updateUser } from "../../../utils";
 export const AditionalConfig = () => {
   const [withGoogle, setWithGoogle] = useState(false);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    if (auth.currentUser) {
-      const providerData = auth.currentUser.providerData;
-      if (providerData.length > 0) {
-        if (providerData[0].providerId === "google.com") {
-          setWithGoogle(true);
-        }
+  useEffect( () => {
+    const checkGoogle = async () => {
+      const user =  await obtenerUsuario();
+      if (user?.provider ==="google"){
+        setWithGoogle(true);
       }
     }
+    checkGoogle();
   }, []);
 
-  const loginGoogle = async () => {
+  const loginGoogle = async (credentialResponse) => {
+    const decoded = jwtDecode(credentialResponse.credential);
+    const form = new FormData();
+    form.append("first_name", decoded.given_name);
+    form.append("last_name", decoded.family_name);
+    form.append("username", decoded.name.toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9@.+_-]/g, ""));
+    form.append("email", decoded.email);
+    form.append("password", decoded.sub);
+    form.append("is_active", true);
     try {
-      await loginWithGoogle();
+      const imageResponse = await fetch(decoded.picture);
+      const imageBlob = await imageResponse.blob();
+      const imageFile = new File([imageBlob], "profile_picture.jpg", {
+        type: "image/jpeg",
+      });
+      form.append("image", imageFile);
+      const userCreated = await updateUser(form);
+      if (userCreated.error) {
+        setError(true);
+        return;
+      }
+      setError(false);
     } catch (error) {
-      return null;
+      setError(true);
     }
   };
 
@@ -43,7 +62,7 @@ export const AditionalConfig = () => {
               </span>
             )}
           </div>
-          <div className="flex items-center justify-between w-full gap-5 font-primary">
+          <div className="flex items-center justify-between w-full gap-5 font-primary flex-col md:flex-row">
             <div>
               <h3 className="font-semibold text-lg font-primary">Google</h3>
               <p className="text-gray-500 font-primary">
@@ -51,13 +70,29 @@ export const AditionalConfig = () => {
               </p>
             </div>
             {!withGoogle && (
-              <button
-                className="text-[16px] rounded-md bg-[#000428] text-white py-3 px-5 font-semibold flex-none font-primary"
-                onClick={loginGoogle}
-              >
-                Connect to Google
-              </button>
+              <div className="w-full flex md:justify-end justify-center">
+              <GoogleLogin
+                theme="filled_black"
+                size="large"
+                shape="circle"
+                width="275px"
+                logo_alignment="center"
+                onSuccess={async (credentialResponse) => {
+                  await loginGoogle(credentialResponse);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+            </div>
             )}
+            {
+              error && (
+                <div className="w-fit bg-red-100 text-red-500 p-2 rounded-md font-semibold font-primary text-center md:text-right">
+                  Error al conectar con google, intente de nuevo
+                </div>
+              )
+            }
           </div>
         </div>
       </section>

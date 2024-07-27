@@ -6,3 +6,4 @@ export { Pomodoro } from './Pomodoro';
 export { Settings } from './Pomodoro/Settings';
 export { Timer } from './Pomodoro/Timer';
 export { Clock } from './Clock';
+export { QuickNotes } from './QuickNotes';

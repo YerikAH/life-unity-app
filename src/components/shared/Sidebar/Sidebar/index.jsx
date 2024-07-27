@@ -1,9 +1,9 @@
-import { useState } from "react";
+
 import { SidebarLogo } from "../SidebarLogo";
 import {
   IconLayout2,
   IconLogout,
-  IconPuzzle,
+  // IconPuzzle,
   IconSalad,
   IconSettings,
   IconTable,
@@ -44,11 +44,8 @@ const linksArray = [
   // }
 ];
 
-export const Sidebar = () => {
+export const Sidebar = ({collapsed, handleCollapsed}) => {
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
-
-  const handleCollapsed = () => setCollapsed(!collapsed);
 
   const userLogout = () => {
     localStorage.removeItem("acessToken");

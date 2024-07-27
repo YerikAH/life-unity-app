@@ -10,7 +10,7 @@ export const analysis = async (data) => {
   }
   switch (daily_activity) {
     case "sedentary":
-      daily_activity = "Low%20%active";
+      daily_activity = "Low Active";
       break;
     case "light":
       daily_activity = "Active";
@@ -19,7 +19,7 @@ export const analysis = async (data) => {
       daily_activity = "Inactive";
       break;
     case "high":
-      daily_activity = "Very%20%Active";
+      daily_activity = "Very Active";
       break;
   }
   const url = `https://nutrition-calculator.p.rapidapi.com/api/nutrition-info?measurement_units=met&sex=${sex}&age_value=${age}&age_type=yrs&cm=${height}&kilos=${weight}&activity_level=${daily_activity}`;

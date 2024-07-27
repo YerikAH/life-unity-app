@@ -1,52 +1,22 @@
-.logout {
-  @apply hover:text-[#999999] !important;
-}
-
-.logout-active {
-  @apply text-[#999999] !important;
-}
-
-.options {
-  @apply md:w-full flex justify-center md:items-center gap-5 overflow-hidden md:ps-10;
-}
-.items:not(.logout) {
+.items {
+  padding: 10px;
   color: white;
   position: relative;
 }
 
-.items:hover:not(.logout), .active {
+.items:hover,
+.active {
   background-color: white !important;
   color: #000428 !important;
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
+  border-radius: 100%;
 }
 
-/*.items::before {*/
-/*  content: "";*/
-/*  position: absolute;*/
-/*  width: 20px;*/
-/*  height: 20px;*/
-/*  top: -20px;*/
-/*  right: 0;*/
-/*  border-radius: 50%;*/
-/*}*/
+.items:hover::before,
+.active::before {
+  box-shadow: 10px 10px 0 0 white;
+}
 
-/*.items:hover:not(.logout)::before,*/
-/*.active::before {*/
-/*  box-shadow: 10px 10px 0 0 white;*/
-/*}*/
-
-/*.items:hover:not(.logout)::after,*/
-/*.active::after {*/
-/*  box-shadow: 10px -10px 0 0 white;*/
-/*}*/
-
-/*.items::after {*/
-/*  content: "";*/
-/*  position: absolute;*/
-/*  width: 20px;*/
-/*  height: 20px;*/
-/*  bottom: -20px;*/
-/*  right: 0;*/
-/*  border-radius: 50%;*/
-/*}*/
+.items:hover::after,
+.active::after {
+  box-shadow: 10px -10px 0 0 white;
+}

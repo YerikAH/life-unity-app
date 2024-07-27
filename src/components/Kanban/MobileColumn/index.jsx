@@ -11,7 +11,7 @@ export function MobileColumn() {
   const tasksBoard = tasks.filter((task) => task.id_board === idActiveBoard);
   return (
     <>
-      <nav className="flex gap-10 pt-2 w-full overflow-hidden hover:overflow-x-auto border-b border-primary">
+      <nav className="flex gap-10 pt-2 w-[100%] hover:overflow-x-auto border-b border-primary flex-grow-0 items-center justify-start">
         {columns.map((column) => (
           <button
             key={column.id}

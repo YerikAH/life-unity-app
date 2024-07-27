@@ -28,7 +28,7 @@ export function KanbanPersonal() {
     setLoading(false);
   }, [dispatch]);
   return (
-    <div className="w-full h-full overflow-auto">
+    <div className="w-full h-full overflow-hidden pb-24 md:pb-0 hover:overflow-auto">
       {/* hacer que cargue primero */}
       {loading ? (
         <div role="status" className="flex items-center justify-center h-full">
@@ -59,7 +59,7 @@ export function KanbanPersonal() {
             setIsBoardModalOpen={setBoardModalOpen}
           />
           {/* Seccion central */}
-          <div className="overflow-auto md:h-[85vh]">
+          <div className="md:h-[85vh]">
             <Center
               boardModalOpen={boardModalOpen}
               setBoardModalOpen={setBoardModalOpen}

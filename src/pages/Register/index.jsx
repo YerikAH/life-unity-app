@@ -63,6 +63,7 @@ export function Register() {
     form.append("email", decoded.email);
     form.append("password", decoded.sub);
     form.append("is_active", true);
+    form.append("provider", "google")
     try {
       const imageResponse = await fetch(decoded.picture);
       const imageBlob = await imageResponse.blob();

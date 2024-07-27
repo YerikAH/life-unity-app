@@ -2,7 +2,6 @@ export { MainLayout } from "./Layout/MainLayout";
 export { AuthLayout } from "./Layout/AuthLayout";
 export { Habits } from "./Habits";
 export { Nutrition } from "./Nutrition";
-export { Task } from "./Task";
 export { Dashboard } from "./Dashboard";
 export { Login } from "./Login";
 export { Register } from "./Register";

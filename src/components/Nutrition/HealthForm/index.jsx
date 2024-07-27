@@ -10,7 +10,6 @@ import {
 import { analysis } from "../../../utils";
 
 const calculateAge = (birthDate) => {
-  
   const today = new Date();
   const birthDateObj = new Date(birthDate);
   let age = today.getFullYear() - birthDateObj.getFullYear();
@@ -23,6 +22,7 @@ const calculateAge = (birthDate) => {
 export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.nutrition.userData);
+  const [error, setError] = useState(false);
   const [step, setStep] = useState(1);
   const [isMeasures, setIsMeasures] = useState({
     weight: "kg",
@@ -90,10 +90,18 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
     return recommended;
   };
 
-  const handleData = async () => {
+  const validate = () => {
     const age = calculateAge(birthDate);
-    if (!isActivity || !isGender || !age || !isWeight || !isHeight || age < 10)
-      return;
+    if (!isActivity || !isGender || !isWeight || !isHeight || age < 10) {
+      setError("Please fill all the fields");
+      return false;
+    }
+    return true;
+  };
+
+  const handleData = async () => {
+    if (!validate()) return;
+    setError(false);
     const weight = Number(isWeight);
     const height = Number(isHeight);
     dispatch(
@@ -108,6 +116,7 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
     const fetchedData = await fetchData();
     dispatch(setUserValuesRecommended(fetchedData));
     setFormResolved(true);
+    handleOpenForm();
   };
 
   const handleNext = useCallback(() => {
@@ -144,7 +153,6 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
                 <IconX stroke={2} />
               </button>
             </div>
-
             <div className="flex w-full items-center justify-center relative">
               {step !== 1 && (
                 <div className="flex items-center">
@@ -159,7 +167,6 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
                   <button
                     className="flex items-center justify-end gap-2 absolute right-0 bg-[#E8AA42] px-5 py-2 rounded-2xl font-semibold"
                     onClick={() => {
-                      handleOpenForm();
                       handleSetDrop();
                       handleData();
                     }}>
@@ -193,7 +200,9 @@ export function HealthForm({ handleOpenForm, handleSetDrop, setFormResolved }) {
                 birthDate={birthDate}
               />
             )}
-            {step === 2 && <Step2 handleActivity={handleActivity} />}
+            {step === 2 && (
+              <Step2 handleActivity={handleActivity} error={error} />
+            )}
           </div>
         </div>
       </div>
