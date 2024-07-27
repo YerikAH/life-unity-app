@@ -29,9 +29,9 @@ export function Column({ colIndex, item }) {
   };
 
   return (
-    <div onDrop={handleOnDrop} onDragOver={handleOnDragOver} className="flex flex-col gap-5 my-5 md:my-0 flex-none md:mb-10 md:min-w-[250px]">
+    <div onDrop={handleOnDrop} onDragOver={handleOnDragOver} className="flex flex-col gap-5 my-5">
       {/* Título de la columna con un punto de color aleatorio */}
-      <div className="hidden md:flex items-center justify-center gap-2">
+      <div className="hidden lg:flex items-center justify-center gap-2">
         {
           item.name === "In Progress" ? <IconTargetArrow size={24} /> :
           item.name === "In Review" ? <IconRotateClockwise2 size={24} /> :

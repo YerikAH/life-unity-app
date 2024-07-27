@@ -20,6 +20,9 @@ export function MainLayout() {
   const [width, setWidth] = useState(window.innerWidth);
   const [showToastWarning, setShowToastWarning] = useState(false);
   const [showToastDanger, setShowToastDanger] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const handleCollapsed = () => setCollapsed(!collapsed);
 
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth);
@@ -108,14 +111,34 @@ export function MainLayout() {
     setShowPage(true);
   }, [navigate]);
 
+  const getMaxWidthClass = (collapsed, width) => {
+    if (!collapsed) {
+      if (width > 1024) return "max-w-8xl";
+      if (width > 880) return "max-w-3xl";
+      if (width > 810) return "max-w-xl";
+      if (width > 768) return "max-w-lg";
+    }
+    return "max-w-8xl mx-auto";
+  };
+
   return (
     <>
       {showPage && (
         <>
-          <div className="flex md:h-screen w-full overflow-auto">
-            {width < 768 ? (<SidebarMobile />) : (<Sidebar />)
-            }
-            <div className="w-full mx-auto max-w-8xl p-4 min-h-screen md:h-full">
+          <div className="flex md:h-screen w-full overflow-hidden">
+            {width < 768 ? (
+              <SidebarMobile />
+            ) : (
+              <Sidebar
+                collapsed={collapsed}
+                handleCollapsed={handleCollapsed}
+              />
+            )}
+            <div
+              className={`w-full ${getMaxWidthClass(
+                collapsed,
+                width
+              )} p-4 min-h-screen md:h-full overflow-auto`}>
               <Outlet />
               {showToastWarning || showToastDanger ? (
                 <div className="fixed bottom-0 right-0 z-50 p-4 m-4 bg-white shadow-lg rounded-xl">

@@ -1,9 +1,9 @@
-import { useState } from "react";
+
 import { SidebarLogo } from "../SidebarLogo";
 import {
   IconLayout2,
   IconLogout,
-  IconPuzzle,
+  // IconPuzzle,
   IconSalad,
   IconSettings,
   IconTable,
@@ -18,12 +18,12 @@ const linksArray = [
     name: "Home",
     route: "/",
   },
-  {
-    collapsed: false,
-    icon: <IconPuzzle />,
-    name: "Habits",
-    route: "/habits",
-  },
+  // {
+  //   collapsed: false,
+  //   icon: <IconPuzzle />,
+  //   name: "Habits",
+  //   route: "/habits",
+  // },
   {
     collapsed: false,
     icon: <IconTable />,
@@ -44,11 +44,8 @@ const linksArray = [
   // }
 ];
 
-export const Sidebar = () => {
+export const Sidebar = ({collapsed, handleCollapsed}) => {
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
-
-  const handleCollapsed = () => setCollapsed(!collapsed);
 
   const userLogout = () => {
     localStorage.removeItem("acessToken");
@@ -58,7 +55,7 @@ export const Sidebar = () => {
 
   return (
     <div
-      className={`p-6  w-full transition-all delay-40 flex-none ${
+      className={`p-6 transition-all delay-40 flex-none ${
         collapsed ? "w-36" : "w-72"
       }`}>
       <div className="w-full bg-primary flex rounded-3xl flex-col justify-between h-full py-12">

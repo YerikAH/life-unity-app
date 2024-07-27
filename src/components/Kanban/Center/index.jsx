@@ -19,16 +19,14 @@ export function Center() {
 
   return (
     <div className="transition-transform duration-300 h-full">
-      {width < 768 ? (
+      {width <= 1020 ? (
         <MobileColumn />
       ) : (
-        <>
-          <div className="hidden md:grid grid-cols-[repeat(3,minmax(300px,_1fr))] overflow-hidden gap-6 p-10 md:p-5 justify-center md:justify-start hover:overflow-x-visible h-full">
-            {columns.map((item) => (
-              <Column key={item.id} colIndex={item.id} item={item} />
-            ))}
-          </div>
-        </>
+        <nav className="hidden lg:grid lg:grid-cols-[repeat(3,minmax(200px,_1fr))] overflow-hidden gap-6 justify-center hover:overflow-x-auto h-full w-full">
+          {columns.map((item) => (
+            <Column key={item.id} colIndex={item.id} item={item} />
+          ))}
+        </nav>
       )}
     </div>
   );

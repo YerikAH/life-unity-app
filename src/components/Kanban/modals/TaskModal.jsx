@@ -75,7 +75,7 @@ export function TaskModal({ setIsTaskModalOpen, item }) {
       onClick={onClose}
       className="fixed inset-0 z-50 justify-center items-center flex bg-[#00000080] bg-opacity-35 transition-opacity backdrop-blur-sm">
       {/* SECCIÓN DEL MODAL */}
-      <div className=" bg-white dark:bg-[#2b2c37] text-[#000428] dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md p-8 rounded-xl w-full">
+      <div className=" bg-white dark:bg-[#2b2c37] text-[#000428] dark:text-white font-bold shadow-md shadow-[#364e7e1a] max-w-md p-6  md:p-8 rounded-xl w-full mx-4">
         <div className="relative flex justify-between w-full items-center">
           <div className="flex flex-col gap-2">
             <div className="flex gap-2 items-center">

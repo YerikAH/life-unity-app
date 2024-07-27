@@ -15,12 +15,14 @@ export function ElipsisMenu({
           : "absolute top-6 right-7"
       }>
       <div className="w-50 text-sm z-50 font-medium shadow-lg shadow-[#364e7e1a] bg-white dark:bg-[#000428] space-y-4 p-5 rounded-lg">
-        <button
-          className="flex gap-2 items-center md:hidden"
-          onClick={setOpenAddEditTask}>
-          <IconPlus className="w-10 h-8" />
-          <span className="cursor-pointer text-bold ">Agregar Task</span>
-        </button>
+        {type === "Board" && (
+          <button
+            className="flex gap-2 items-center md:hidden"
+            onClick={setOpenAddEditTask}>
+            <IconPlus className="w-10 h-8" />
+            <span className="cursor-pointer text-bold ">Agregar Task</span>
+          </button>
+        )}
         {/* Botón para editar el elemento */}
         <button className="flex gap-2 items-center" onClick={setOpenEditModal}>
           <IconEdit alt="" className="w-10 h-8 bg-white" />
@@ -37,17 +39,12 @@ export function ElipsisMenu({
             Borrar {type}
           </span>
         </button>
-        {
-          type === "Board" &&
-          <button
-          className="flex gap-2 items-center"
-          onClick={setSeeBoards}>
-          <IconEye className="w-10 h-8" />
-          <span className="cursor-pointer text-bold ">
-            Ver Boards
-          </span>
-        </button>
-        }
+        {type === "Board" && (
+          <button className="flex gap-2 items-center" onClick={setSeeBoards}>
+            <IconEye className="w-10 h-8" />
+            <span className="cursor-pointer text-bold ">Ver Boards</span>
+          </button>
+        )}
       </div>
     </div>
   );

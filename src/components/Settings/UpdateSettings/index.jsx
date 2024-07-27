@@ -38,7 +38,7 @@ export function UpdateSettings() {
     const form = new FormData();
     Object.entries(newD).forEach(([key, value]) => {
       form.append(key, value);
-    }); 
+    });
     const newUser = await updateUser(form);
     setUser(newUser);
     reset();
@@ -103,14 +103,12 @@ export function UpdateSettings() {
             <button
               type="button"
               onClick={cancelEdit}
-              className="text-[#4E4B4B] bg-[#F0F0F0] flex-1 py-2 rounded-md  hover:bg-[#F0F0F0]/70 font-primary"
-            >
+              className="text-[#4E4B4B] bg-[#F0F0F0] flex-1 py-2 rounded-md  hover:bg-[#F0F0F0]/70 font-primary">
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-[#000428] text-white flex-1 rounded-md py-2 hover:bg-[#000428]/80 font-primary"
-            >
+              className="bg-[#000428] text-white flex-1 rounded-md py-2 hover:bg-[#000428]/80 font-primary">
               Save
             </button>
           </div>
@@ -128,22 +126,20 @@ export function UpdateSettings() {
           <div className="py-5 md:p-0 flex gap-5 lg:gap-10 items-center justify-center">
             <div className="flex flex-col gap-3 items-center">
               <div className="size-28 lg:size-32 shadow-lg rounded-full p-1 flex justify-center">
-                <Image user={user} isLoading={isLoading}  marginy="my-0" />
+                <Image user={user} isLoading={isLoading} marginy="my-0" />
               </div>
             </div>
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-30 md:h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-500 dark:hover:bg-gray"
-              >
+                className="flex flex-col items-center justify-center w-full h-30 md:h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-500 dark:hover:bg-gray">
                 <button
                   type="button"
                   className="flex flex-col items-center justify-center pt-5 pb-6 px-5 text-center font-primary"
                   onClick={() => {
                     // es para que se abra el input de tipo file
                     imageInput.current.click();
-                  }}
-                >
+                  }}>
                   <IconCloudUpload stroke={2} />
                   <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 font-primary">
                     <span className="font-semibold">Click to upload</span> or
@@ -173,8 +169,7 @@ export function UpdateSettings() {
               <div className="flex flex-col gap-2 flex-1">
                 <label
                   htmlFor="full-name"
-                  className="font-primary font-semibold"
-                >
+                  className="font-primary font-semibold">
                   Full name
                 </label>
                 <div className="flex items-center gap-5 w-full flex-col lg:flex-row">
@@ -212,6 +207,7 @@ export function UpdateSettings() {
                     <IconMail stroke={2} size="20" />
                   </div>
                   <input
+                    autoComplete="off"
                     type="text"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -237,7 +233,7 @@ export function UpdateSettings() {
                   </div>
                   <input
                     type="text"
-                    id="email"
+                    id="username"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Write your username"
                   />
@@ -256,6 +252,7 @@ export function UpdateSettings() {
                     id="password"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Enter new password"
+                    autoComplete="off"
                     {...register("password", {
                       minLength: {
                         value: 6,

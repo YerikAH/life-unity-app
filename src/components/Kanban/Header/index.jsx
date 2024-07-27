@@ -55,13 +55,12 @@ export function Header({
   };
 
   return (
-    <div className=" bg-white p-2 md:p-0 flex flex-col gap-2 md:px-5">
-      {/* Lado izquierdo */}
-      <div className="flex justify-between items-center gap-5">
+    <div className=" bg-white p-2 md:p-0 flex flex-col justify-between gap-2 md:px-5">
+      <div className="flex justify-between items-center">
         <h3 className="text-3xl font-bold">{board?.board_name}</h3>
         <div className="flex items-center md:gap-5 flex-col-reverse md:flex-row">
           <button
-            className="buttones hidden md:block text-right"
+            className="buttones hidden lg:block text-right"
             onClick={setOpenTask}>
             + Añadir nueva tarea
           </button>

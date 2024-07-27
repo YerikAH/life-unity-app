@@ -1,27 +1,18 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react";
-import { SidebarDrop } from "../SidebarDrop";
 import logo from "../../../../assets/logo.svg";
 import s from "./index.module.css";
 import {
   IconLayout2,
   IconLogout,
-  IconPuzzle,
+  // IconPuzzle,
   IconSalad,
   IconSettings,
   IconUser,
 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { logoutUser } from "../../../../services/auth";
 
 export const SidebarMobile = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isDropOpen, setIsDropOpen] = useState(false);
-
-  const handleSetDrop = () => {
-    setIsDropOpen(!isDropOpen);
-  };
 
   const getLinkClass = (path, dropdownPaths = []) => {
     if (
@@ -33,53 +24,43 @@ export const SidebarMobile = () => {
     return s.items;
   };
 
-  const userLogout = async () => {
-    try {
-      // await logoutUser();
-      navigate("/login");
-    } catch (error) {
-      console.log(error.message);
-      return error.message;
-    }
+  const userLogout = () => {
+    localStorage.removeItem("acessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/login");
   };
 
   return (
     <>
-      <aside
-        className={`z-100 fixed bottom-0 p-3 w-full overflow-auto`}>
+      <aside className={`z-100 fixed bottom-0 p-3 w-full overflow-auto z-40`}>
         <div
           className={`w-full bg-primary h-[70px] flex justify-center rounded-[35px] overflow-auto gap-5 p-3`}>
           <div className="flex gap-5">
-            <div className="w-full max-w-12 items-center justify-center flex">
+            <div className="w-full max-w-12 items-center justify-center flex flex-none">
               <img
                 className="w-full object-cover"
                 src={logo}
                 alt="Logo Life Unity"
               />
             </div>
-            <nav className={`w-full ${s.options}`}>
-              <ul className="flex items-center gap-2">
-                <li>
-                  <Link
-                    to="/"
-                    className={getLinkClass("/")}
-                    onClick={() => setIsDropOpen(false)}>
+            <div className="flex gap-1">
+              <nav
+                className={`w-full md:w-full flex justify-center md:items-center gap-5 overflow-hidden md:ps-10`}>
+                <ul className="flex items-center gap-1 text-white">
+                  <Link to="/" className={getLinkClass("/")}>
                     <IconLayout2 className="flex-none" />
                   </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/habits"
-                    className={getLinkClass("/habits")}
-                    onClick={() => setIsDropOpen(false)}>
-                    <IconPuzzle className="flex-none" />
-                  </Link>
-                </li>
-                <li>
+                  {/*<li>*/}
+                  {/*    <Link*/}
+                  {/*        to="/habits"*/}
+                  {/*        className={getLinkClass("/habits")}*/}
+                  {/*        onClick={() => setIsDropOpen(false)}>*/}
+                  {/*        <IconPuzzle className="flex-none"/>*/}
+                  {/*    </Link>*/}
+                  {/*</li>*/}
                   <Link
                     to="/kanbanPersonal"
-                    className={getLinkClass("/kanbanPersonal")}
-                    onClick={() => setIsDropOpen(false)}>
+                    className={getLinkClass("/kanbanPersonal")}>
                     <IconUser className="flex-none" />
                   </Link>
                   {/* Cuando haya Team Work se implentara */}
@@ -107,40 +88,28 @@ export const SidebarMobile = () => {
                     setIsDropOpen={setIsDropOpen}
                     sidebarCollapsed={sidebarCollapsed}
                   /> */}
-                </li>
-                <li>
-                  <Link
-                    to="/nutrition"
-                    className={getLinkClass("/nutrition")}
-                    onClick={() => setIsDropOpen(false)}>
+                  <Link to="/nutrition" className={getLinkClass("/nutrition")}>
                     <IconSalad className="flex-none" />
                   </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div className={`${s.options}  flex-none`}>
-            <ul className="flex items-center gap-2">
-              <li>
-                <Link
-                  to="/settings"
-                  className={getLinkClass("/settings")}
-                  onClick={() => setIsDropOpen(false)}>
-                  <IconSettings className="flex-none" />
-                </Link>
-              </li>
-              <li>
-                <a
-                  id="logout"
-                  className={`text-white cursor-pointer ${s.logout}`}
-                  onClick={() => {
-                    setIsDropOpen(false);
-                    userLogout();
-                  }}>
-                  <IconLogout className="flex-none" />
-                </a>
-              </li>
-            </ul>
+                </ul>
+              </nav>
+              <div
+                className={`flex justify-center gap-5 overflow-hidden flex-none`}>
+                <ul className="flex items-center gap-1">
+                  <Link to="/settings" className={getLinkClass("/settings")}>
+                    <IconSettings className="flex-none" />
+                  </Link>
+                  <a
+                    id="logout"
+                    className={`text-white cursor-pointer hover:bg-red-500 p-2 rounded-lg`}
+                    onClick={() => {
+                      userLogout();
+                    }}>
+                    <IconLogout className="flex-none" />
+                  </a>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </aside>
